@@ -9,8 +9,10 @@ public class Flesch {
     public static void main(String[] args) throws IOException {
         String sentenceDelimiter = "[\\.,;\\?\\!]";
         String wordDelimiter = "\\W";
-        List<String> sentenceList = new ArrayList<String>();
-        List<String> wordList = new ArrayList<String>();
+        List<String> sentenceList = new ArrayList<>();
+        List<String> wordList = new ArrayList<>();
+        int numOfVowels = 0;
+        double flesch;
 
         checkArgs(args);
         String filePath = args[0];
@@ -33,30 +35,40 @@ public class Flesch {
             }
         }
 
+        for (String word : wordList){
+            numOfVowels += getNumVowels(word);
+        }
+
+        flesch = computeFlesch(sentenceList.size(),wordList.size(),numOfVowels);
+        System.out.println("flesch: " + flesch);
     }
 
-    private static int getNumvowels(String word){
+    private static double computeFlesch(int numSentences, int numWords, int numVowels){
+        return  206.835 - 84.6*(numVowels/numWords) - 1.015*(numWords/numSentences);
+    }
+
+    private static int getNumVowels(String word){
         String vowelsString = "aAeEiIoOuUyY";
-        boolean prevCharIsVowel = false;
-        boolean startOfWord = true;
+        boolean foundVowel = false;
         int numVowels = 0;
 
         for (char c : word.toCharArray()){
             if (vowelsString.indexOf(c)>=0){
-                if (!startOfWord && prevCharIsVowel){
-                    numVowels--;
+                if (foundVowel){
                     continue;
+                }else{
+                    foundVowel = true;
                 }
-                numVowels++;
-                prevCharIsVowel = true;
+            }else{
+                if (foundVowel) numVowels++;
+                foundVowel = false;
             }
-            if (startOfWord) startOfWord = false;
-
         }
+        if (foundVowel && word.charAt(word.length()-1) != 'e') numVowels++;
+
         if (numVowels == 0) numVowels = 1;
         return numVowels;
     }
-
 
     private static void checkArgs(String[] args){
         if (args.length==0){
@@ -73,7 +85,4 @@ public class Flesch {
             System.exit(0);
         }
     }
-
-
-
 }
