@@ -65,14 +65,26 @@ public class Wallet {
      * @return the amount actually paid, 0 if amount could not be obtained
      */
     public double payMinimum(double sum) {
+        double currentSum = 0;
         List<Coin> sortedCoinList = new ArrayList<>();
-        Collections.copy(sortedCoinList, coinList);
+        for (Coin coin : coinList){
+            sortedCoinList.add(coin);
+        }
         sortedCoinList.sort(Comparator.comparing(Coin::getValue).reversed());
+        List<Coin> coinsToRemove = new ArrayList<>();
 
         for (Coin coin : sortedCoinList){
-
+            currentSum += coin.getValue();
+            coinsToRemove.add(coin);
+            if (currentSum>=sum) break;
         }
 
+        for (Coin coinToRemove : coinsToRemove){
+            this.coinList.remove(coinToRemove);
+        }
+        if (currentSum>=sum){
+            return currentSum;
+        }
         return 0;
     }
 
@@ -119,4 +131,30 @@ public class Wallet {
         }
         return false;
     }
+
+    public static void main(String[] args){
+        Coin coin1 = new Coin(0.1);
+        Coin coin2 = new Coin(0.5);
+        Coin coin3 = new Coin(1);
+        Coin coin4 = new Coin(5);
+        Coin coin5 = new Coin(10);
+
+        Wallet wallet = new Wallet();
+        wallet.addCoin(coin1);
+        wallet.addCoin(coin1); //check that we can't add the same coin again
+        wallet.addCoin(coin2);
+        wallet.addCoin(coin3);
+        wallet.addCoin(coin4);
+        System.out.println("wallet contains coin of value 10: " + wallet.containsCoin(10));
+        wallet.addCoin(coin5);
+        System.out.println("wallet contains coin of value 10: " + wallet.containsCoin(10));
+        System.out.println("wallet total value: " + wallet.getWalletTotal());
+        System.out.println("wallet size: " + wallet.getWalletSize());
+        System.out.println("wallet pay minimum: " + wallet.payMinimum(11));
+        System.out.println("wallet pay : " + wallet.pay(0.2));
+    }
+
+
+
+
 }
