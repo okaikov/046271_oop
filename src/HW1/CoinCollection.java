@@ -1,8 +1,5 @@
 package HW1;
 
-import HW1.Coin;
-import HW1.Wallet;
-
 /**
  * A coin collection contains coins. Coins can only be of value 0.10, 0.5, 1, 5, 10
  * Each coin VALUE can only appear in the collection once (e.g only one coin with value 5)

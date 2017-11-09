@@ -44,7 +44,7 @@ public class Flesch {
     }
 
     private static double computeFlesch(int numSentences, int numWords, int numVowels){
-        return  206.835 - 84.6*(numVowels/numWords) - 1.015*(numWords/numSentences);
+        return  206.835 - 84.6*((double)numVowels/numWords) - 1.015*((double)numWords/numSentences);
     }
 
     private static int getNumVowels(String word){

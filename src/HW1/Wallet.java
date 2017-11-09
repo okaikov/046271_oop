@@ -1,9 +1,6 @@
 package HW1;
 
-import HW1.Coin;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -49,9 +46,7 @@ public class Wallet {
     	    sumToPay += coin.getValue();
     	    coinsToRemove.add(coin);
     	    if (sumToPay >= sum){
-    	        for (Coin coinToRemove : coinsToRemove){
-    	            this.coinList.remove(coinToRemove);
-                }
+                this.coinList.removeAll(coinsToRemove);
     	        return sumToPay;
             }
         }
@@ -67,9 +62,7 @@ public class Wallet {
     public double payMinimum(double sum) {
         double currentSum = 0;
         List<Coin> sortedCoinList = new ArrayList<>();
-        for (Coin coin : coinList){
-            sortedCoinList.add(coin);
-        }
+        sortedCoinList.addAll(coinList);
         sortedCoinList.sort(Comparator.comparing(Coin::getValue).reversed());
         List<Coin> coinsToRemove = new ArrayList<>();
 
@@ -79,9 +72,7 @@ public class Wallet {
             if (currentSum>=sum) break;
         }
 
-        for (Coin coinToRemove : coinsToRemove){
-            this.coinList.remove(coinToRemove);
-        }
+        this.coinList.removeAll(coinsToRemove);
         if (currentSum>=sum){
             return currentSum;
         }
