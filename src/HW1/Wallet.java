@@ -5,8 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * A wallet can conatain a number of coins. There could be several coins of the same value, 
- * but the same coin cannot apear in the wallet twice
+ * A wallet can contain a number of coins. There could be several coins of the same value,
+ * but the same coin cannot appear in the wallet twice
  */
 public class Wallet {
     private List<Coin> coinList;
@@ -69,11 +69,11 @@ public class Wallet {
         for (Coin coin : sortedCoinList){
             currentSum += coin.getValue();
             coinsToRemove.add(coin);
-            if (currentSum>=sum) break;
+            if (currentSum >= sum) break;
         }
 
         this.coinList.removeAll(coinsToRemove);
-        if (currentSum>=sum){
+        if (currentSum >= sum){
             return currentSum;
         }
         return 0;
@@ -118,7 +118,9 @@ public class Wallet {
      */
     public boolean containsCoin(double value) {
     	for (Coin coin : coinList){
-    	    if (coin.getValue() == value) return true;
+    	    if (coin.getValue() == value) {
+    	        return true;
+            }
         }
         return false;
     }

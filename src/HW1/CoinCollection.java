@@ -16,24 +16,26 @@ public class CoinCollection {
     /**
      * @modifies this
      * @effects Adds a coin to the collection
-     * @return true if the coin was successfully added to the collection;
+     * @returns true if the coin was successfully added to the collection;
      * 		   false otherwise
      */
     public boolean addCoin(Coin coin) {
-        if (wallet.containsCoin(coin.getValue())) return false;
+        if (wallet.containsCoin(coin.getValue())) {
+            return false;
+        }
         wallet.addCoin(coin);
         return true;
     }
     
     /**
-     * @return the current value of the collection
+     * @returns the current value of the collection
      */
     public double getCollectionTotal() {
         return wallet.getWalletTotal();
     }
     
     /**
-     * @return the number of coins in the collection
+     * @returns the number of coins in the collection
      */
     public int getCollectionSize() {
     	return wallet.getWalletSize();

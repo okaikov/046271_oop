@@ -11,7 +11,7 @@ public class Flesch {
         String wordDelimiter = "\\W";
         List<String> sentenceList = new ArrayList<>();
         List<String> wordList = new ArrayList<>();
-        int numOfVowels = 0;
+        int numOfSyllables = 0;
         double flesch;
 
         checkArgs(args);
@@ -36,45 +36,70 @@ public class Flesch {
         }
 
         for (String word : wordList){
-            numOfVowels += getNumVowels(word);
+            numOfSyllables += getNumSyllables(word);
         }
 
-        flesch = computeFlesch(sentenceList.size(),wordList.size(),numOfVowels);
+        flesch = computeFlesch(sentenceList.size(), wordList.size(), numOfSyllables);
         System.out.println("flesch: " + flesch);
     }
 
-    private static double computeFlesch(int numSentences, int numWords, int numVowels){
-        return  206.835 - 84.6*((double)numVowels/numWords) - 1.015*((double)numWords/numSentences);
+    /**
+     * @requires true
+     * @modifies none
+     * @effects none
+     * @returns the Flesch index according to numSentences, numWords and numSyllables
+     */
+    private static double computeFlesch(int numSentences, int numWords, int numSyllables){
+        return  206.835 - 84.6 * ((double) numSyllables / numWords) - 1.015 * ((double)numWords / numSentences);
     }
 
-    private static int getNumVowels(String word){
+    /**
+     * @requires word != NULL, word contains letters (not special characters)
+     * @modifies none
+     * @effects none
+     * @returns the number of syllables in the word, at least 1.
+     */
+    private static int getNumSyllables(String word){
         String vowelsString = "aAeEiIoOuUyY";
-        boolean foundVowel = false;
-        int numVowels = 0;
+        boolean foundSyllable = false;
+        int numSyllables = 0;
 
         for (char c : word.toCharArray()){
-            if (vowelsString.indexOf(c)>=0){
-                if (foundVowel){
-                    continue;
-                }else{
-                    foundVowel = true;
+            if (vowelsString.indexOf(c) >= 0){
+                if (!foundSyllable){
+                    foundSyllable = true;
                 }
-            }else{
-                if (foundVowel) numVowels++;
-                foundVowel = false;
+            } else {
+                if (foundSyllable) {
+                    numSyllables++;
+                }
+                foundSyllable = false;
             }
         }
-        if (foundVowel && word.charAt(word.length()-1) != 'e') numVowels++;
+        // If word ends with vowel, another syllable should be added, unless the last vowel is 'e'.
+        if (foundSyllable && word.charAt(word.length() - 1) != 'e') {
+            numSyllables++;
+        }
 
-        if (numVowels == 0) numVowels = 1;
-        return numVowels;
+        if (numSyllables == 0) {
+            numSyllables = 1;
+        }
+
+        return numSyllables;
     }
 
+    /**
+     * @requires args != NULL
+     * @modifies none
+     * @effects Checks the number of arguments and that the file in the program argument exists.
+     *          In case the number of arguments is not 1 or the file does not exist, prints the appropriate
+     *          error message and exists.
+     */
     private static void checkArgs(String[] args){
         if (args.length==0){
             System.out.println("Error: no filename was given");
             System.exit(0);
-        }else if (args.length>1){
+        } else if (args.length>1) {
             System.out.println("Error: more then 1 arguments were given");
             System.exit(0);
         }

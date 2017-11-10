@@ -18,7 +18,7 @@ public class Coin {
     public Coin(double value) {
         if(this.validCoinValues.contains(value)){
             this.value = value;
-        }else{
+        } else {
             System.out.println("Error: value not valid");
             // how to handle the error?
         }
@@ -26,7 +26,7 @@ public class Coin {
 
 
     /**
-     * @return the value of the Coin
+     * @returns the value of the Coin
      */
     public double getValue() {
     	return this.value;
