@@ -1,4 +1,4 @@
-package HW1;
+package hw0;
 
 public class CoinCollectionTb {
     public static void main(String[] args){
