@@ -26,6 +26,7 @@ public abstract class Shape implements Cloneable {
     public Shape(Point location, Color color) {
         setLocation(location);
         setColor(color);
+        checkRep();
     }
 
 
@@ -33,7 +34,7 @@ public abstract class Shape implements Cloneable {
      * @return the top left corner of the bounding rectangle of this.
      */
     public Point getLocation() {
-
+        checkRep();
         return new Point(location);
         }
 
@@ -44,6 +45,8 @@ public abstract class Shape implements Cloneable {
      *          returns location after call has completed.
      */
     public void setLocation(Point location) {
+        checkRep();
+        // TODO: check that location is not null
         this.location = (Point)location.clone();
     }
 
@@ -57,8 +60,7 @@ public abstract class Shape implements Cloneable {
      *          (the exception suggests an alternative dimension that is
      *           supported by this).
      */
-    public abstract void setSize(Dimension dimension)
-        throws ImpossibleSizeException;
+    public abstract void setSize(Dimension dimension) throws ImpossibleSizeException;
 
 
     /**
@@ -72,6 +74,7 @@ public abstract class Shape implements Cloneable {
      *         this and false otherwise.
      */
     public boolean contains(Point point) {
+        checkRep();
         return getBounds().contains(point);
     }
 
@@ -80,6 +83,7 @@ public abstract class Shape implements Cloneable {
      * @return color of this.
      */
     public Color getColor() {
+        checkRep();
         return color;
     }
 
@@ -89,6 +93,7 @@ public abstract class Shape implements Cloneable {
      * @effects Sets color of this.
      */
     public void setColor(Color color) {
+        checkRep();
         this.color = color;
     }
 
@@ -104,6 +109,7 @@ public abstract class Shape implements Cloneable {
      * @effects Creates and returns a copy of this.
      */
     public Object clone() {
+        checkRep();
 // TODO        return new this.getClass()
     }
 
@@ -112,7 +118,10 @@ public abstract class Shape implements Cloneable {
      * violated.
      * @throws AssertionError if representation invariant is violated.
      */
-    private void checkRep() {
-        // TODO
+    protected void checkRep() {
+        assert location != null:
+            "location is null";
+        assert color != null:
+            "color is null";
     }
 }

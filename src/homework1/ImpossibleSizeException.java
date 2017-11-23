@@ -4,11 +4,12 @@ import java.awt.*;
 
 public class ImpossibleSizeException extends Exception {
 
-    final private double defaultHeight = 10;
-    final private double defaultWidth = 10;
+    final private int defaultHeight = 10;
+    final private int defaultWidth = 10;
+    final public Dimension validDimension = new Dimension(defaultWidth, defaultHeight);
 
     public ImpossibleSizeException(Dimension dim){
         System.out.println("Not valid size.");
-        dim.setSize(defaultHeight, defaultWidth);
+        //dim.setSize(defaultHeight, defaultWidth);
     }
 }

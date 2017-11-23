@@ -8,7 +8,7 @@ import java.util.Random;
  * A LocationChaningShape is a Shape that can change its location using its step()
  * method. A LocationChaningShape has a velocity property that determines the speed
  * of location changing.
- * Thus, a typical LocationChaningShape consists of the following set of
+ * Thus, a typical LocationChangingShape consists of the following set of
  * properties: {location, color, shape, size, velocity}
  */
 public abstract class LocationChangingShape extends Shape implements Animatable {
@@ -34,6 +34,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
 
         velocityX = randNoZeroNum(MAX_ABSOLUTE_VELOCITY);
         velocityY = randNoZeroNum(MAX_ABSOLUTE_VELOCITY);
+        checkRep();
     }
 
     private int randNoZeroNum(int bound)
@@ -61,6 +62,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @return the horizontal velocity of this.
      */
     public int getVelocityX() {
+        checkRep();
         return velocityX;
     }
 
@@ -69,6 +71,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @return the vertical velocity of this.
      */
     public int getVelocityY() {
+        checkRep();
         return velocityY;
     }
 
@@ -79,8 +82,10 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      *          vertical velocity of this to velocityY.
      */
     public void setVelocity(int velocityX, int velocityY) {
+        checkRep();
         this.velocityX = velocityX;
         this.velocityY = velocityY;
+        checkRep();
     }
 
 
@@ -104,7 +109,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
         // TODO (BOM): Implement this method
         // Copy shape-bounding rectangle to local object, because getBounds() is abstract, and nobody promises that
         // it will not return the reference to the object itself.
-
+        checkRep();
         Rectangle shapeBounding = new Rectangle(getBounds());
         Rectangle movedShapeBounding = new Rectangle(
                 (int)shapeBounding.getX() + velocityX,
@@ -118,7 +123,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
         boolean isMovedInVerticalBound = isRectInVerticalBound(bound, movedShapeBounding);
 
 
-
+        checkRep();
 
     }
 
@@ -154,4 +159,16 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
         isInHorisontalBound = vertexUpLeftIsInHorizontalBound && vertexDownRightIsInHorizontalBound;
         isInVerticalBound = vertexDownRightIsInHorizontalBound && vertexDownRightIsInVerticalBound;
     }*/
+
+    @Override
+    protected void checkRep() {
+        super.checkRep();
+        assert (velocityX > MAX_ABSOLUTE_VELOCITY || velocityX < -MAX_ABSOLUTE_VELOCITY || velocityX == 0):
+                "velocityX value is not valid";
+        assert (velocityY > MAX_ABSOLUTE_VELOCITY || velocityY < -MAX_ABSOLUTE_VELOCITY || velocityY == 0):
+                "velocityX value is not valid";
+    }
+
+
+
 }
