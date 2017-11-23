@@ -1,6 +1,7 @@
 package homework1;
 
 import java.awt.*;
+import java.util.Random;
 
 
 /**
@@ -16,6 +17,11 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
 
     // TODO (BOM): Write Representation Invariant
 
+    private int velocityX;
+    private int velocityY;
+
+    final private int MAX_ABSOLUTE_VELOCITY = 5;
+
 
     /**
      * @effects Initializes this with a a given location and color. Each
@@ -24,9 +30,30 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      *          -5 <= i <= 5 and i != 0
      */
     LocationChangingShape(Point location, Color color) {
-        // TODO (BOM): Implement this constructor
+        super(location, color);
 
+        velocityX = randNoZeroNum(MAX_ABSOLUTE_VELOCITY);
+        velocityY = randNoZeroNum(MAX_ABSOLUTE_VELOCITY);
+    }
 
+    private int randNoZeroNum(int bound)
+    {
+        if (bound == 0)
+        {
+            return 0;
+        }
+        bound = java.lang.Math.abs(bound);
+
+        Random rnd = new Random();
+        int randNumber = rnd.nextInt(bound) + 1;
+        int randSign = rnd.nextInt(2);
+
+        if (randSign == 0) // The number is negative
+        {
+            randNumber = -randNumber;
+        }
+
+        return randNumber;
     }
 
 
@@ -34,9 +61,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @return the horizontal velocity of this.
      */
     public int getVelocityX() {
-        // TODO (BOM): Implement this method
-
-
+        return velocityX;
     }
 
 
@@ -44,9 +69,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @return the vertical velocity of this.
      */
     public int getVelocityY() {
-        // TODO (BOM): Implement this method
-
-
+        return velocityY;
     }
 
 
@@ -56,9 +79,8 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      *          vertical velocity of this to velocityY.
      */
     public void setVelocity(int velocityX, int velocityY) {
-        // TODO (BOM): Implement this method
-
-
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
     }
 
 
@@ -80,7 +102,56 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      */
     public void step(Rectangle bound) {
         // TODO (BOM): Implement this method
+        // Copy shape-bounding rectangle to local object, because getBounds() is abstract, and nobody promises that
+        // it will not return the reference to the object itself.
+
+        Rectangle shapeBounding = new Rectangle(getBounds());
+        Rectangle movedShapeBounding = new Rectangle(
+                (int)shapeBounding.getX() + velocityX,
+                (int)shapeBounding.getY() + velocityY,
+                (int)shapeBounding.getWidth(),
+                (int)shapeBounding.getHeight());
+
+        boolean isInHorizontalBound = isRectInHorizontalBound(bound, shapeBounding);
+        boolean isInVerticalBound = isRectInVerticalBound(bound, shapeBounding);
+        boolean isMovedInHorizontalBound = isRectInHorizontalBound(bound, movedShapeBounding);
+        boolean isMovedInVerticalBound = isRectInVerticalBound(bound, movedShapeBounding);
+
+
 
 
     }
+
+    private boolean isRectInHorizontalBound(Rectangle bound, Rectangle shapeBounding)
+    {
+        return (bound.getMinX() <= shapeBounding.getMinX()) && (shapeBounding.getMaxX() <= bound.getMaxX());
+    }
+
+    private boolean isRectInVerticalBound(Rectangle bound, Rectangle shapeBounding)
+    {
+        return (bound.getMinY() <= shapeBounding.getMinY()) && (shapeBounding.getMaxY() <= bound.getMaxY());
+    }
+/*
+    private void isPointInBound(Point point, Rectangle bound, Boolean isInHorisontalBound, Boolean isInVerticalBound)
+    {
+        isInHorisontalBound = (point.getX() <= bound.getMaxX()) && (point.getX() >= bound.getMinX());
+        isInVerticalBound = (point.getY() <= bound.getMaxY()) && (point.getY() >= bound.getMinY());
+    }
+
+    private void isRectangleInBound(Rectangle rectangle, Rectangle bound, Boolean isInHorisontalBound, Boolean isInVerticalBound)
+    {
+        Boolean vertexUpLeftIsInHorizontalBound = Boolean.FALSE;
+        Boolean vertexUpLeftIsInVerticalBound = Boolean.FALSE;
+        Boolean vertexDownRightIsInHorizontalBound = Boolean.FALSE;
+        Boolean vertexDownRightIsInVerticalBound = Boolean.FALSE;
+
+        Point upperLeft = rectangle.getLocation();
+        Point downRight = new Point((int)(rectangle.getMaxX()), (int)(rectangle.getMaxY()));
+
+        isPointInBound(upperLeft, bound, vertexUpLeftIsInHorizontalBound, vertexUpLeftIsInVerticalBound);
+        isPointInBound(downRight, bound, vertexDownRightIsInHorizontalBound, vertexDownRightIsInVerticalBound);
+
+        isInHorisontalBound = vertexUpLeftIsInHorizontalBound && vertexDownRightIsInHorizontalBound;
+        isInVerticalBound = vertexDownRightIsInHorizontalBound && vertexDownRightIsInVerticalBound;
+    }*/
 }

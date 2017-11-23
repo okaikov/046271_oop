@@ -14,9 +14,10 @@ public abstract class Shape implements Cloneable {
     private Color color;
 
 
-    // TODO (BOM): Write Abstraction Function
+    // Write Abstraction Function: The shape is represented by location of left upper corner of bounding rectangle and
+    // color.
 
-    // TODO (BOM): Write Representation Invariant
+    // Representation Invariant: location != null, color != null
 
 
     /**
@@ -32,10 +33,9 @@ public abstract class Shape implements Cloneable {
      * @return the top left corner of the bounding rectangle of this.
      */
     public Point getLocation() {
-        // TODO (BOM): Implement this method
 
-
-    }
+        return new Point(location);
+        }
 
 
     /**
@@ -104,8 +104,15 @@ public abstract class Shape implements Cloneable {
      * @effects Creates and returns a copy of this.
      */
     public Object clone() {
-        // TODO (BOM): Implement this method
+// TODO        return new this.getClass()
+    }
 
-
+    /**
+     * Checks to see if the representation invariant is being
+     * violated.
+     * @throws AssertionError if representation invariant is violated.
+     */
+    private void checkRep() {
+        // TODO
     }
 }
