@@ -110,7 +110,10 @@ public abstract class Shape implements Cloneable {
      */
     public Object clone() {
         checkRep();
-// TODO        return new this.getClass()
+        //Object o = (Object) super.clone();
+
+        // TODO        return new this.getClass()
+        return null;
     }
 
     /**

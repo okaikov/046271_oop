@@ -1,6 +1,7 @@
 package homework1;
 
 import java.awt.*;
+import java.util.Random;
 
 
 /**
@@ -23,8 +24,7 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
      *          -5 <= i <= 5 and i != 0
      */
     LocationAndColorChangingShape(Point location, Color color) {
-        // TODO (BOM): Implement this constructor
-
+        super(location, color);
     }
 
     /**
@@ -36,8 +36,12 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
 	 *			else, does not change the color of this.
      */
     public void step(Rectangle bound) {
-        // TODO (BOM): Implement this method
-
-
+        int velocityX = super.getVelocityX();
+        int velocityY = super.getVelocityY();
+        super.step(bound);
+        if (velocityX != super.getVelocityX() || velocityY != super.getVelocityY()){
+            Random rnd = new Random();
+            super.setColor(new Color(rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+        }
     }
 }
