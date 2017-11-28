@@ -108,7 +108,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
     public void step(Rectangle bound) {
         // TODO (BOM): Implement this method
         // Copy shape-bounding rectangle to local object, because getBounds() is abstract, and nobody promises that
-        // it will not return the reference to the object itself.
+        // it will not return the reference to the internal object representing the bounds itself.
         checkRep();
         Rectangle shapeBounding = new Rectangle(getBounds());
         Rectangle movedShapeBounding = new Rectangle(
@@ -117,11 +117,27 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
                 (int)shapeBounding.getWidth(),
                 (int)shapeBounding.getHeight());
 
+        // If exceeds the bounds, move to the opposite bound.
+
         boolean isInHorizontalBound = isRectInHorizontalBound(bound, shapeBounding);
         boolean isInVerticalBound = isRectInVerticalBound(bound, shapeBounding);
         boolean isMovedInHorizontalBound = isRectInHorizontalBound(bound, movedShapeBounding);
         boolean isMovedInVerticalBound = isRectInVerticalBound(bound, movedShapeBounding);
 
+        Point newLocation = new Point((int)shapeBounding.getX(), (int)shapeBounding.getY());
+
+        if(!isInHorizontalBound || !isMovedInHorizontalBound) {
+            newLocation.setLocation(-newLocation.getX(), newLocation.getY());
+        }
+        if(!isInVerticalBound || !isMovedInVerticalBound) {
+            newLocation.setLocation(newLocation.getX(), -newLocation.getY());
+        }
+
+        // Perform the step on newLocation
+        newLocation.translate(velocityX, velocityY);
+
+        // Modify the internal variables.
+        setLocation(newLocation);
 
         checkRep();
 
@@ -136,29 +152,6 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
     {
         return (bound.getMinY() <= shapeBounding.getMinY()) && (shapeBounding.getMaxY() <= bound.getMaxY());
     }
-/*
-    private void isPointInBound(Point point, Rectangle bound, Boolean isInHorisontalBound, Boolean isInVerticalBound)
-    {
-        isInHorisontalBound = (point.getX() <= bound.getMaxX()) && (point.getX() >= bound.getMinX());
-        isInVerticalBound = (point.getY() <= bound.getMaxY()) && (point.getY() >= bound.getMinY());
-    }
-
-    private void isRectangleInBound(Rectangle rectangle, Rectangle bound, Boolean isInHorisontalBound, Boolean isInVerticalBound)
-    {
-        Boolean vertexUpLeftIsInHorizontalBound = Boolean.FALSE;
-        Boolean vertexUpLeftIsInVerticalBound = Boolean.FALSE;
-        Boolean vertexDownRightIsInHorizontalBound = Boolean.FALSE;
-        Boolean vertexDownRightIsInVerticalBound = Boolean.FALSE;
-
-        Point upperLeft = rectangle.getLocation();
-        Point downRight = new Point((int)(rectangle.getMaxX()), (int)(rectangle.getMaxY()));
-
-        isPointInBound(upperLeft, bound, vertexUpLeftIsInHorizontalBound, vertexUpLeftIsInVerticalBound);
-        isPointInBound(downRight, bound, vertexDownRightIsInHorizontalBound, vertexDownRightIsInVerticalBound);
-
-        isInHorisontalBound = vertexUpLeftIsInHorizontalBound && vertexDownRightIsInHorizontalBound;
-        isInVerticalBound = vertexDownRightIsInHorizontalBound && vertexDownRightIsInVerticalBound;
-    }*/
 
     @Override
     protected void checkRep() {
@@ -166,7 +159,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
         assert (velocityX > MAX_ABSOLUTE_VELOCITY || velocityX < -MAX_ABSOLUTE_VELOCITY || velocityX == 0):
                 "velocityX value is not valid";
         assert (velocityY > MAX_ABSOLUTE_VELOCITY || velocityY < -MAX_ABSOLUTE_VELOCITY || velocityY == 0):
-                "velocityX value is not valid";
+                "velocityY value is not valid";
     }
 
 
