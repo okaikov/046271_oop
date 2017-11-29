@@ -127,10 +127,10 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
         Point newLocation = new Point((int)shapeBounding.getX(), (int)shapeBounding.getY());
 
         if(!isInHorizontalBound || !isMovedInHorizontalBound) {
-            newLocation.setLocation(-newLocation.getX(), newLocation.getY());
+            velocityX = -velocityX;
         }
         if(!isInVerticalBound || !isMovedInVerticalBound) {
-            newLocation.setLocation(newLocation.getX(), -newLocation.getY());
+            velocityY = -velocityY;
         }
 
         // Perform the step on newLocation

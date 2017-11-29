@@ -2,6 +2,8 @@ package homework1;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -26,8 +28,7 @@ public class Animator extends JFrame implements ActionListener {
     private JPanel mainPanel;
 
     // shapes that have been added to this
-
-    // TODO (BOM): Add and initialize a container of shapes called shapes.
+    private ArrayList<LocationChangingShape> shapes = new ArrayList<LocationChangingShape>();
 
 
     /**
@@ -44,15 +45,15 @@ public class Animator extends JFrame implements ActionListener {
         getContentPane().add(mainPanel);
         menuBar = (JMenuBar)createMenuBar();
         setJMenuBar(menuBar);
-
+        pack();
         // enable animation timer (ticks 25 times per second)
         Timer timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (animationCheckItem.isSelected()) {
-                    // TODO (BOM): Add code for making one animation step for all
-                    //       shapes in this
-
-
+                    // Make one animation step for all shapes in this
+                    for(LocationChangingShape s : shapes) {
+                        s.step(getContentPane().getBounds());
+                    }
 
                     repaint();  // make sure that the shapes are redrawn
                 }
@@ -130,7 +131,9 @@ public class Animator extends JFrame implements ActionListener {
 
         //TODO (BOM): Add code for drawing all shapes in this
 
-
+        for (LocationChangingShape s : shapes) {
+            s.draw(g);
+        }
     }
 
 
@@ -161,6 +164,8 @@ public class Animator extends JFrame implements ActionListener {
                  (source.equals(numberedOvalItem)) ||
                  (source.equals(sectorItem))) {
 
+            LocationChangingNumberedOval numbOval = new LocationChangingNumberedOval(new Point(100,100), Color.RED, new Dimension(100,60));
+            shapes.add(numbOval);
             // TODO (BOM): Add code for creating the appropriate shape such that:
             //       it is completely inside the window's bounds &&
             //       its location, size and color are randomly selected &&
