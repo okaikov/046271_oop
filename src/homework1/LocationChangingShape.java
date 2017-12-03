@@ -80,6 +80,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @modifies this
      * @effects Sets the horizontal velocity of this to velocityX and the
      *          vertical velocity of this to velocityY.
+     * @requires -5 <= velocityX <= 5 && -5 <= velocityY <= 5
      */
     public void setVelocity(int velocityX, int velocityY) {
         checkRep();
