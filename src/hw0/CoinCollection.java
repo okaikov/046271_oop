@@ -1,4 +1,4 @@
-package HW1;
+package hw0;
 
 /**
  * A coin collection contains coins. Coins can only be of value 0.10, 0.5, 1, 5, 10
