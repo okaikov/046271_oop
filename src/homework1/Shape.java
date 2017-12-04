@@ -14,7 +14,7 @@ public abstract class Shape implements Cloneable {
     private Color color;
 
 
-    // Write Abstraction Function: The shape is represented by location of left upper corner of bounding rectangle and
+    // Abstraction Function: The shape is represented by location of left upper corner of bounding rectangle and
     // color.
 
     // Representation Invariant: location != null, color != null
@@ -24,8 +24,8 @@ public abstract class Shape implements Cloneable {
      * @effects Initializes this with a a given location and color.
      */
     public Shape(Point location, Color color) {
-        setLocation(location);
-        setColor(color);
+        this.location = (Point)location.clone();
+        this.color = color;
         checkRep();
     }
 
@@ -46,8 +46,8 @@ public abstract class Shape implements Cloneable {
      */
     public void setLocation(Point location) {
         checkRep();
-        // TODO: check that location is not null
         this.location = (Point)location.clone();
+        checkRep();
     }
 
 
@@ -95,6 +95,7 @@ public abstract class Shape implements Cloneable {
     public void setColor(Color color) {
         checkRep();
         this.color = color;
+        checkRep();
     }
 
 
@@ -125,8 +126,9 @@ public abstract class Shape implements Cloneable {
             clonedShape = null;
             System.exit(1);
         }
-        clonedShape.color = new Color(color.getRGB());
-        clonedShape.location = (Point)location.clone();        checkRep();
+        clonedShape.color = color; // Color is immutable.
+        clonedShape.location = (Point)location.clone();
+        checkRep();
         return clonedShape;
     }
 
@@ -135,7 +137,7 @@ public abstract class Shape implements Cloneable {
      * violated.
      * @throws AssertionError if representation invariant is violated.
      */
-    protected void checkRep() {
+    private void checkRep() {
         assert location != null:
             "location is null";
         assert color != null:

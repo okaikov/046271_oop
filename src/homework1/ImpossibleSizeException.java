@@ -13,8 +13,11 @@ public class ImpossibleSizeException extends Exception {
     public final Dimension validDimension = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
     /**
-     * Currently nothing will happen if ImpossibleSizeException is thrown, but the object of exception can be quired
-     * for default valid size.
+     * Currently nothing will happen if ImpossibleSizeException is thrown, but the object of exception can be asked
+     * to provide default valid size using getDefaultSize method.
+     * @requires none
+     * @modifies none
+     * @effects none
      */
     public ImpossibleSizeException(){
     }

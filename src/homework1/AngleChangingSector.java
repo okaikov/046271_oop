@@ -124,4 +124,8 @@ public class AngleChangingSector extends Shape implements Animatable{
 
         checkRep();
     }
+
+    private void checkRep(){
+        // TODO
+    }
 }

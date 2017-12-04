@@ -154,13 +154,16 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
         return (bound.getMinY() <= shapeBounding.getMinY()) && (shapeBounding.getMaxY() <= bound.getMaxY());
     }
 
-    @Override
-    protected void checkRep() {
-        super.checkRep();
-        assert (velocityX > MAX_ABSOLUTE_VELOCITY || velocityX < -MAX_ABSOLUTE_VELOCITY || velocityX == 0):
-                "velocityX value is not valid";
-        assert (velocityY > MAX_ABSOLUTE_VELOCITY || velocityY < -MAX_ABSOLUTE_VELOCITY || velocityY == 0):
-                "velocityY value is not valid";
+    /**
+     * Checks to see if the representation invariant is being
+     * violated.
+     * @throws AssertionError if representation invariant is violated.
+     */
+    private void checkRep() {
+        assert (velocityX <= MAX_ABSOLUTE_VELOCITY && velocityX >= -MAX_ABSOLUTE_VELOCITY && velocityX != 0):
+                "velocityX value is not valid: " + velocityX;
+        assert (velocityY <= MAX_ABSOLUTE_VELOCITY && velocityY >= -MAX_ABSOLUTE_VELOCITY && velocityY != 0):
+                "velocityY value is not valid: " + velocityY;
     }
 
 

@@ -45,8 +45,12 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
         checkRep();
     }
 
-    protected void checkRep() {
-        super.checkRep();
+    /**
+     * Checks to see if the representation invariant is being
+     * violated.
+     * @throws AssertionError if representation invariant is violated.
+     */
+    private void checkRep() {
         assert serialNum >= 1 : "Serial number of Numbered Oval is illegal";
     }
 }

@@ -67,9 +67,12 @@ public class LocationChangingOval extends LocationChangingShape {
         checkRep();
     }
 
-    @Override
-    protected void checkRep() {
-        super.checkRep();
+    /**
+     * Checks to see if the representation invariant is being
+     * violated.
+     * @throws AssertionError if representation invariant is violated.
+     */
+    private void checkRep() {
         assert ovalSize != null : "Bound is null";
     }
 
