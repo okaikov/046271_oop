@@ -115,19 +115,18 @@ public abstract class Shape implements Cloneable {
         /* As we override Object.clone(), syntactically we MUST handle the exception that can be thrown by Object.clone
         or throw it to the caller.
         We do not throw the exception to the caller because this class implements Cloneable and all the instances of
-        the classes extending this class, will also be cloneable.aku
-         */
+        the classes extending this class, will also be cloneable. */
         try {
             clonedShape = (Shape) super.clone();
-            clonedShape.color = new Color(color.getRGB());
-            clonedShape.location = (Point)location.clone();
         }
         catch(CloneNotSupportedException e) {
+            // This exception should never be thrown by super, but just to be on the safe side...
             System.err.println("An attempt to clone a non-cloneable object was performed.");
             clonedShape = null;
             System.exit(1);
         }
-        checkRep();
+        clonedShape.color = new Color(color.getRGB());
+        clonedShape.location = (Point)location.clone();        checkRep();
         return clonedShape;
     }
 

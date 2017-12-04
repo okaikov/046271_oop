@@ -33,12 +33,11 @@ public class Animator extends JFrame implements ActionListener {
         private final Shape shape;
 
         /**
-         * TODO: requires anumatable and shape shoud be the same reference
-         * @param animatable
+         * TODO:
          * @param shape
          */
-        public AnimatableLocationChangingShape(Animatable animatable, Shape shape) {
-            this.animatable = animatable;
+        public <AnimatableShape extends Shape & Animatable> AnimatableLocationChangingShape(AnimatableShape shape) {
+            this.animatable = shape;
             this.shape = shape;
         }
 
@@ -204,7 +203,7 @@ public class Animator extends JFrame implements ActionListener {
             if (source.equals(numberedOvalItem)){
 
                 LocationChangingNumberedOval numbOval = new LocationChangingNumberedOval(new Point(100, 100), Color.RED, new Dimension(100, 60));
-                AnimatableLocationChangingShape numbOvalRef = new AnimatableLocationChangingShape(numbOval, numbOval);
+                AnimatableLocationChangingShape numbOvalRef = new AnimatableLocationChangingShape(numbOval);
                 shapes.add(numbOvalRef);
                 // TODO (BOM): Add code for creating the appropriate shape such that:
                 //       it is completely inside the window's bounds &&
@@ -215,17 +214,17 @@ public class Animator extends JFrame implements ActionListener {
             }
             else if (source.equals(triangleItem)) {
                 LocationAndColorChangingTriangle triangle = new LocationAndColorChangingTriangle(new Point(200, 200), Color.BLUE, new Dimension(60, 100));
-                AnimatableLocationChangingShape triangleRef = new AnimatableLocationChangingShape(triangle, triangle);
+                AnimatableLocationChangingShape triangleRef = new AnimatableLocationChangingShape(triangle);
                 shapes.add(triangleRef);
             }
             else if (source.equals(ovalItem)) {
                 LocationChangingOval oval = new LocationChangingOval(new Point(100, 200), Color.GREEN, new Dimension(80, 60));
-                AnimatableLocationChangingShape ovalRef = new AnimatableLocationChangingShape(oval, oval);
+                AnimatableLocationChangingShape ovalRef = new AnimatableLocationChangingShape(oval);
                 shapes.add(ovalRef);
             }
             else if (source.equals(sectorItem)) {
                 AngleChangingSector sector = new AngleChangingSector(new Point(200, 100), Color.PINK, new Dimension(80, 60), 0.0, 30.0);
-                AnimatableLocationChangingShape sectorRef = new AnimatableLocationChangingShape(sector, sector);
+                AnimatableLocationChangingShape sectorRef = new AnimatableLocationChangingShape(sector);
                 shapes.add(sectorRef);
             }
 
