@@ -36,6 +36,8 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
 	 *			else, does not change the color of this.
      */
     public void step(Rectangle bound) {
+        // TODO assert bound != 0
+        // TODO checkRep
         int velocityX = super.getVelocityX();
         int velocityY = super.getVelocityY();
         super.step(bound);

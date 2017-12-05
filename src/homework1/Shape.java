@@ -14,8 +14,8 @@ public abstract class Shape implements Cloneable {
     private Color color;
 
 
-    // Abstraction Function: The shape is represented by location of left upper corner of bounding rectangle and
-    // color.
+    // Abstraction Function: Represents a shape, bounded by rectangle with left upper corner placed in this.location
+    // and of color this.color.
 
     // Representation Invariant: location != null, color != null
 

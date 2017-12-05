@@ -13,14 +13,16 @@ import java.util.Random;
  */
 public abstract class LocationChangingShape extends Shape implements Animatable {
 
-    // TODO (BOM): Write Abstraction Function
+    // Abstraction Function: Represents a shape that moves on every step by (velocityX, velocityY) graphical distance
+    // units.
 
-    // TODO (BOM): Write Representation Invariant
+    // Write Representation Invariant: velocityX, velocityY are integral numbers,
+    // velocityX, velocityY elements of {([-MAX_ABSOLUTE_VELOCITY, MAX_ABSOLUTE_VELOCITY]) ∩ Z}.
 
     private int velocityX;
     private int velocityY;
 
-    final private int MAX_ABSOLUTE_VELOCITY = 5;
+    private static final int MAX_ABSOLUTE_VELOCITY = 5;
 
 
     /**
@@ -37,7 +39,14 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
         checkRep();
     }
 
-    private int randNoZeroNum(int bound)
+    /**
+     *
+     * @effects if bound != 0, returns an integer random non-zero number between -abs(bound) and +abs(bound) inclusive,
+     *          otherwise, returns 0.
+     * @modifies nothing
+     * @requires nothing
+     */
+    private static int randNoZeroNum(int bound)
     {
         if (bound == 0)
         {
@@ -105,12 +114,13 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      *                  vy = -vy
      *          }
      *          p = p + v
+     * @requires bound != null. (Otherwise throws AssertionError).
      */
     public void step(Rectangle bound) {
-        // TODO (BOM): Implement this method
+        checkRep();
         // Copy shape-bounding rectangle to local object, because getBounds() is abstract, and nobody promises that
         // it will not return the reference to the internal object representing the bounds itself.
-        checkRep();
+        assert bound != null : "bound is null reference";
         Rectangle shapeBounding = new Rectangle(getBounds());
         Rectangle movedShapeBounding = new Rectangle(
                 (int)shapeBounding.getX() + velocityX,
@@ -118,13 +128,14 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
                 (int)shapeBounding.getWidth(),
                 (int)shapeBounding.getHeight());
 
-        // If exceeds the bounds, move to the opposite bound.
+        // Check if exceeds the bounds.
 
         boolean isInHorizontalBound = isRectInHorizontalBound(bound, shapeBounding);
         boolean isInVerticalBound = isRectInVerticalBound(bound, shapeBounding);
         boolean isMovedInHorizontalBound = isRectInHorizontalBound(bound, movedShapeBounding);
         boolean isMovedInVerticalBound = isRectInVerticalBound(bound, movedShapeBounding);
 
+        // Update the velocity if necessary and update the location.
         Point newLocation = new Point((int)shapeBounding.getX(), (int)shapeBounding.getY());
 
         if(!isInHorizontalBound || !isMovedInHorizontalBound) {
@@ -144,13 +155,29 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
 
     }
 
-    private boolean isRectInHorizontalBound(Rectangle bound, Rectangle shapeBounding)
+    /**
+     *
+     * @effects If vertical bounds of shapeBounding rectangle are included into vertical bounds of bound rectangle,
+     *          returns true, otherwise returns false.
+     * @modifies nothing
+     * @requires bound != null, shapeBounding != null. Otherwise throws AssertionError.
+     */
+    private static boolean isRectInHorizontalBound(Rectangle bound, Rectangle shapeBounding)
     {
+        assert (bound != null && shapeBounding != null) : "null reference";
         return (bound.getMinX() <= shapeBounding.getMinX()) && (shapeBounding.getMaxX() <= bound.getMaxX());
     }
 
-    private boolean isRectInVerticalBound(Rectangle bound, Rectangle shapeBounding)
+    /**
+     *
+     * @effects If horizontal bounds of shapeBounding rectangle are included into horizontal bounds of bound rectangle,
+     *          returns true, otherwise returns false.
+     * @modifies nothing
+     * @requires bound != null, shapeBounding != null. Otherwise throws AssertionError.
+     */
+    private static boolean isRectInVerticalBound(Rectangle bound, Rectangle shapeBounding)
     {
+        assert (bound != null && shapeBounding != null) : "null reference";
         return (bound.getMinY() <= shapeBounding.getMinY()) && (shapeBounding.getMaxY() <= bound.getMaxY());
     }
 
@@ -158,6 +185,9 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * Checks to see if the representation invariant is being
      * violated.
      * @throws AssertionError if representation invariant is violated.
+     * @effects Throws AssertionError if representation invariant is violated.
+     * @modifies nothing
+     * @requires nothing
      */
     private void checkRep() {
         assert (velocityX <= MAX_ABSOLUTE_VELOCITY && velocityX >= -MAX_ABSOLUTE_VELOCITY && velocityX != 0):
@@ -165,7 +195,5 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
         assert (velocityY <= MAX_ABSOLUTE_VELOCITY && velocityY >= -MAX_ABSOLUTE_VELOCITY && velocityY != 0):
                 "velocityY value is not valid: " + velocityY;
     }
-
-
 
 }
