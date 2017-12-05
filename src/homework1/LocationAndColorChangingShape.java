@@ -12,9 +12,11 @@ import java.util.Random;
  */
 public abstract class LocationAndColorChangingShape extends LocationChangingShape{
 
-    // TODO (BOM): Write Abstraction Function
+    // Abstraction Function: Represents shape, which location can change as described in
+    // LocationChangingShape.step(Rectangle bound) and color can change as described in this.step(Rectangle bound).
+    // The concrete type is empty set.
 
-    // TODO (BOM): Write Representation Invariant
+    // Representation Invariant: All values {of empty set}
 
 
     /**
@@ -34,10 +36,12 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
 	 *			if the velocity of this needs to be changed (as described in LocationChangingShape.step(Rectangle bound)),
 	 *			changes the color of this to a new random color;
 	 *			else, does not change the color of this.
+     *@requires bound != null (otherwise, throws AssertionError)
      */
     public void step(Rectangle bound) {
-        // TODO assert bound != 0
-        // TODO checkRep
+        checkRep();
+        assert bound != null : "bound is a null reference in step().";
+
         int velocityX = super.getVelocityX();
         int velocityY = super.getVelocityY();
         super.step(bound);
@@ -45,5 +49,10 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
             Random rnd = new Random();
             super.setColor(new Color(rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
         }
+        checkRep();
+    }
+
+    private void checkRep(){
+        // Intentionally empty
     }
 }
