@@ -24,6 +24,10 @@ public abstract class Shape implements Cloneable {
      * @effects Initializes this with a a given location and color.
      */
     public Shape(Point location, Color color) {
+        // Check input parameteres.
+        assert location != null : "A shape was created with null-reference location";
+        assert color != null : "A shape was created with null-reference color";
+
         this.location = (Point)location.clone();
         this.color = color;
         checkRep();

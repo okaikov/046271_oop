@@ -48,8 +48,7 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
         if (velocityX != super.getVelocityX() || velocityY != super.getVelocityY()){
             Random rnd = new Random();
             super.setColor(new Color(rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
-        }
-        checkRep();
+        }     checkRep();
     }
 
     private void checkRep(){

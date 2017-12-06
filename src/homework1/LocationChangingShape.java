@@ -16,8 +16,8 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
     // Abstraction Function: Represents a shape that moves on every step by (velocityX, velocityY) graphical distance
     // units.
 
-    // Write Representation Invariant: velocityX, velocityY are integral numbers,
-    // velocityX, velocityY elements of {([-MAX_ABSOLUTE_VELOCITY, MAX_ABSOLUTE_VELOCITY]) ∩ Z}.
+    // Representation Invariant: velocityX, velocityY are integral numbers,
+    // velocityX, velocityY are elements of {([-MAX_ABSOLUTE_VELOCITY, MAX_ABSOLUTE_VELOCITY]) ∩ Z}.
 
     private int velocityX;
     private int velocityY;
@@ -179,6 +179,25 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
     {
         assert (bound != null && shapeBounding != null) : "null reference";
         return (bound.getMinY() <= shapeBounding.getMinY()) && (shapeBounding.getMaxY() <= bound.getMaxY());
+    }
+
+
+    /**
+     * @effects Creates and returns a copy of this.
+     */
+    @Override
+    public Object clone() {
+        checkRep();
+
+        LocationChangingShape clonedShape = null;
+
+        clonedShape = (LocationChangingShape) super.clone();
+
+        clonedShape.velocityX = this.velocityX;
+        clonedShape.velocityY = this.velocityY;
+
+        checkRep();
+        return clonedShape;
     }
 
     /**
