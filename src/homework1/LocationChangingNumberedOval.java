@@ -2,13 +2,30 @@ package homework1;
 
 import java.awt.*;
 
+/**
+ * A LocationChangingNumberedOval is a LocationChangingOval with serial number.
+ * The properties of LocationChangingNumberedOval are: {location, color, size, velocity, serial number}.
+ * The serial number is incremented each time a new LocationChangingNumberedOval is created.
+ */
 public class LocationChangingNumberedOval extends LocationChangingOval {
+
+    // Abstraction Function: Represents an Oval with serial number serialNum and all the other properties, represented
+    //                       by the base class.
+
+    // Representation Invariant: serialNum >= INITIAL_SERIAL_NUM. (INITIAL_SERIAL_NUM is a class constant)
 
     static final int INITIAL_SERIAL_NUM = 1;
     static int ovalsCounter = INITIAL_SERIAL_NUM;
 
     int serialNum;
 
+
+    /**
+     * @effects Initializes this with a a given location, color and dimensions {dim}.
+     *          If dimension is null-reference or one of the components (X or Y) of dimension is negative, an
+     *          AssertionError is thrown.
+     * @modifies ovalsCounter
+     */
     public LocationChangingNumberedOval(Point location, Color color, Dimension dim) {
         super(location, color, dim);
         serialNum = ovalsCounter;
@@ -17,6 +34,10 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
         checkRep();
     }
 
+    /**
+     * @modifies g
+     * @effects Draws this onto g.
+     */
     @Override
     public void draw(Graphics g) {
         checkRep();
@@ -46,11 +67,29 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
     }
 
     /**
+     * @effects Creates and returns a copy of this.
+     *          The oval number is copied from this.
+     */
+    @Override
+    public Object clone(){
+        checkRep();
+
+        LocationChangingNumberedOval clonedOval = null;
+
+        clonedOval = (LocationChangingNumberedOval) super.clone();
+
+        clonedOval.serialNum = this.serialNum;
+
+        checkRep();
+        return clonedOval;
+    }
+
+    /**
      * Checks to see if the representation invariant is being
      * violated.
      * @throws AssertionError if representation invariant is violated.
      */
     private void checkRep() {
-        assert serialNum >= 1 : "Serial number of Numbered Oval is illegal";
+        assert serialNum >= INITIAL_SERIAL_NUM : "Serial number of Numbered Oval is illegal";
     }
 }

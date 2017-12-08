@@ -31,7 +31,7 @@ public class LocationChangingOval extends LocationChangingShape {
         assert dim != null : "LocationChangingOval was created with null-reference dimension";
         assert dim.getHeight() >= 0 && dim.getWidth() >= 0 : "LocationChangingOval was created with negative size";
 
-        ovalSize.setSize((double)dim.getWidth(), (double)dim.getHeight());
+        ovalSize = new Dimension((int)dim.getWidth(), (int)dim.getHeight());
 
         checkRep();
     }
