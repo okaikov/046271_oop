@@ -68,7 +68,7 @@ public class LocationChangingOval extends LocationChangingShape {
 
     /**
      * @modifies g
-     * @effects Draws this onto g.
+     * @effects Draws filled oval onto g.
      */
     @Override
     public void draw(Graphics g) {

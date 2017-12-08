@@ -36,7 +36,7 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
 
     /**
      * @modifies g
-     * @effects Draws this onto g.
+     * @effects Draws filled oval with its serial number onto g.
      */
     @Override
     public void draw(Graphics g) {
