@@ -37,10 +37,14 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
     /**
      * @modifies g
      * @effects Draws filled oval with its serial number onto g.
+     *          if g is null-reference throws AsserionError.
      */
     @Override
     public void draw(Graphics g) {
         checkRep();
+
+        assert g != null : "g (Graphics) is a null-reference";
+
         super.draw(g);
 
         Graphics2D g2d = (Graphics2D)g;
@@ -87,7 +91,7 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
     /**
      * Checks to see if the representation invariant is being
      * violated.
-     * @throws AssertionError if representation invariant is violated.
+     * @effects Throws AssertionError if representation invariant is violated.
      */
     private void checkRep() {
         assert serialNum >= INITIAL_SERIAL_NUM : "Serial number of Numbered Oval is illegal";

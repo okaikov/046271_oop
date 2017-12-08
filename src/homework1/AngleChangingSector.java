@@ -2,9 +2,24 @@ package homework1;
 
 import java.awt.*;
 
+
+/**
+ * AngleChangingSector is an Animatable Shape that is a sector of an oval.
+ * The animation is increasing the sector angle till 359 degrees, and then decreasing it to 0 degrees alternately.
+ * The properties of AngleChangingSector are {location, color, size, startAngle, sectorAngle},
+ * where startAngle is the angle between the horizontal axis reference and the start of the sector,
+ * and the sectorAngle is the angle between the start angle of the sector and the end angle of the sector when the
+ * shape is created.
+ */
 public class AngleChangingSector extends Shape implements Animatable{
-    // TODO: Abstraction Function
-    // TODO: Representation Invariant
+    // Abstraction Function: Represents a filled sector of size ovalSize (width and height), start angle startAngle and
+    //                       angle of sector represented by currentSectorAngle. The shape animation is represented by
+    //                       a boolean flag "angleIncreasing" to indicate in which state (increasing or decreasing)
+    //                       currently the animated shape is.
+    //
+    // Representation Invariant: 0.0 <= startAngle < 360.0
+    //                           0.0 <= currentSectorAngle < 360.0
+    //                           ovalSize != null
 
     final double MIN_ANGLE_DEG_INCLUDED = 0.0;
     final double MAX_ANGLE_DEG_EXCLUDED = 360.0;
@@ -49,9 +64,7 @@ public class AngleChangingSector extends Shape implements Animatable{
      */
     public void setSize(Dimension dimension) throws ImpossibleSizeException {
         checkRep();
-        // TODO: Something is strange with the exception thing. The message in the forum about not usung methods in c'tor misleads.
         if((dimension.getHeight() >= 0.0) && (dimension.getWidth()) >= 0.0) {
-            // The size has been checked, so it is safe to call for unchecked method.
             ovalSize.setSize(dimension);
         } else {
             throw new ImpossibleSizeException();
@@ -92,7 +105,6 @@ public class AngleChangingSector extends Shape implements Animatable{
             currentSectorAngle += ANIMATION_STEP_DEG;
             angleIncreasing = true;
         }
-        // TODO: check bounds (sinuses and cosinuses probably)
         checkRep();
 
     }
@@ -100,9 +112,12 @@ public class AngleChangingSector extends Shape implements Animatable{
     /**
      * @modifies g
      * @effects Draws this onto g.
+     *          if g is null-reference throws AsserionError;
      */
     public void draw(Graphics g){
         checkRep();
+
+        assert g != null : "Graphics is null-reference.";
 
         Graphics2D g2d = (Graphics2D)g;
 
@@ -115,17 +130,37 @@ public class AngleChangingSector extends Shape implements Animatable{
                 (int)startAngle,
                 (int)currentSectorAngle
         );
-        // TODO: Remove the drawing of bounding rectangle
-        g2d.drawRect(
-                (int)getLocation().getX(),
-                (int)getLocation().getY(),
-                (int)ovalSize.getWidth(),
-                (int)ovalSize.getHeight());
-
         checkRep();
     }
 
+    /**
+     * @effects Creates and returns a copy of this.
+     */
+    @Override
+    public Object clone() {
+        checkRep();
+
+        AngleChangingSector clonedSector = null;
+
+        clonedSector = (AngleChangingSector) super.clone();
+
+        clonedSector.currentSectorAngle = this.currentSectorAngle;
+        clonedSector.startAngle = this.startAngle;
+        clonedSector.angleIncreasing = this.angleIncreasing;
+        clonedSector.ovalSize = new Dimension(this.ovalSize);
+
+        checkRep();
+        return clonedSector;
+    }
+
+    /**
+     * Checks to see if the representation invariant is being
+     * violated.
+     * @effects throws AssertionError if representation invariant is violated.
+     */
     private void checkRep(){
-        // TODO
+        assert (0.0 <= startAngle) && (startAngle < 360.0) : "startAngle is out of rangle";
+        assert (0.0 <= currentSectorAngle) && (currentSectorAngle < 360.0) : "currentSectorAngle is out of range";
+        assert ovalSize != null : "The size f sector is null-reference";
     }
 }

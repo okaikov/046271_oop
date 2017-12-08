@@ -68,12 +68,13 @@ public class LocationChangingOval extends LocationChangingShape {
 
     /**
      * @modifies g
-     * @effects Draws filled oval onto g.
+     * @effects Draws filled sector of oval onto g.
+     *          if g is null-reference throws AsserionError.
      */
     @Override
     public void draw(Graphics g) {
         checkRep();
-
+        assert g != null : "g (graphics) is null-reference.";
         Graphics2D g2d = (Graphics2D)g;
 
         g2d.setColor(getColor());
@@ -106,7 +107,7 @@ public class LocationChangingOval extends LocationChangingShape {
     /**
      * Checks to see if the representation invariant is being
      * violated.
-     * @throws AssertionError if representation invariant is violated.
+     * @effects Throws AssertionError if representation invariant is violated.
      */
     private void checkRep() {
         assert ovalSize != null : "Bound of LocationChangingOval is null";

@@ -69,11 +69,15 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     /**
      * @modifies g
      * @effects Draws this onto g.
+     *          if g is null-reference throws AsserionError
      */
     @Override
     public void draw(Graphics g) {
         checkRep();
         final int NUM_OF_VERTICES_IN_TRIANGLE = 3;
+
+        assert g != null : "g (Graphics) is a null-reference.";
+
         int [] verticesX = {
                 (int)(getBounds().getMinX()),
                 (int)(getBounds().getMaxX()),
@@ -89,6 +93,23 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
         g2d.fillPolygon(verticesX, verticesY, NUM_OF_VERTICES_IN_TRIANGLE);
 
         checkRep();
+    }
+
+    /**
+     * @effects Creates and returns a copy of this.
+     */
+    @Override
+    public Object clone() {
+        checkRep();
+
+        LocationAndColorChangingTriangle clonedTriangle = null;
+
+        clonedTriangle = (LocationAndColorChangingTriangle) super.clone();
+
+        clonedTriangle.triangleSize = new Dimension(this.triangleSize);
+
+        checkRep();
+        return clonedTriangle;
     }
 
     /**

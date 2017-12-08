@@ -9,6 +9,7 @@ import java.util.Random;
  * method.
  * Thus, a typical LocationChaningShape consists of the following set of
  * properties: {location, color, shape, size, velocity}
+ * The color property represents the first color of the shape, when it is created.
  */
 public abstract class LocationAndColorChangingShape extends LocationChangingShape{
 
