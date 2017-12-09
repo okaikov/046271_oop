@@ -85,7 +85,7 @@ public class AngleChangingSector extends Shape implements Animatable{
 
     /**
      * @modifies this
-     * @effects Updates the state of this to the appropriate value for the
+     * @effects Updates the state of this (currentAngle in angleIncreasing) to the appropriate value for the
      *          next animation step. The argument bound indicates the area
      *          within which this is allowed to move.
      */
