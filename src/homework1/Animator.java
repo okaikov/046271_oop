@@ -2,6 +2,7 @@ package homework1;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -27,31 +28,9 @@ public class Animator extends JFrame implements ActionListener {
     private JCheckBoxMenuItem animationCheckItem;
     private JPanel mainPanel;
 
-    public class AnimatableLocationChangingShape {
-
-        private final Animatable animatable;
-        private final Shape shape;
-
-        /**
-         * TODO:
-         * @param shape
-         */
-        public <AnimatableShape extends Shape & Animatable> AnimatableLocationChangingShape(AnimatableShape shape) {
-            this.animatable = shape;
-            this.shape = shape;
-        }
-
-        public void draw(Graphics g){
-            shape.draw(g);
-        }
-
-        public void step(Rectangle bound) {
-            animatable.step(bound);
-        }
-    }
 
     // shapes that have been added to this
-    private ArrayList<AnimatableLocationChangingShape> shapes = new ArrayList<AnimatableLocationChangingShape>();
+    private List<AnimatableShape> shapes = new ArrayList<>();
 
 
     /**
@@ -83,7 +62,7 @@ public class Animator extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent evt) {
                 if (animationCheckItem.isSelected()) {
                     // Make one animation step for all shapes in this
-                    for(AnimatableLocationChangingShape s : shapes) {
+                    for(AnimatableShape s : shapes) {
                         s.step(bounds);
                     }
 
@@ -161,10 +140,12 @@ public class Animator extends JFrame implements ActionListener {
     public void paint(Graphics g) {
         super.paint(g);
 
-        //TODO (BOM): Add code for drawing all shapes in this
+        Graphics drawArea;
 
-        for (AnimatableLocationChangingShape s : shapes) {
-            s.draw(g);
+        Iterator<AnimatableShape> iter = shapes.iterator();
+        drawArea = getContentPane().getGraphics();
+        while (iter.hasNext()) {
+            iter.next().draw(drawArea);
         }
     }
 
@@ -203,7 +184,7 @@ public class Animator extends JFrame implements ActionListener {
             if (source.equals(numberedOvalItem)){
 
                 LocationChangingNumberedOval numbOval = new LocationChangingNumberedOval(new Point(100, 100), Color.RED, new Dimension(100, 60));
-                AnimatableLocationChangingShape numbOvalRef = new AnimatableLocationChangingShape(numbOval);
+                AnimatableShape numbOvalRef = new AnimatableShape(numbOval);
                 shapes.add(numbOvalRef);
                 // TODO (BOM): Add code for creating the appropriate shape such that:
                 //       it is completely inside the window's bounds &&
@@ -214,17 +195,17 @@ public class Animator extends JFrame implements ActionListener {
             }
             else if (source.equals(triangleItem)) {
                 LocationAndColorChangingTriangle triangle = new LocationAndColorChangingTriangle(new Point(200, 200), Color.BLUE, new Dimension(60, 100));
-                AnimatableLocationChangingShape triangleRef = new AnimatableLocationChangingShape(triangle);
+                AnimatableShape triangleRef = new AnimatableShape(triangle);
                 shapes.add(triangleRef);
             }
             else if (source.equals(ovalItem)) {
                 LocationChangingOval oval = new LocationChangingOval(new Point(100, 200), Color.GREEN, new Dimension(80, 60));
-                AnimatableLocationChangingShape ovalRef = new AnimatableLocationChangingShape(oval);
+                AnimatableShape ovalRef = new AnimatableShape(oval);
                 shapes.add(ovalRef);
             }
             else if (source.equals(sectorItem)) {
                 AngleChangingSector sector = new AngleChangingSector(new Point(200, 100), Color.PINK, new Dimension(80, 60), 0.0, 30.0);
-                AnimatableLocationChangingShape sectorRef = new AnimatableLocationChangingShape(sector);
+                AnimatableShape sectorRef = new AnimatableShape(sector);
                 shapes.add(sectorRef);
             }
 
