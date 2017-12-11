@@ -4,7 +4,6 @@ import java.awt.*;
 
 /**
  * AnimatableShape is an object that has all the properties and behavior of Shape and the behavior of Animatable.
- * AnimatableShape is an object that has all the properties and behavior of Shape and the behavior of Animatable.
  */
 public class AnimatableShape {
 

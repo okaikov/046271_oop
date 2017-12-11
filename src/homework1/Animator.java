@@ -2,11 +2,10 @@ package homework1;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.*;
+import javax.swing.Timer;
 
 /**
  * Main application class for exercise #1.
@@ -19,6 +18,15 @@ public class Animator extends JFrame implements ActionListener {
     // preferred frame width and height.
     private static final int WINDOW_WIDTH = 600;
     private static final int WINDOW_HEIGHT = 400;
+
+    // preferred minimal and maximal factors of window width and height for size of the shapes
+    private static final double WIDTH_FACTOR_MIN = 0.1;
+    private static final double WIDTH_FACTOR_MAX = 0.3;
+    private static final double HEIGHT_FACTOR_MIN = 0.1;
+    private static final double HEIGHT_FACTOR_MAX = 0.3;
+
+    private static final int STRAIGHT_ANGLE = 180;
+    private static final int MAX_COLOR = 255;
 
     // graphical components
     private JMenuBar menuBar;
@@ -175,22 +183,27 @@ public class Animator extends JFrame implements ActionListener {
         }
         // Insert a shape
         else {
-            Random rnd = new Random();
-            Rectangle bound = mainPanel.getBounds();
-            Dimension size = new Dimension(
-                    rnd.nextInt((int)((0.3 - 0.1) * (double)bound.getWidth())) + (int)(0.1 * (double)bound.getWidth()),
-                    rnd.nextInt((int)((0.3 - 0.1) * (double)bound.getHeight())) + (int)(0.1 * (double)bound.getHeight()));
-            Point location = new Point(
-                    rnd.nextInt((int)(bound.getMaxX() - size.getWidth() -  bound.getMinX())) + (int)bound.getMinX(),
-                    rnd.nextInt((int)(bound.getMaxY() - size.getHeight() -  bound.getMinY())) + (int)bound.getMinY());
-            Color color = new Color(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255));
-            // TODO (BOM): Add code for creating the appropriate shape such that:
+            // Create the appropriate shape such that:
             //       it is completely inside the window's bounds &&
             //       its location, size and color are randomly selected &&
             //       1/10*WINDOW_WIDTH <= shape.width < 3/10*WINDOW_WIDTH &&
             //       1/10*WINDOW_HEIGHT <= shape.height < 3/10*WINDOW_HEIGHT
-            if (source.equals(numberedOvalItem)){
+            Random rnd = new Random();
+            Rectangle bound = mainPanel.getBounds();
+            Dimension size = new Dimension(
+                    rnd.nextInt((int)((WIDTH_FACTOR_MAX - WIDTH_FACTOR_MIN) * (double)bound.getWidth())) +
+                            (int)(WIDTH_FACTOR_MIN * (double)bound.getWidth()),
+                    rnd.nextInt((int)((HEIGHT_FACTOR_MAX - HEIGHT_FACTOR_MIN) * (double)bound.getHeight())) +
+                            (int)(HEIGHT_FACTOR_MIN * (double)bound.getHeight()));
+            Point location = new Point(
+                    rnd.nextInt((int)(bound.getMaxX() - size.getWidth() -  bound.getMinX())) + (int)bound.getMinX(),
+                    rnd.nextInt((int)(bound.getMaxY() - size.getHeight() -  bound.getMinY())) + (int)bound.getMinY());
+            Color color = new Color(
+                    rnd.nextInt(MAX_COLOR + 1),
+                    rnd.nextInt(MAX_COLOR + 1),
+                    rnd.nextInt(MAX_COLOR + 1));
 
+            if (source.equals(numberedOvalItem)){
                 LocationChangingNumberedOval numbOval = new LocationChangingNumberedOval(location, color, size);
                 AnimatableShape numbOvalRef = new AnimatableShape(numbOval);
                 shapes.add(numbOvalRef);
@@ -206,7 +219,10 @@ public class Animator extends JFrame implements ActionListener {
                 shapes.add(ovalRef);
             }
             else if (source.equals(sectorItem)) {
-                AngleChangingSector sector = new AngleChangingSector(location, color, size, (double)rnd.nextInt(180),(double)rnd.nextInt(180));
+                // In case of sector, randomize the starting angle and the angle of the sector.
+                AngleChangingSector sector = new AngleChangingSector(location, color, size,
+                        (double)rnd.nextInt(STRAIGHT_ANGLE + 1),
+                        (double)rnd.nextInt(STRAIGHT_ANGLE + 1));
                 AnimatableShape sectorRef = new AnimatableShape(sector);
                 shapes.add(sectorRef);
             }
