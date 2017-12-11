@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.*;
 
 /**
@@ -47,23 +48,17 @@ public class Animator extends JFrame implements ActionListener {
         getContentPane().add(mainPanel);
         menuBar = (JMenuBar)createMenuBar();
         setJMenuBar(menuBar);
-        // calculate the bounds rectangle
-        pack();
-        /*Rectangle r = getContentPane().getGraphics().getClipBounds();*/
-        Rectangle bounds = new Rectangle(/*r*/new Rectangle(
-                getContentPane().getX(),
-                getContentPane().getY() + menuBar.getHeight(),
-                getContentPane().getWidth(),
-                getContentPane().getHeight() - menuBar.getHeight())
-        );
-
         // enable animation timer (ticks 25 times per second)
         Timer timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+                // calculate the bounds rectangle
+                Rectangle r = mainPanel.getBounds();
+                Rectangle bounds = new Rectangle(r);
                 if (animationCheckItem.isSelected()) {
                     // Make one animation step for all shapes in this
-                    for(AnimatableShape s : shapes) {
-                        s.step(bounds);
+                    Iterator<AnimatableShape> iter = shapes.iterator();
+                    while (iter.hasNext()) {
+                        iter.next().step(bounds);
                     }
 
                     repaint();  // make sure that the shapes are redrawn
@@ -162,8 +157,7 @@ public class Animator extends JFrame implements ActionListener {
         if (source.equals(newItem)) {
             shapes.clear();
             repaint();
-
-            //TODO (BOM):  Add code for number of LocationChangingNumerOval = 0
+            LocationChangingNumberedOval.resetNumbering();
         }
 
         // File->Exit: close application
@@ -181,38 +175,44 @@ public class Animator extends JFrame implements ActionListener {
         }
         // Insert a shape
         else {
+            Random rnd = new Random();
+            Rectangle bound = mainPanel.getBounds();
+            Dimension size = new Dimension(
+                    rnd.nextInt((int)((0.3 - 0.1) * (double)bound.getWidth())) + (int)(0.1 * (double)bound.getWidth()),
+                    rnd.nextInt((int)((0.3 - 0.1) * (double)bound.getHeight())) + (int)(0.1 * (double)bound.getHeight()));
+            Point location = new Point(
+                    rnd.nextInt((int)(bound.getMaxX() - size.getWidth() -  bound.getMinX())) + (int)bound.getMinX(),
+                    rnd.nextInt((int)(bound.getMaxY() - size.getHeight() -  bound.getMinY())) + (int)bound.getMinY());
+            Color color = new Color(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255));
+            // TODO (BOM): Add code for creating the appropriate shape such that:
+            //       it is completely inside the window's bounds &&
+            //       its location, size and color are randomly selected &&
+            //       1/10*WINDOW_WIDTH <= shape.width < 3/10*WINDOW_WIDTH &&
+            //       1/10*WINDOW_HEIGHT <= shape.height < 3/10*WINDOW_HEIGHT
             if (source.equals(numberedOvalItem)){
 
-                LocationChangingNumberedOval numbOval = new LocationChangingNumberedOval(new Point(100, 100), Color.RED, new Dimension(100, 60));
+                LocationChangingNumberedOval numbOval = new LocationChangingNumberedOval(location, color, size);
                 AnimatableShape numbOvalRef = new AnimatableShape(numbOval);
                 shapes.add(numbOvalRef);
-                // TODO (BOM): Add code for creating the appropriate shape such that:
-                //       it is completely inside the window's bounds &&
-                //       its location, size and color are randomly selected &&
-                //       1/10*WINDOW_WIDTH <= shape.width < 3/10*WINDOW_WIDTH &&
-                //       1/10*WINDOW_HEIGHT <= shape.height < 3/10*WINDOW_HEIGHT
-
             }
             else if (source.equals(triangleItem)) {
-                LocationAndColorChangingTriangle triangle = new LocationAndColorChangingTriangle(new Point(200, 200), Color.BLUE, new Dimension(60, 100));
+                LocationAndColorChangingTriangle triangle = new LocationAndColorChangingTriangle(location, color, size);
                 AnimatableShape triangleRef = new AnimatableShape(triangle);
                 shapes.add(triangleRef);
             }
             else if (source.equals(ovalItem)) {
-                LocationChangingOval oval = new LocationChangingOval(new Point(100, 200), Color.GREEN, new Dimension(80, 60));
+                LocationChangingOval oval = new LocationChangingOval(location, color, size);
                 AnimatableShape ovalRef = new AnimatableShape(oval);
                 shapes.add(ovalRef);
             }
             else if (source.equals(sectorItem)) {
-                AngleChangingSector sector = new AngleChangingSector(new Point(200, 100), Color.PINK, new Dimension(80, 60), 0.0, 30.0);
+                AngleChangingSector sector = new AngleChangingSector(location, color, size, (double)rnd.nextInt(180),(double)rnd.nextInt(180));
                 AnimatableShape sectorRef = new AnimatableShape(sector);
                 shapes.add(sectorRef);
             }
 
             repaint();
         }
-
-
     }
 
 

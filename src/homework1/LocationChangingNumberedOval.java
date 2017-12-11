@@ -14,7 +14,7 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
 
     // Representation Invariant: serialNum >= INITIAL_SERIAL_NUM. (INITIAL_SERIAL_NUM is a class constant)
 
-    static final int INITIAL_SERIAL_NUM = 1;
+    static final int INITIAL_SERIAL_NUM = 0;
     static int ovalsCounter = INITIAL_SERIAL_NUM;
 
     int serialNum;
@@ -23,7 +23,7 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
     /**
      * @effects Initializes this with a a given location, color and dimensions {dim}.
      *          If dimension is null-reference or one of the components (X or Y) of dimension is negative, an
-     *          AssertionError is thrown.
+     *          AssertionError is thrown. Increments ovalsCounter.
      * @modifies ovalsCounter
      */
     public LocationChangingNumberedOval(Point location, Color color, Dimension dim) {
@@ -86,6 +86,14 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
 
         checkRep();
         return clonedOval;
+    }
+
+    /**
+     * @effects Sets ovalsCounter to the initial value, defined by INITIAL_SERIAL_NUM
+     * @modifies ovalsCounter (the counter of created instances of this class)
+     */
+    public static void resetNumbering(){
+        ovalsCounter = INITIAL_SERIAL_NUM;
     }
 
     /**
