@@ -21,12 +21,12 @@ public class AngleChangingSector extends Shape implements Animatable{
     //                           0.0 <= currentSectorAngle < 360.0
     //                           ovalSize != null
 
-    final double MIN_ANGLE_DEG_INCLUDED = 0.0;
-    final double MAX_ANGLE_DEG_EXCLUDED = 360.0;
+    private final double MIN_ANGLE_DEG_INCLUDED = 0.0;
+    private final double MAX_ANGLE_DEG_EXCLUDED = 360.0;
 
-    final double MIN_ANIMATION_ANGLE_DEG = 0.0;
-    final double MAX_ANIMATION_ANGLE_DEG = 359.0;
-    final double ANIMATION_STEP_DEG = 1.0;
+    private final double MIN_ANIMATION_ANGLE_DEG = 0.0;
+    private final double MAX_ANIMATION_ANGLE_DEG = 359.0;
+    private final double ANIMATION_STEP_DEG = 1.0;
 
     private double currentSectorAngle;
     private double startAngle;
@@ -36,8 +36,6 @@ public class AngleChangingSector extends Shape implements Animatable{
     public AngleChangingSector(Point location, Color color, Dimension dim, double startAngle, double sectorAngle) {
         super(location, color);
 
-        assert location != null : "Null location";
-        assert color != null : "Null color";
         assert dim != null : "Null dimension";
         assert sectorAngle >= MIN_ANGLE_DEG_INCLUDED : "Invalid angle";
         assert sectorAngle < MAX_ANGLE_DEG_EXCLUDED : "Invalid angle";
@@ -57,7 +55,7 @@ public class AngleChangingSector extends Shape implements Animatable{
      * @modifies this
      * @effects Resizes this so that its bounding rectangle has the specified
      *          dimension.
-     *          If this cannot be resized to the specified dimension =>
+     *          If this cannot be resized to the specified dimension then
      *          this is not modified, throws ImpossibleSizeException
      *          (the exception suggests an alternative dimension that is
      *           supported by this).
@@ -140,7 +138,7 @@ public class AngleChangingSector extends Shape implements Animatable{
     public Object clone() {
         checkRep();
 
-        AngleChangingSector clonedSector = null;
+        AngleChangingSector clonedSector;
 
         clonedSector = (AngleChangingSector) super.clone();
 

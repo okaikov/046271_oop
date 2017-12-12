@@ -29,7 +29,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @effects Initializes this with a a given location and color. Each
      *          of the horizontal and vertical velocities of the new
      *          object is set to a random integral value i such that
-     *          -5 <= i <= 5 and i != 0
+     *          {@code -5 <= i <= 5 and i != 0}
      */
     LocationChangingShape(Point location, Color color) {
         super(location, color);
@@ -89,7 +89,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @modifies this
      * @effects Sets the horizontal velocity of this to velocityX and the
      *          vertical velocity of this to velocityY.
-     * @requires -5 <= velocityX <= 5 && -5 <= velocityY <= 5
+     * @requires {@code -5 <= velocityX <= 5 && -5 <= velocityY <= 5}
      */
     public void setVelocity(int velocityX, int velocityY) {
         checkRep();
@@ -189,7 +189,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
     public Object clone() {
         checkRep();
 
-        LocationChangingShape clonedShape = null;
+        LocationChangingShape clonedShape;
 
         clonedShape = (LocationChangingShape) super.clone();
 

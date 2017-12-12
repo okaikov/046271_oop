@@ -41,7 +41,7 @@ public class LocationChangingOval extends LocationChangingShape {
      * @effects Resizes this so that its bounding rectangle has the specified
      *          dimension.
      *          If this cannot be resized to the specified dimension
-     *          (specifically, if dimension is a null-reference or its X or Y are negative) =>
+     *          (specifically, if dimension is a null-reference or its X or Y are negative), then
      *          this is not modified, throws ImpossibleSizeException
      *          (the exception suggests an alternative dimension that is
      *          supported by this).
@@ -50,7 +50,7 @@ public class LocationChangingOval extends LocationChangingShape {
     public void setSize(Dimension dimension) throws ImpossibleSizeException {
         checkRep();
         if((dimension != null) && (dimension.getHeight() >= 0.0) && (dimension.getWidth()) >= 0.0) {
-            ovalSize.setSize((double)dimension.getWidth(), (double)dimension.getHeight());
+            ovalSize.setSize(dimension.getWidth(), dimension.getHeight());
         } else {
             throw new ImpossibleSizeException();
         }
@@ -94,7 +94,7 @@ public class LocationChangingOval extends LocationChangingShape {
     public Object clone() {
         checkRep();
 
-        LocationChangingOval clonedOval = null;
+        LocationChangingOval clonedOval;
 
         clonedOval = (LocationChangingOval) super.clone();
 
