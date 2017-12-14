@@ -1,37 +1,35 @@
 package homework2;
-import java.util.ArrayList;
 
 
-public class Edge<V,L> {
+public class Edge<T,L> {
 
-    private V vertex;
+    private Vertex<T,L> destVertex;
+    private L label;
 
-    private int weight;
-
-    public Edge(V vert, int w) {
-        vertex = vert;
-        weight = w;
+    public Edge(Vertex<T,L> vertex, L label) {
+        this.destVertex = vertex;
+        this.label = label;
     }
-
-    public V getVertex() {
-        return vertex;
-    }
-
-    public void setVertex(V vertex) {
-        this.vertex = vertex;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public String toString(){
-
-        return "( "+ vertex + ", " + weight + " )";
-    }
+//
+//    public T getVertex() {
+//        return vertex;
+//    }
+//
+//    public void setVertex(T vertex) {
+//        this.vertex = vertex;
+//    }
+//
+//    public int getWeight() {
+//        return weight;
+//    }
+//
+//    public void setWeight(int weight) {
+//        this.weight = weight;
+//    }
+//
+//    public String toString(){
+//
+//        return "( "+ vertex + ", " + weight + " )";
+//    }
 
 }
