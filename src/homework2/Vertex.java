@@ -1,21 +1,42 @@
 package homework2;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
-public class Vertex<T,L> {
-//    public enum VertexColor {
-//        BLACK, WHITE
-//    }
-
-    private T Type;
-    private ArrayList<Edge> edges;
+public class Vertex<L> {
+    private Object object;
+    private HashMap<L,L> childrenHashmap; //<children label, edge label>
+    private HashMap<L,L> parentsHashmap; //<parents label, edge label>
     private L label;
+    private BipartiteGraph.VertexColor vertexColor;
 
 
-    public Vertex(T Type, L label) {
+    public Vertex(Object object, L label, BipartiteGraph.VertexColor vertexColor) {
+        this.object = object;
         this.label = label;
-        this.edges = new ArrayList<Edge>();
+        this.childrenHashmap = new HashMap<>();
+        this.parentsHashmap = new HashMap<>();
+        this.vertexColor = vertexColor;
     }
+
+    public BipartiteGraph.VertexColor getVertexColor() {
+        return this.vertexColor;
+    }
+
+    public L getChildEdgeLabel(L childLabel){
+        //TODO
+        return this.childrenHashmap.get(childLabel);
+    }
+
+    public L getParentEdgeLabel(L parentLabel){
+        //TODO
+        return this.parentsHashmap.get(parentLabel);
+    }
+
+    public Set<L> getParentsLabels(){
+        return this.parentsHashmap.keySet();
+    }
+
 
 
 }

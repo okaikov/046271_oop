@@ -1,14 +1,14 @@
 package homework2;
 
+public class Edge<L> {
 
-public class Edge<T,L> {
+    private final L label;
+    private final L destVertexLabel;
 
-    private Vertex<T,L> destVertex;
-    private L label;
 
-    public Edge(Vertex<T,L> vertex, L label) {
-        this.destVertex = vertex;
-        this.label = label;
+    public Edge(L vertexLabel, L edgeLabel) {
+        this.destVertexLabel = vertexLabel;
+        this.label = edgeLabel;
     }
 //
 //    public T getVertex() {

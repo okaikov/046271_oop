@@ -1,76 +1,76 @@
 package homework2;
-
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BipartiteGraph<B,W,L> {
 
-    public enum VertexColor {
+public class BipartiteGraph<L> {
+
+    protected enum VertexColor {
         BLACK, WHITE
     }
 
-    private HashMap<L, Vertex<B,L>> blackVertexHashmap;
-    private HashMap<L, Vertex<W,L>> whiteVertexHashmap;
-    private String graphNmae;
+    private final String graphName;
+    private HashMap<L, Vertex<L>> vertexHashmap;
+
 
 
     /**
      * @modifies this
-     * @effects Creates a new graph named graphName. The graph is initially empty. assert if graphName == null.
+     * @effects Creates a new graph named graphName. The graph is initially empty. if graphName == null, terminates program.
      */
     public BipartiteGraph(String graphName) {
-        assert (graphName != null):
-                "graphName is null";
-        this.graphNmae = graphName;
-        this.blackVertexHashmap = new HashMap<L, Vertex<B, L>>();
-        this.whiteVertexHashmap = new HashMap<L, Vertex<W, L>>();
+        if (graphName == null){
+            System.out.println("graphName is null");
+            System.exit(1);
+        }
+
+        this.graphName = graphName;
+        this.vertexHashmap = new HashMap<>();
     }
 
     /**
      * @modifies graph named graphName
      * @effects Adds a black node represented by the L nodeName to the graph named graphName.
+     * if nodeName == null || node == null || node is in the graph: return false
      */
-    public void addBlackNode(L nodeLabel, B blackNode) {
-        assert (nodeLabel != null):
-                "node label is null";
-        assert (blackNode != null):
-                "node is null";
-        assert (graphContains(nodeLabel) == false):
-                "graph allready contains Vertex: " + nodeLabel;
-
-        Vertex<B,L> blackVertex = new Vertex<>(blackNode,nodeLabel);
-        this.blackVertexHashmap.put(nodeLabel, blackVertex);
+    public boolean addBlackNode(L nodeLabel, Object blackNode) {
+        return addNode(nodeLabel, blackNode, VertexColor.BLACK);
     }
+
 
     /**
      * @modifies graph named graphName
      * @effects Adds a white node represented by the L nodeName to the graph named graphName.
+     * if nodeName == null || node == null || node is in the graph: return false
      */
-    public void addWhiteNode(L nodeLabel, W whiteNode) {
-        assert (nodeLabel != null):
-                "node label is null";
-        assert (whiteNode != null):
-                "node is null";
-        assert (graphContains(nodeLabel) == false):
-                "graph allready contains Vertex: " + nodeLabel;
-
-        Vertex<W,L> whiteVertex = new Vertex<>(whiteNode,nodeLabel);
-        this.whiteVertexHashmap.put(nodeLabel, whiteVertex);
+    public boolean addWhiteNode(L nodeLabel, Object whiteNode) {
+        return addNode(nodeLabel, whiteNode, VertexColor.WHITE);
     }
+
 
     /**
-     * @effects return true if graph contains a node with label: nodeLabel.
+     * @modifies graph named graphName
+     * @effects Adds a node represented by the L nodeLabel to the graph named graphName.
+     * if nodeName == null || node == null || node is in the graph: return false
      */
-    public Boolean graphContains(L nodeLabel) {
-        assert (nodeLabel != null):
-                "node label is null";
-        if (this.blackVertexHashmap.containsKey(nodeLabel) || this.whiteVertexHashmap.containsKey(nodeLabel)){
-            return true;
-        }else {
+    private boolean addNode(L nodeLabel, Object node, VertexColor vertexColor) {
+        if (nodeLabel == null){
+            System.out.println("node label is null");
             return false;
         }
+        if (node == null){
+            System.out.println("node is null");
+            return false;
+        }
+        if (graphContains(nodeLabel)){
+            System.out.println("graph allready contains Vertex");
+            return false;
+        }
+
+        Vertex<L> newVertex = new Vertex<>(node, nodeLabel, vertexColor);
+        this.vertexHashmap.put(nodeLabel, newVertex);
+        return true;
     }
+
 
     /**
      * @requires createGraph(graphName)
@@ -86,19 +86,48 @@ public class BipartiteGraph<B,W,L> {
      * 			in the graph graphName. The new edge's label is the String
      * 			edgeLabel.
      */
-    public void addEdge(L sourceLabel, L destLabel, L edgeLabel) {
+    public boolean addEdge(L sourceLabel, L destLabel, L edgeLabel) {
+        if (sourceLabel == null){
+            System.out.println("source label is null");
+            return false;
+        }
+        if (destLabel == null){
+            System.out.println("destination label is null");
+            return false;
+        }
+        if (edgeLabel == null){
+            System.out.println("edge label is null");
+            return false;
+        }
+        if (!graphContains(sourceLabel) || !graphContains(destLabel)){
+            System.out.println("source/destination node is not in graph");
+            return false;
+        }
+        if (getNodeColor(sourceLabel) == getNodeColor(destLabel)){
+            System.out.println("trying to add edge to a wrong color, must be diffrent color");
+            return false;
+        }
+        // check if we have some edge from src -> dest
+        // check if we have edge with label X from src
+        // check if we have edge from some parent to dest with label X
+        if (this.vertexHashmap.get(sourceLabel).getChildEdgeLabel(destLabel) != null){
+            System.out.println("child edge already exists");
+            return false;
+        }
+        Vertex<L> destVertex = this.vertexHashmap.get(destLabel);
+        for (L parentLabel : destVertex.getParentsLabels()){
+            if (destVertex.getParentEdgeLabel(parentLabel) != null){
+                System.out.println("parent edge with same label already exists");
+                return false;
+            }
 
+        }
 
-        assert (sourceLabel != null):
-                "source label is null";
-        assert (destLabel != null):
-                "destination label is null";
-        assert (edgeLabel != null):
-                "edge label is null";
-        assert (graphContains(sourceLabel) && graphContains(destLabel)):
-                "source/destination node is not in graph";
-        assert (nodesDifferent(sourceLabel, destLabel)):
-                "trying to add edge to a wrong color";
+        if (this.vertexHashmap.get(sourceLabel).getChildEdgeLabel(destLabel) != null){
+            System.out.println("child edge already exists");
+            return false;
+        }
+
 
 
 
@@ -106,15 +135,21 @@ public class BipartiteGraph<B,W,L> {
 
     }
 
-    public VertexColor getNodeColor(L nodeLabel){
-        assert (nodeLabel != null):
-                "node label is null";
-        assert (graphContains(nodeLabel)):
-                "node is not in the graph";
+    public boolean graphContains(L nodeLabel){
+        //TODO: check input
+        return this.vertexHashmap.containsKey(nodeLabel);
+    }
 
-        if (this.whiteVertexHashmap.containsKey(nodeLabel)){
-            return VertexColor.WHITE;
-        }else return VertexColor.BLACK;
+
+
+    public VertexColor getNodeColor(L nodeLabel){
+        //TODO: check input, check if null, contains
+//        assert (nodeLabel != null):
+//                "node label is null";
+//        assert (graphContains(nodeLabel)):
+//                "node is not in the graph";
+
+        return this.vertexHashmap.get(nodeLabel).getVertexColor();
     }
 
 
