@@ -1,5 +1,7 @@
 package homework2;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 
 public class BipartiteGraph<L> {
@@ -86,54 +88,157 @@ public class BipartiteGraph<L> {
      * 			in the graph graphName. The new edge's label is the String
      * 			edgeLabel.
      */
-    public boolean addEdge(L sourceLabel, L destLabel, L edgeLabel) {
-        if (sourceLabel == null){
-            System.out.println("source label is null");
+    public boolean addEdge(L parentLabel, L childLabel, L edgeLabel) {
+        if (parentLabel == null){
+            System.out.println("parent label is null");
             return false;
         }
-        if (destLabel == null){
-            System.out.println("destination label is null");
+        if (childLabel == null){
+            System.out.println("child label is null");
             return false;
         }
         if (edgeLabel == null){
             System.out.println("edge label is null");
             return false;
         }
-        if (!graphContains(sourceLabel) || !graphContains(destLabel)){
-            System.out.println("source/destination node is not in graph");
+        if (!graphContains(parentLabel) || !graphContains(childLabel)){
+            System.out.println("parent/child node is not in graph");
             return false;
         }
-        if (getNodeColor(sourceLabel) == getNodeColor(destLabel)){
-            System.out.println("trying to add edge to a wrong color, must be diffrent color");
+        if (getNodeColor(parentLabel) == getNodeColor(childLabel)){
+            System.out.println("trying to add edge to a wrong color, must be different color");
             return false;
         }
-        // check if we have some edge from src -> dest
-        // check if we have edge with label X from src
-        // check if we have edge from some parent to dest with label X
-        if (this.vertexHashmap.get(sourceLabel).getChildEdgeLabel(destLabel) != null){
-            System.out.println("child edge already exists");
+        // check if we have some edge from parent -> child
+        Vertex<L> parentVertex = this.vertexHashmap.get(parentLabel);
+        if (parentVertex.childrenContainsLabel(childLabel)){
+            System.out.println("there is already an edge from parent->child");
             return false;
         }
-        Vertex<L> destVertex = this.vertexHashmap.get(destLabel);
-        for (L parentLabel : destVertex.getParentsLabels()){
-            if (destVertex.getParentEdgeLabel(parentLabel) != null){
-                System.out.println("parent edge with same label already exists");
-                return false;
+
+        // check if we have edge with label X from parent
+        if (parentVertex.childrenContainsEdgeLabel(edgeLabel)){
+            System.out.println("there is already an edge from parent with edge label");
+            return false;
+        }
+
+        // check if we have edge from some parent to child with label X
+        Vertex<L> childVertex = this.vertexHashmap.get(childLabel);
+        if (childVertex.parentsContainsEdgeLabel(edgeLabel)){
+            System.out.println("there is already an edge to child with edge label");
+            return false;
+        }
+
+        parentVertex.addChild(childLabel, edgeLabel);
+        childVertex.addParent(parentLabel,edgeLabel);
+        return true;
+    }
+
+    public boolean removeEdge(L parentLabel, L childLabel, L edgeLabel) {
+        //TODO
+
+        Vertex<L> parentVertex = this.vertexHashmap.get(parentLabel);
+        Vertex<L> childVertex = this.vertexHashmap.get(childLabel);
+
+        parentVertex.removeChild(childLabel, edgeLabel);
+        childVertex.removeParent(parentLabel,edgeLabel);
+        return true;
+    }
+
+    /**
+     * @requires createGraph(graphName)
+     * @return a space-separated list of the names of all the black nodes
+     * 		   in the graph graphName, in alphabetical order.
+     */
+    public String listBlackNodes() {
+        //TODO
+        return listNodesByColor(VertexColor.BLACK);
+    }
+
+    /**
+     * @requires createGraph(graphName)
+     * @return a space-separated list of the names of all the white nodes
+     * 		   in the graph graphName, in alphabetical order.
+     */
+    public String listWhiteNodes() {
+        //TODO
+        return listNodesByColor(VertexColor.WHITE);
+    }
+
+
+    private String listNodesByColor(VertexColor vertexColor){
+        //TODO
+        ArrayList<String> nameList = new ArrayList<>();
+        for (Vertex<L> vertex : vertexHashmap.values()){
+            if (vertex.getVertexColor() == vertexColor){
+                nameList.add(vertex.getLabel().toString());
             }
-
         }
+        java.util.Collections.sort(nameList);
+        return String.join(" ", nameList);
+    }
 
-        if (this.vertexHashmap.get(sourceLabel).getChildEdgeLabel(destLabel) != null){
-            System.out.println("child edge already exists");
-            return false;
+    /**
+     * @requires createGraph(graphName) && createNode(parentName)
+     * @return a space-separated list of the names of the children of
+     * 		   parentName in the graph graphName, in alphabetical order.
+     */
+    public String listChildren(String parentLabel) {
+        //TODO
+        return listAndSortNames(this.vertexHashmap.get(parentLabel).getChildrenLabelList());
+    }
+
+    /**
+     * @requires createGraph(graphName) && createNode(childName)
+     * @return a space-separated list of the names of the parents of
+     * 		   childName in the graph graphName, in alphabetical order.
+     */
+    public String listParents(String childLabel) {
+        //TODO: Implement this method
+        return listAndSortNames(this.vertexHashmap.get(childLabel).getParentsLabelList());
+    }
+
+    private String listAndSortNames(Set<L> labelSet){
+        //TODO
+
+        ArrayList<String> nameList = new ArrayList<>();
+        for (L label : labelSet){
+            nameList.add(label.toString());
         }
-
-
-
-
-
+        java.util.Collections.sort(nameList);
+        return String.join(" ", nameList);
 
     }
+
+
+    /**
+     * @requires addEdge(graphName, parentName, str, edgeLabel) for some
+     * 			 string str
+     * @return the name of the child of parentName that is connected by the
+     * 		   edge labeled edgeLabel, in the graph graphName.
+     */
+    public L getChildByEdgeLabel(L parentLabel, L edgeLabel) {
+        //TODO
+
+        Vertex<L> parentVertex = this.vertexHashmap.get(parentLabel);
+        return parentVertex.getChildByEdgeLabel(edgeLabel);
+    }
+
+    /**
+     * @requires addEdge(graphName, str, childName, edgeLabel) for some
+     * 			 string str
+     * @return the name of the parent of childName that is connected by the
+     * 		   edge labeled edgeLabel, in the graph graphName.
+     */
+    public L getParentByEdgeLabel(L childLabel, L edgeLabel) {
+        //TODO
+
+        Vertex<L> childVertex = this.vertexHashmap.get(childLabel);
+        return childVertex.getParentByEdgeLabel(edgeLabel);
+    }
+
+
+
 
     public boolean graphContains(L nodeLabel){
         //TODO: check input
