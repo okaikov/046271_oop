@@ -23,7 +23,9 @@ public class Vertex<L> {
         this.parentsHashmap = new HashMap<>();
         this.vertexColor = vertexColor;
         this.childrenSortedNames = new TreeSet<>(Collator.getInstance());
+        this.childrenSortedString = "";
         this.parentsSortedNames = new TreeSet<>(Collator.getInstance());
+        this.parentsSortedString = "";
         checkRep();
     }
 
@@ -149,8 +151,6 @@ public class Vertex<L> {
 
 
     private void checkRep(){
-        assert (this.object != null):
-                "vertex object is null";
         assert (this.childrenHashmap != null):
                 "vertex children hashmap is null";
         assert (this.parentsHashmap != null):
@@ -161,7 +161,11 @@ public class Vertex<L> {
                 "vertex contains invalid color";
 
         for (L vertexLabelA : this.parentsHashmap.keySet()) {
-            for (L vertexLabelB : this.parentsHashmap.keySet()) {
+
+            final List<L> reduecedList = new ArrayList<>(this.parentsHashmap.keySet());
+            reduecedList.remove(vertexLabelA);
+
+            for (L vertexLabelB : reduecedList) {
                 assert (vertexLabelA != vertexLabelB) :
                         "vertex parents contains 2 parents with the same label";
                 assert (this.parentsHashmap.get(vertexLabelA) != this.parentsHashmap.get(vertexLabelB)) :
@@ -170,7 +174,11 @@ public class Vertex<L> {
         }
 
         for (L vertexLabelA : this.childrenHashmap.keySet()) {
-            for (L vertexLabelB : this.childrenHashmap.keySet()) {
+
+            final List<L> reduecedList = new ArrayList<>(this.childrenHashmap.keySet());
+            reduecedList.remove(vertexLabelA);
+
+            for (L vertexLabelB : reduecedList) {
                 assert (vertexLabelA != vertexLabelB) :
                         "vertex children contains 2 children with the same label";
                 assert (this.childrenHashmap.get(vertexLabelA) != this.childrenHashmap.get(vertexLabelB)):

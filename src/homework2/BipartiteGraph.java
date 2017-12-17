@@ -1,7 +1,5 @@
 package homework2;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 
 public class BipartiteGraph<L> {
@@ -61,10 +59,6 @@ public class BipartiteGraph<L> {
         checkRep();
         if (nodeLabel == null){
             System.out.println("node label is null");
-            return false;
-        }
-        if (node == null){
-            System.out.println("node is null");
             return false;
         }
         if (graphContains(nodeLabel)){
@@ -287,8 +281,12 @@ public class BipartiteGraph<L> {
                 "graph name is null";
         assert (this.vertexHashmap != null):
                 "hashmap is null";
+
+
         for (Vertex<L> vertexA : this.vertexHashmap.values()){
-            for (Vertex<L> vertexB : this.vertexHashmap.values()){
+            final List<Vertex<L>> reduecedVertexList = new ArrayList<>(this.vertexHashmap.values());
+            reduecedVertexList.remove(vertexA);
+            for (Vertex<L> vertexB : reduecedVertexList){
                 assert (vertexA != vertexB):
                         "graph contains 2 vertexes with the same label";
             }
