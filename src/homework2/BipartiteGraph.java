@@ -199,7 +199,7 @@ public class BipartiteGraph<L> {
     public String listChildren(String parentLabel) {
         //TODO
         checkRep();
-        String result = listAndSortNames(this.vertexHashmap.get(parentLabel).getChildrenLabelList());
+        String result = this.vertexHashmap.get(parentLabel).getChildrenSortedString();
         checkRep();
         return result;
     }
@@ -212,25 +212,10 @@ public class BipartiteGraph<L> {
     public String listParents(String childLabel) {
         //TODO: Implement this method
         checkRep();
-        String result = listAndSortNames(this.vertexHashmap.get(childLabel).getParentsLabelList());
+        String result = this.vertexHashmap.get(childLabel).getParentsSortedString();
         checkRep();
         return result;
     }
-
-    private String listAndSortNames(Set<L> labelSet){
-        //TODO
-        checkRep();
-        ArrayList<String> nameList = new ArrayList<>();
-        for (L label : labelSet){
-            nameList.add(label.toString());
-        }
-        java.util.Collections.sort(nameList);
-        String result = String.join(" ", nameList);
-        checkRep();
-        return result;
-
-    }
-
 
     /**
      * @requires addEdge(graphName, parentName, str, edgeLabel) for some
