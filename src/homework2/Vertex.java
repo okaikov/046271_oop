@@ -1,9 +1,7 @@
 package homework2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.text.Collator;
+import java.util.*;
 
 public class Vertex<L> {
     private Object object;
@@ -12,6 +10,11 @@ public class Vertex<L> {
     private L label;
     private BipartiteGraph.VertexColor vertexColor;
 
+    private Collection<String> childrenSortedNames;
+    private String childrenSortedString;
+    private Collection<String> parentsSortedNames;
+    private String parentsSortedString;
+
 
     public Vertex(Object object, L label, BipartiteGraph.VertexColor vertexColor) {
         this.object = object;
@@ -19,6 +22,8 @@ public class Vertex<L> {
         this.childrenHashmap = new HashMap<>();
         this.parentsHashmap = new HashMap<>();
         this.vertexColor = vertexColor;
+        this.childrenSortedNames = new TreeSet<>(Collator.getInstance());
+        this.parentsSortedNames = new TreeSet<>(Collator.getInstance());
         checkRep();
     }
 
@@ -54,7 +59,9 @@ public class Vertex<L> {
     public boolean addChild (L childLabel, L edgeLabel){
         //TODO
         checkRep();
-        childrenHashmap.put(childLabel, edgeLabel);
+        this.childrenHashmap.put(childLabel, edgeLabel);
+        this.childrenSortedNames.add(childLabel.toString());
+        this.childrenSortedString = String.join(" ",this.childrenSortedNames);
         checkRep();
         return true;
     }
@@ -62,21 +69,38 @@ public class Vertex<L> {
     public boolean removeChild (L childLabel, L edgeLabel){
         //TODO
         checkRep();
+        this.childrenSortedNames.remove(childLabel.toString());
+        this.childrenSortedString = String.join(" ",this.childrenSortedNames);
+        checkRep();
         return childrenHashmap.remove(childLabel, edgeLabel);
     }
 
-    public boolean addParent (L ParentLabel, L edgeLabel){
+    public boolean addParent (L parentLabel, L edgeLabel){
         //TODO
         checkRep();
-        parentsHashmap.put(ParentLabel, edgeLabel);
+        parentsHashmap.put(parentLabel, edgeLabel);
+        this.parentsSortedNames.add(parentLabel.toString());
+        this.parentsSortedString = String.join(" ",this.parentsSortedNames);
         checkRep();
         return true;
     }
 
-    public boolean removeParent (L ParentLabel, L edgeLabel){
+    public boolean removeParent (L parentLabel, L edgeLabel){
         //TODO
         checkRep();
-        return parentsHashmap.remove(ParentLabel, edgeLabel);
+        this.parentsSortedNames.remove(parentLabel.toString());
+        this.parentsSortedString = String.join(" ",this.parentsSortedNames);
+        return parentsHashmap.remove(parentLabel, edgeLabel);
+    }
+
+    public String getChildrenSortedString() {
+        checkRep();
+        return childrenSortedString;
+    }
+
+    public String getParentsSortedString() {
+        checkRep();
+        return parentsSortedString;
     }
 
     public L getLabel(){
