@@ -169,21 +169,43 @@ public class BipartiteGraph<L> {
         return listNodesByColor(VertexColor.WHITE);
     }
 
+    public ArrayList<L> getBlackNodes(){
+        return getNodesByColor(VertexColor.BLACK);
+    }
+
+    public ArrayList<L> getWhiteNodes(){
+        return getNodesByColor(VertexColor.WHITE);
+    }
+
 
     private String listNodesByColor(VertexColor vertexColor){
         //TODO
         checkRep();
         ArrayList<String> nameList = new ArrayList<>();
-        for (Vertex<L> vertex : vertexHashmap.values()){
-            if (vertex.getVertexColor() == vertexColor){
-                nameList.add(vertex.getLabel().toString());
-            }
+        ArrayList<L> labels = getNodesByColor(vertexColor);
+        for (L label : labels){
+            nameList.add(label.toString());
         }
         java.util.Collections.sort(nameList);
         String result = String.join(" ", nameList);
         checkRep();
         return result;
     }
+
+    private ArrayList<L> getNodesByColor(VertexColor vertexColor){
+        //TODO
+        checkRep();
+        ArrayList<L> labels = new ArrayList<>();
+        for (Vertex<L> vertex : vertexHashmap.values()){
+            if (vertex.getVertexColor() == vertexColor){
+                labels.add(vertex.getLabel());
+            }
+        }
+        checkRep();
+        return labels;
+    }
+
+
 
     /**
      * @requires createGraph(graphName) && createNode(parentName)
@@ -275,6 +297,13 @@ public class BipartiteGraph<L> {
         return (getNodeColor(sourceLabel) == VertexColor.BLACK && getNodeColor(destLabel) == VertexColor.WHITE) ||
                 (getNodeColor(sourceLabel) == VertexColor.WHITE && getNodeColor(destLabel) == VertexColor.BLACK);
     }
+
+    public Vertex<L> getVertexByLabel(L label){
+        //TODO
+        checkRep();
+        return this.vertexHashmap.get(label);
+    }
+
 
     private void checkRep(){
         assert (this.graphName != null):

@@ -8,7 +8,7 @@ public class Vertex<L> {
     private HashMap<L,L> childrenHashmap; //<children label, edge label>
     private HashMap<L,L> parentsHashmap; //<parents label, edge label>
     private L label;
-    private BipartiteGraph.VertexColor vertexColor;
+    private BipartiteGraph.VertexColor vertexColor; //TODO: move enum to here
 
     private Collection<String> childrenSortedNames;
     private String childrenSortedString;
@@ -27,6 +27,10 @@ public class Vertex<L> {
         this.parentsSortedNames = new TreeSet<>(Collator.getInstance());
         this.parentsSortedString = "";
         checkRep();
+    }
+
+    public Object getObject() {
+        return object;
     }
 
     public BipartiteGraph.VertexColor getVertexColor() {
@@ -74,7 +78,7 @@ public class Vertex<L> {
         this.childrenSortedNames.remove(childLabel.toString());
         this.childrenSortedString = String.join(" ",this.childrenSortedNames);
         checkRep();
-        return childrenHashmap.remove(childLabel, edgeLabel);
+        return childrenHashmap.remove(childLabel, edgeLabel); //TODO: extract variable, and put checkrep after
     }
 
     public boolean addParent (L parentLabel, L edgeLabel){
@@ -162,10 +166,10 @@ public class Vertex<L> {
 
         for (L vertexLabelA : this.parentsHashmap.keySet()) {
 
-            final List<L> reduecedList = new ArrayList<>(this.parentsHashmap.keySet());
-            reduecedList.remove(vertexLabelA);
+            final List<L> reducedList = new ArrayList<>(this.parentsHashmap.keySet());
+            reducedList.remove(vertexLabelA);
 
-            for (L vertexLabelB : reduecedList) {
+            for (L vertexLabelB : reducedList) {
                 assert (vertexLabelA != vertexLabelB) :
                         "vertex parents contains 2 parents with the same label";
                 assert (this.parentsHashmap.get(vertexLabelA) != this.parentsHashmap.get(vertexLabelB)) :
@@ -175,10 +179,10 @@ public class Vertex<L> {
 
         for (L vertexLabelA : this.childrenHashmap.keySet()) {
 
-            final List<L> reduecedList = new ArrayList<>(this.childrenHashmap.keySet());
-            reduecedList.remove(vertexLabelA);
+            final List<L> reducedList = new ArrayList<>(this.childrenHashmap.keySet());
+            reducedList.remove(vertexLabelA);
 
-            for (L vertexLabelB : reduecedList) {
+            for (L vertexLabelB : reducedList) {
                 assert (vertexLabelA != vertexLabelB) :
                         "vertex children contains 2 children with the same label";
                 assert (this.childrenHashmap.get(vertexLabelA) != this.childrenHashmap.get(vertexLabelB)):
@@ -187,6 +191,7 @@ public class Vertex<L> {
 
         }
     }
+
 
 }
 
