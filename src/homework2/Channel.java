@@ -2,9 +2,10 @@ package homework2;
 
 import java.util.ArrayList;
 
-public class Channel {
+public class Channel implements Simulatable<String>{
 
-    private double limit;
+    private String nodeLabel;
+    private final double limit;
     private double count;
     private ArrayList<Transaction> transactionBuffer;
 
@@ -35,5 +36,16 @@ public class Channel {
         return transactionBuffer;
     }
 
+
+    @Override
+    public void simulate(BipartiteGraph<String> graph) {
+        final Vertex<String> node = graph.getVertexByLabel(this.nodeLabel);
+        ArrayList<String> childrenLabels = new ArrayList<>(node.getChildrenLabelList());
+        Vertex<String> firstChildNode = graph.getVertexByLabel(childrenLabels.get(0));
+
+        for (Transaction tx : this.transactionBuffer){
+            ((Participant)firstChildNode.getObject()).addToCurrentTransactions(tx);
+        }
+    }
 
 }
