@@ -31,8 +31,20 @@ public class BipartiteGraphTest {
         assertEquals("wrong parents", "", driver.listParents ("graph1", "n1"));
         assertEquals("wrong parents", "n1", driver.listParents ("graph1", "n2"));
     }
-    
-    
+
+    @Test
+    public void addNode() {
+        BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+
+        //create a graph
+        driver.createGraph("graph1");
+        driver.addBlackNode("graph1", "n1");
+        driver.addBlackNode("graph1", "n1");
+
+    }
+
+
+
     //  TODO: Add black-box tests
     
   

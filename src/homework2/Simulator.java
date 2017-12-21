@@ -1,23 +1,27 @@
 package homework2;
 
-public class Simulator<L, WorkObj> {
-    private BipartiteGraph<L> bipartiteGraph;
+public class Simulator<Label, WorkObject> {
+    private BipartiteGraph<Label> graph;
 
-    public Simulator(String graphName) {
-        this.bipartiteGraph = new BipartiteGraph<>(graphName);
+    public Simulator(String simName) {
+        this.graph = new BipartiteGraph<>(simName);
     }
 
-    public void Simulate(){
-        for (L pipeLabel : this.bipartiteGraph.getBlackNodes()){
-            Simulatable<L> pipe = (Simulatable<L>)bipartiteGraph.getVertexByLabel(pipeLabel).getObject();
-            pipe.simulate(bipartiteGraph);
+    public void simulate(){
+        for (Label pipeLabel : this.graph.getBlackNodes()){
+            Simulatable<Label> pipe = (Simulatable<Label>) graph.getVertexByLabel(pipeLabel).getObject();
+            pipe.simulate(graph);
         }
-        for (L filterLabel : this.bipartiteGraph.getWhiteNodes()){
-            Simulatable<L> filter = (Simulatable<L>)bipartiteGraph.getVertexByLabel(filterLabel).getObject();
-            filter.simulate(bipartiteGraph);
+        for (Label filterLabel : this.graph.getWhiteNodes()){
+            Simulatable<Label> filter = (Simulatable<Label>) graph.getVertexByLabel(filterLabel).getObject();
+            filter.simulate(graph);
         }
     }
 
+
+    public BipartiteGraph<Label> getGraph(){
+        return this.graph;
+    }
 
     /**
      * TODO: Taken from SimDriver
@@ -30,17 +34,13 @@ public class Simulator<L, WorkObj> {
      * @effects Creates a new Channel named by the String channelName, with a limit, and add it to
      *          the simulator named simName.
      */
-    public void addPipe(L pipeLabel, Object pipeObject) {
-        if(pipeLabel == null) {
-            System.out.println("pipeLabel is null.");
-            return;
-        }
-        if(pipeObject == null) {
-            System.out.println("pipeObject is null.");
-            return;
-        }
-        bipartiteGraph.addBlackNode(pipeLabel, pipeObject);
+    public void addPipe(Label pipeName, Pipe pipe) {
+        //TODO
+        this.graph.addBlackNode(pipeName, pipe);
+
     }
+
+
 
     /**     TODO: taken from SImDriver
      * @requires createSimulator(simName) && participantName != null
@@ -51,7 +51,14 @@ public class Simulator<L, WorkObj> {
      * @effects Creates a new Participant named by the String participantName and add
      *          it to the simulator named simName.
      */
-    public void addParticipant(L filterLabel, Object filterObject) {
+    public void addFilter(Label filterName, Filter filter) {
+        // TODO
+        this.graph.addWhiteNode(filterName, filter);
+
+
+    }
+
+    public void addParticipant(Label filterLabel, Object filterObject) {
         if(filterLabel == null) {
             System.out.println("pipeLabel is null.");
             return;
@@ -60,7 +67,7 @@ public class Simulator<L, WorkObj> {
             System.out.println("pipeObject is null.");
             return;
         }
-        bipartiteGraph.addBlackNode(filterLabel, filterObject);
+        graph.addBlackNode(filterLabel, filterObject);
     }
 
     /** TODO: taken from SImDriver
@@ -74,7 +81,7 @@ public class Simulator<L, WorkObj> {
      *          childName in the simulator named simName. The new edge's label
      *          is the String edgeLabel.
      */
-    public void addEdge(L parentLabel, L childLabel, L edgeLabel) {
+    public void addEdge(Label parentLabel, Label childLabel, Label edgeLabel) {
         if(parentLabel == null) {
             System.out.println("parentLabel is null.");
             return;
@@ -87,7 +94,7 @@ public class Simulator<L, WorkObj> {
             System.out.println("edgeLabel is null.");
             return;
         }
-        bipartiteGraph.addEdge(parentLabel, childLabel, edgeLabel);
+        graph.addEdge(parentLabel, childLabel, edgeLabel);
     }
 //
 //    /**

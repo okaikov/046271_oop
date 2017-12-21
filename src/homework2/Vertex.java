@@ -33,6 +33,11 @@ public class Vertex<L> {
         return object;
     }
 
+    public void setObject(Object object) {
+        this.object = object;
+    }
+
+
     public BipartiteGraph.VertexColor getVertexColor() {
         checkRep();
         return this.vertexColor;
