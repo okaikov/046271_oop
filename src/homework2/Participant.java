@@ -58,12 +58,15 @@ public class Participant implements Simulatable<String>{
                 addToStorageBuffer(tx);
                 removeFromCurrentTransactions(tx);
             }else {
-                removeFromCurrentTransactions(tx);
-                addToStorageBuffer(new Transaction(nodeLabel,this.fee));
-                channel.addTransaction(new Transaction(tx.getDest(), tx.getValue()-this.fee));
+                if (tx.getValue()+channel.getCount()>channel.getLimit()){
+                    addToStorageBuffer(tx);
+                    removeFromCurrentTransactions(tx);
+                }else {
+                    removeFromCurrentTransactions(tx);
+                    addToStorageBuffer(new Transaction(nodeLabel,this.fee));
+                    channel.addTransaction(new Transaction(tx.getDest(), tx.getValue()-this.fee));
+                }
             }
         }
     }
-
-
 }

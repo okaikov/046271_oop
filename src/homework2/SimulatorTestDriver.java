@@ -47,7 +47,8 @@ public class SimulatorTestDriver {
 			System.out.println("limit <= 0");
 			return;
 		}
-		simulators.get(simName).getGraph().addBlackNode(channelName, new Channel(limit));
+		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
+		graph.addBlackNode(channelName, new Channel(limit));
 	}
 
 	/**
@@ -62,7 +63,8 @@ public class SimulatorTestDriver {
 	public void addParticipant(String simName, String participantName, double fee) {
         // TODO
 
-        simulators.get(simName).getGraph().addWhiteNode(participantName, new Participant(fee));
+		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
+		graph.addWhiteNode(participantName, new Participant(fee));
 
 	}
 
@@ -79,7 +81,8 @@ public class SimulatorTestDriver {
 	 */
 	public void addEdge(String simName, String parentName, String childName, String edgeLabel) {
         //TODO
-	    simulators.get(simName).getGraph().addEdge(parentName, childName, edgeLabel);
+		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
+		graph.addEdge(parentName, childName, edgeLabel);
 	}
 
 	/**
@@ -91,7 +94,8 @@ public class SimulatorTestDriver {
 	 */
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
         // TODO
-        Channel channel  = (Channel)simulators.get(simName).getGraph().getNodeByLabel(channelName).getNodeObject();
+		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
+		Channel channel  = (Channel) graph.getNodeByLabel(channelName).getNodeObject();
         channel.addTransaction(tx);
     }
 	
@@ -103,7 +107,8 @@ public class SimulatorTestDriver {
 	 */
 	public String listContents(String simName, String channelName) {
         // TODO
-        Channel channel  = (Channel)simulators.get(simName).getGraph().getNodeByLabel(channelName).getNodeObject();
+		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
+		Channel channel  = (Channel)graph.getNodeByLabel(channelName).getNodeObject();
         ArrayList<String> strings = new ArrayList<>();
         for (Transaction tx : channel.getTransactionBuffer()){
             strings.add(tx.toString());
@@ -117,7 +122,8 @@ public class SimulatorTestDriver {
 	 * @return The sum of all  Transaction values stored in the storage of the participant participantName in the simulator simName
 	 */
 	public double getParticipantBalace(String simName, String participantName) {
-        Participant participant = (Participant) simulators.get(simName).getGraph().getNodeByLabel(participantName).getNodeObject();
+		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
+		Participant participant = (Participant) graph.getNodeByLabel(participantName).getNodeObject();
         double balance = 0;
         for (Transaction transaction : participant.getStorageBuffer()){
             balance += transaction.getValue();
