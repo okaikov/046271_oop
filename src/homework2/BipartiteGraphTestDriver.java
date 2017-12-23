@@ -105,7 +105,9 @@ public class BipartiteGraphTestDriver {
      * 		   parentName in the graph graphName, in alphabetical order.
      */
     public String listChildren(String graphName, String parentName) {
-    	return this.graphs.get(graphName).listChildren(parentName);
+    	ArrayList<String> childrenList = this.graphs.get(graphName).listChildren(parentName);
+        java.util.Collections.sort(childrenList);
+        return String.join(" ", childrenList);
     }
 
     
@@ -115,7 +117,9 @@ public class BipartiteGraphTestDriver {
      * 		   childName in the graph graphName, in alphabetical order.
      */
     public String listParents(String graphName, String childName) {
-        return this.graphs.get(graphName).listParents(childName);
+        ArrayList<String> parentsList = this.graphs.get(graphName).listParents(childName);
+        java.util.Collections.sort(parentsList);
+        return String.join(" ", parentsList);
     }
 
     

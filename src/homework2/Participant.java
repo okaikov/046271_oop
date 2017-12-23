@@ -49,9 +49,9 @@ public class Participant implements Simulatable<String>{
 
     @Override
     public void simulate(BipartiteGraph<String> graph) {
-        final Node<String> node = graph.getVertexByLabel(this.nodeLabel);
-        ArrayList<String> childrenLabels = new ArrayList<>(node.getChildrenLabelList());
-        Channel channel = (Channel)graph.getVertexByLabel(childrenLabels.get(0)).getObject();
+        final Node<String> node = graph.getNodeByLabel(this.nodeLabel);
+        ArrayList<String> childrenLabels = new ArrayList<>(node.getChildrenList());
+        Channel channel = (Channel)graph.getNodeByLabel(childrenLabels.get(0)).getObject();
 
         for (Transaction tx : this.currentTransactions){
             if (tx.getDest() == this.nodeLabel){

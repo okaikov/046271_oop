@@ -9,11 +9,11 @@ public class Simulator<Label, WorkObject> {
 
     public void simulate(){
         for (Label pipeLabel : this.graph.getBlackNodes()){
-            Simulatable<Label> pipe = (Simulatable<Label>) graph.getVertexByLabel(pipeLabel).getObject();
+            Simulatable<Label> pipe = (Simulatable<Label>) graph.getNodeByLabel(pipeLabel).getObject();
             pipe.simulate(graph);
         }
         for (Label filterLabel : this.graph.getWhiteNodes()){
-            Simulatable<Label> filter = (Simulatable<Label>) graph.getVertexByLabel(filterLabel).getObject();
+            Simulatable<Label> filter = (Simulatable<Label>) graph.getNodeByLabel(filterLabel).getObject();
             filter.simulate(graph);
         }
     }

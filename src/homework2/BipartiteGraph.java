@@ -6,7 +6,7 @@ public class BipartiteGraph<L> {
 
 
     private final String graphName;
-    private HashMap<L, Node<L>> vertexHashmap; // <label, vertex>
+    private HashMap<L, Node<L>> nodeHashmap; // <label, node>
 
 
 
@@ -21,7 +21,7 @@ public class BipartiteGraph<L> {
         }
 
         this.graphName = graphName;
-        this.vertexHashmap = new HashMap<>();
+        this.nodeHashmap = new HashMap<>();
         checkRep();
     }
 
@@ -64,7 +64,7 @@ public class BipartiteGraph<L> {
         }
 
         Node<L> newNode = new Node<>(node, nodeLabel, nodeColor);
-        this.vertexHashmap.put(nodeLabel, newNode);
+        this.nodeHashmap.put(nodeLabel, newNode);
         checkRep();
         return true;
     }
@@ -107,7 +107,7 @@ public class BipartiteGraph<L> {
             return false;
         }
         // check if we have some edge from parent -> child
-        Node<L> parentNode = this.vertexHashmap.get(parentLabel);
+        Node<L> parentNode = this.nodeHashmap.get(parentLabel);
         if (parentNode.childrenContainsLabel(childLabel)){
             System.out.println("there is already an edge from parent->child");
             return false;
@@ -120,7 +120,7 @@ public class BipartiteGraph<L> {
         }
 
         // check if we have edge from some parent to child with label X
-        Node<L> childNode = this.vertexHashmap.get(childLabel);
+        Node<L> childNode = this.nodeHashmap.get(childLabel);
         if (childNode.parentsContainsEdgeLabel(edgeLabel)){
             System.out.println("there is already an edge to child with edge label");
             return false;
@@ -135,8 +135,8 @@ public class BipartiteGraph<L> {
     public boolean removeEdge(L parentLabel, L childLabel, L edgeLabel) {
         //TODO
         checkRep();
-        Node<L> parentNode = this.vertexHashmap.get(parentLabel);
-        Node<L> childNode = this.vertexHashmap.get(childLabel);
+        Node<L> parentNode = this.nodeHashmap.get(parentLabel);
+        Node<L> childNode = this.nodeHashmap.get(childLabel);
 
         parentNode.removeChild(childLabel, edgeLabel);
         childNode.removeParent(parentLabel,edgeLabel);
@@ -193,7 +193,7 @@ public class BipartiteGraph<L> {
         //TODO
         checkRep();
         ArrayList<L> labels = new ArrayList<>();
-        for (Node<L> node : vertexHashmap.values()){
+        for (Node<L> node : nodeHashmap.values()){
             if (node.getNodeColor() == nodeColor){
                 labels.add(node.getLabel());
             }
@@ -206,13 +206,13 @@ public class BipartiteGraph<L> {
 
     /**
      * @requires createGraph(graphName) && createNode(parentName)
-     * @return a space-separated list of the names of the children of
-     * 		   parentName in the graph graphName, in alphabetical order.
+     * @return a list of the labels of the children of
+     * 		   parentName in the graph graphName.
      */
-    public String listChildren(String parentLabel) {
+    public ArrayList<L> listChildren(L parentLabel) {
         //TODO
         checkRep();
-        String result = this.vertexHashmap.get(parentLabel).getChildrenSortedString();
+        ArrayList<L> result = this.nodeHashmap.get(parentLabel).getChildrenList();
         checkRep();
         return result;
     }
@@ -222,10 +222,10 @@ public class BipartiteGraph<L> {
      * @return a space-separated list of the names of the parents of
      * 		   childName in the graph graphName, in alphabetical order.
      */
-    public String listParents(String childLabel) {
+    public ArrayList<L> listParents(L childLabel) {
         //TODO: Implement this method
         checkRep();
-        String result = this.vertexHashmap.get(childLabel).getParentsSortedString();
+        ArrayList<L> result = this.nodeHashmap.get(childLabel).getParentsList();
         checkRep();
         return result;
     }
@@ -239,7 +239,7 @@ public class BipartiteGraph<L> {
     public L getChildByEdgeLabel(L parentLabel, L edgeLabel) {
         //TODO
         checkRep();
-        Node<L> parentNode = this.vertexHashmap.get(parentLabel);
+        Node<L> parentNode = this.nodeHashmap.get(parentLabel);
         checkRep();
         return parentNode.getChildByEdgeLabel(edgeLabel);
     }
@@ -253,7 +253,7 @@ public class BipartiteGraph<L> {
     public L getParentByEdgeLabel(L childLabel, L edgeLabel) {
         //TODO
         checkRep();
-        Node<L> childNode = this.vertexHashmap.get(childLabel);
+        Node<L> childNode = this.nodeHashmap.get(childLabel);
         checkRep();
         return childNode.getParentByEdgeLabel(edgeLabel);
     }
@@ -264,7 +264,7 @@ public class BipartiteGraph<L> {
     public boolean graphContains(L nodeLabel){
         //TODO: check input
         checkRep();
-        return this.vertexHashmap.containsKey(nodeLabel);
+        return this.nodeHashmap.containsKey(nodeLabel);
     }
 
 
@@ -276,7 +276,7 @@ public class BipartiteGraph<L> {
 //        assert (graphContains(nodeLabel)):
 //                "node is not in the graph";
         checkRep();
-        return this.vertexHashmap.get(nodeLabel).getNodeColor();
+        return this.nodeHashmap.get(nodeLabel).getNodeColor();
     }
 
 
@@ -295,36 +295,36 @@ public class BipartiteGraph<L> {
                 (getNodeColor(sourceLabel) == Node.NodeColor.WHITE && getNodeColor(destLabel) == Node.NodeColor.BLACK);
     }
 
-    public Node<L> getVertexByLabel(L label){
+    public Node<L> getNodeByLabel(L label){
         //TODO
         checkRep();
-        return this.vertexHashmap.get(label);
+        return this.nodeHashmap.get(label);
     }
 
 
     private void checkRep(){
         assert (this.graphName != null):
                 "graph name is null";
-        assert (this.vertexHashmap != null):
+        assert (this.nodeHashmap != null):
                 "hashmap is null";
 
 
-        for (Node<L> nodeA : this.vertexHashmap.values()){
-            final List<Node<L>> reduecedNodeList = new ArrayList<>(this.vertexHashmap.values());
+        for (Node<L> nodeA : this.nodeHashmap.values()){
+            final List<Node<L>> reduecedNodeList = new ArrayList<>(this.nodeHashmap.values());
             reduecedNodeList.remove(nodeA);
             for (Node<L> nodeB : reduecedNodeList){
                 assert (nodeA != nodeB):
-                        "graph contains 2 vertexes with the same label";
+                        "graph contains 2 nodes with the same label";
             }
-            for (L parentLabel : nodeA.getParentsLabelList()){
-                Node<L> parentNode = this.vertexHashmap.get(parentLabel);
+            for (L parentLabel : nodeA.getParentsList()){
+                Node<L> parentNode = this.nodeHashmap.get(parentLabel);
                 assert (nodeA.getNodeColor() != parentNode.getNodeColor()):
-                        "graph contains parent & child vertexes with the same color";
+                        "graph contains parent & child nodes with the same color";
             }
-            for (L childLabel : nodeA.getChildrenLabelList()){
-                Node<L> childNode = this.vertexHashmap.get(childLabel);
+            for (L childLabel : nodeA.getChildrenList()){
+                Node<L> childNode = this.nodeHashmap.get(childLabel);
                 assert (nodeA.getNodeColor() != childNode.getNodeColor()):
-                        "graph contains parent & child vertexes with the same color";
+                        "graph contains parent & child nodes with the same color";
             }
         }
     }

@@ -39,9 +39,9 @@ public class Channel implements Simulatable<String>{
 
     @Override
     public void simulate(BipartiteGraph<String> graph) {
-        final Node<String> node = graph.getVertexByLabel(this.nodeLabel);
-        ArrayList<String> childrenLabels = new ArrayList<>(node.getChildrenLabelList());
-        Node<String> firstChildNode = graph.getVertexByLabel(childrenLabels.get(0));
+        final Node<String> node = graph.getNodeByLabel(this.nodeLabel);
+        ArrayList<String> childrenLabels = new ArrayList<>(node.getChildrenList());
+        Node<String> firstChildNode = graph.getNodeByLabel(childrenLabels.get(0));
 
         for (Transaction tx : this.transactionBuffer){
             ((Participant)firstChildNode.getObject()).addToCurrentTransactions(tx);
