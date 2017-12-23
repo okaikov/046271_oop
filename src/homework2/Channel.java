@@ -44,7 +44,7 @@ public class Channel implements Simulatable<String>{
         Node<String> firstChildNode = graph.getNodeByLabel(childrenLabels.get(0));
 
         for (Transaction tx : this.transactionBuffer){
-            ((Participant)firstChildNode.getObject()).addToCurrentTransactions(tx);
+            ((Participant)firstChildNode.getNodeObject()).addToCurrentTransactions(tx);
         }
     }
 

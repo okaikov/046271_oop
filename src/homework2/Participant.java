@@ -51,10 +51,10 @@ public class Participant implements Simulatable<String>{
     public void simulate(BipartiteGraph<String> graph) {
         final Node<String> node = graph.getNodeByLabel(this.nodeLabel);
         ArrayList<String> childrenLabels = new ArrayList<>(node.getChildrenList());
-        Channel channel = (Channel)graph.getNodeByLabel(childrenLabels.get(0)).getObject();
+        Channel channel = (Channel)graph.getNodeByLabel(childrenLabels.get(0)).getNodeObject();
 
         for (Transaction tx : this.currentTransactions){
-            if (tx.getDest() == this.nodeLabel){
+            if (tx.getDest().equals(this.nodeLabel)){
                 addToStorageBuffer(tx);
                 removeFromCurrentTransactions(tx);
             }else {

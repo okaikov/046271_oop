@@ -91,7 +91,7 @@ public class SimulatorTestDriver {
 	 */
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
         // TODO
-        Channel channel  = (Channel)simulators.get(simName).getGraph().getNodeByLabel(channelName).getObject();
+        Channel channel  = (Channel)simulators.get(simName).getGraph().getNodeByLabel(channelName).getNodeObject();
         channel.addTransaction(tx);
     }
 	
@@ -103,7 +103,7 @@ public class SimulatorTestDriver {
 	 */
 	public String listContents(String simName, String channelName) {
         // TODO
-        Channel channel  = (Channel)simulators.get(simName).getGraph().getNodeByLabel(channelName).getObject();
+        Channel channel  = (Channel)simulators.get(simName).getGraph().getNodeByLabel(channelName).getNodeObject();
         ArrayList<String> strings = new ArrayList<>();
         for (Transaction tx : channel.getTransactionBuffer()){
             strings.add(tx.toString());
@@ -117,7 +117,7 @@ public class SimulatorTestDriver {
 	 * @return The sum of all  Transaction values stored in the storage of the participant participantName in the simulator simName
 	 */
 	public double getParticipantBalace(String simName, String participantName) {
-        Participant participant = (Participant) simulators.get(simName).getGraph().getNodeByLabel(participantName).getObject();
+        Participant participant = (Participant) simulators.get(simName).getGraph().getNodeByLabel(participantName).getNodeObject();
         double balance = 0;
         for (Transaction transaction : participant.getStorageBuffer()){
             balance += transaction.getValue();

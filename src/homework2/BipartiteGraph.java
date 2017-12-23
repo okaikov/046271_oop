@@ -6,7 +6,7 @@ public class BipartiteGraph<L> {
 
 
     private final String graphName;
-    private HashMap<L, Node<L>> nodeHashmap; // <label, node>
+    private HashMap<L, Node<L>> nodeHashMap; // <label, node>
 
 
 
@@ -21,7 +21,7 @@ public class BipartiteGraph<L> {
         }
 
         this.graphName = graphName;
-        this.nodeHashmap = new HashMap<>();
+        this.nodeHashMap = new HashMap<>();
         checkRep();
     }
 
@@ -64,7 +64,7 @@ public class BipartiteGraph<L> {
         }
 
         Node<L> newNode = new Node<>(node, nodeLabel, nodeColor);
-        this.nodeHashmap.put(nodeLabel, newNode);
+        this.nodeHashMap.put(nodeLabel, newNode);
         checkRep();
         return true;
     }
@@ -107,7 +107,7 @@ public class BipartiteGraph<L> {
             return false;
         }
         // check if we have some edge from parent -> child
-        Node<L> parentNode = this.nodeHashmap.get(parentLabel);
+        Node<L> parentNode = this.nodeHashMap.get(parentLabel);
         if (parentNode.childrenContainsLabel(childLabel)){
             System.out.println("there is already an edge from parent->child");
             return false;
@@ -120,7 +120,7 @@ public class BipartiteGraph<L> {
         }
 
         // check if we have edge from some parent to child with label X
-        Node<L> childNode = this.nodeHashmap.get(childLabel);
+        Node<L> childNode = this.nodeHashMap.get(childLabel);
         if (childNode.parentsContainsEdgeLabel(edgeLabel)){
             System.out.println("there is already an edge to child with edge label");
             return false;
@@ -135,8 +135,8 @@ public class BipartiteGraph<L> {
     public boolean removeEdge(L parentLabel, L childLabel, L edgeLabel) {
         //TODO
         checkRep();
-        Node<L> parentNode = this.nodeHashmap.get(parentLabel);
-        Node<L> childNode = this.nodeHashmap.get(childLabel);
+        Node<L> parentNode = this.nodeHashMap.get(parentLabel);
+        Node<L> childNode = this.nodeHashMap.get(childLabel);
 
         parentNode.removeChild(childLabel, edgeLabel);
         childNode.removeParent(parentLabel,edgeLabel);
@@ -193,7 +193,7 @@ public class BipartiteGraph<L> {
         //TODO
         checkRep();
         ArrayList<L> labels = new ArrayList<>();
-        for (Node<L> node : nodeHashmap.values()){
+        for (Node<L> node : this.nodeHashMap.values()){
             if (node.getNodeColor() == nodeColor){
                 labels.add(node.getLabel());
             }
@@ -212,7 +212,7 @@ public class BipartiteGraph<L> {
     public ArrayList<L> listChildren(L parentLabel) {
         //TODO
         checkRep();
-        ArrayList<L> result = this.nodeHashmap.get(parentLabel).getChildrenList();
+        ArrayList<L> result = this.nodeHashMap.get(parentLabel).getChildrenList();
         checkRep();
         return result;
     }
@@ -225,7 +225,7 @@ public class BipartiteGraph<L> {
     public ArrayList<L> listParents(L childLabel) {
         //TODO: Implement this method
         checkRep();
-        ArrayList<L> result = this.nodeHashmap.get(childLabel).getParentsList();
+        ArrayList<L> result = this.nodeHashMap.get(childLabel).getParentsList();
         checkRep();
         return result;
     }
@@ -239,7 +239,7 @@ public class BipartiteGraph<L> {
     public L getChildByEdgeLabel(L parentLabel, L edgeLabel) {
         //TODO
         checkRep();
-        Node<L> parentNode = this.nodeHashmap.get(parentLabel);
+        Node<L> parentNode = this.nodeHashMap.get(parentLabel);
         checkRep();
         return parentNode.getChildByEdgeLabel(edgeLabel);
     }
@@ -253,7 +253,7 @@ public class BipartiteGraph<L> {
     public L getParentByEdgeLabel(L childLabel, L edgeLabel) {
         //TODO
         checkRep();
-        Node<L> childNode = this.nodeHashmap.get(childLabel);
+        Node<L> childNode = this.nodeHashMap.get(childLabel);
         checkRep();
         return childNode.getParentByEdgeLabel(edgeLabel);
     }
@@ -264,7 +264,7 @@ public class BipartiteGraph<L> {
     public boolean graphContains(L nodeLabel){
         //TODO: check input
         checkRep();
-        return this.nodeHashmap.containsKey(nodeLabel);
+        return this.nodeHashMap.containsKey(nodeLabel);
     }
 
 
@@ -276,7 +276,7 @@ public class BipartiteGraph<L> {
 //        assert (graphContains(nodeLabel)):
 //                "node is not in the graph";
         checkRep();
-        return this.nodeHashmap.get(nodeLabel).getNodeColor();
+        return this.nodeHashMap.get(nodeLabel).getNodeColor();
     }
 
 
@@ -298,31 +298,31 @@ public class BipartiteGraph<L> {
     public Node<L> getNodeByLabel(L label){
         //TODO
         checkRep();
-        return this.nodeHashmap.get(label);
+        return this.nodeHashMap.get(label);
     }
 
 
     private void checkRep(){
         assert (this.graphName != null):
                 "graph name is null";
-        assert (this.nodeHashmap != null):
+        assert (this.nodeHashMap != null):
                 "hashmap is null";
 
 
-        for (Node<L> nodeA : this.nodeHashmap.values()){
-            final List<Node<L>> reduecedNodeList = new ArrayList<>(this.nodeHashmap.values());
+        for (Node<L> nodeA : this.nodeHashMap.values()){
+            final List<Node<L>> reduecedNodeList = new ArrayList<>(this.nodeHashMap.values());
             reduecedNodeList.remove(nodeA);
             for (Node<L> nodeB : reduecedNodeList){
                 assert (nodeA != nodeB):
                         "graph contains 2 nodes with the same label";
             }
             for (L parentLabel : nodeA.getParentsList()){
-                Node<L> parentNode = this.nodeHashmap.get(parentLabel);
+                Node<L> parentNode = this.nodeHashMap.get(parentLabel);
                 assert (nodeA.getNodeColor() != parentNode.getNodeColor()):
                         "graph contains parent & child nodes with the same color";
             }
             for (L childLabel : nodeA.getChildrenList()){
-                Node<L> childNode = this.nodeHashmap.get(childLabel);
+                Node<L> childNode = this.nodeHashMap.get(childLabel);
                 assert (nodeA.getNodeColor() != childNode.getNodeColor()):
                         "graph contains parent & child nodes with the same color";
             }
