@@ -4,9 +4,6 @@ import java.util.*;
 
 public class BipartiteGraph<L> {
 
-    protected enum VertexColor {
-        BLACK, WHITE
-    }
 
     private final String graphName;
     private HashMap<L, Vertex<L>> vertexHashmap; // <label, vertex>
@@ -35,7 +32,7 @@ public class BipartiteGraph<L> {
      */
     public boolean addBlackNode(L nodeLabel, Object blackNode) {
         checkRep();
-        return addNode(nodeLabel, blackNode, VertexColor.BLACK);
+        return addNode(nodeLabel, blackNode, Vertex.VertexColor.BLACK);
     }
 
 
@@ -46,7 +43,7 @@ public class BipartiteGraph<L> {
      */
     public boolean addWhiteNode(L nodeLabel, Object whiteNode) {
         checkRep();
-        return addNode(nodeLabel, whiteNode, VertexColor.WHITE);
+        return addNode(nodeLabel, whiteNode, Vertex.VertexColor.WHITE);
     }
 
 
@@ -55,7 +52,7 @@ public class BipartiteGraph<L> {
      * @effects Adds a node represented by the L nodeLabel to the graph named graphName.
      * if nodeName == null || node == null || node is in the graph: return false
      */
-    private boolean addNode(L nodeLabel, Object node, VertexColor vertexColor) {
+    private boolean addNode(L nodeLabel, Object node, Vertex.VertexColor vertexColor) {
         checkRep();
         if (nodeLabel == null){
             System.out.println("node label is null");
@@ -155,7 +152,7 @@ public class BipartiteGraph<L> {
     public String listBlackNodes() {
         //TODO
         checkRep();
-        return listNodesByColor(VertexColor.BLACK);
+        return listNodesByColor(Vertex.VertexColor.BLACK);
     }
 
     /**
@@ -166,19 +163,19 @@ public class BipartiteGraph<L> {
     public String listWhiteNodes() {
         //TODO
         checkRep();
-        return listNodesByColor(VertexColor.WHITE);
+        return listNodesByColor(Vertex.VertexColor.WHITE);
     }
 
     public ArrayList<L> getBlackNodes(){
-        return getNodesByColor(VertexColor.BLACK);
+        return getNodesByColor(Vertex.VertexColor.BLACK);
     }
 
     public ArrayList<L> getWhiteNodes(){
-        return getNodesByColor(VertexColor.WHITE);
+        return getNodesByColor(Vertex.VertexColor.WHITE);
     }
 
 
-    private String listNodesByColor(VertexColor vertexColor){
+    private String listNodesByColor(Vertex.VertexColor vertexColor){
         //TODO
         checkRep();
         ArrayList<String> nameList = new ArrayList<>();
@@ -192,7 +189,7 @@ public class BipartiteGraph<L> {
         return result;
     }
 
-    private ArrayList<L> getNodesByColor(VertexColor vertexColor){
+    private ArrayList<L> getNodesByColor(Vertex.VertexColor vertexColor){
         //TODO
         checkRep();
         ArrayList<L> labels = new ArrayList<>();
@@ -272,7 +269,7 @@ public class BipartiteGraph<L> {
 
 
 
-    public VertexColor getNodeColor(L nodeLabel){
+    public Vertex.VertexColor getNodeColor(L nodeLabel){
         //TODO: check input, check if null, contains
 //        assert (nodeLabel != null):
 //                "node label is null";
@@ -294,8 +291,8 @@ public class BipartiteGraph<L> {
                 "source/destination node is not in graph";
 
         checkRep();
-        return (getNodeColor(sourceLabel) == VertexColor.BLACK && getNodeColor(destLabel) == VertexColor.WHITE) ||
-                (getNodeColor(sourceLabel) == VertexColor.WHITE && getNodeColor(destLabel) == VertexColor.BLACK);
+        return (getNodeColor(sourceLabel) == Vertex.VertexColor.BLACK && getNodeColor(destLabel) == Vertex.VertexColor.WHITE) ||
+                (getNodeColor(sourceLabel) == Vertex.VertexColor.WHITE && getNodeColor(destLabel) == Vertex.VertexColor.BLACK);
     }
 
     public Vertex<L> getVertexByLabel(L label){

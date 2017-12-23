@@ -4,11 +4,15 @@ import java.text.Collator;
 import java.util.*;
 
 public class Vertex<L> {
+    protected enum VertexColor {
+        BLACK, WHITE
+    }
+
     private Object object;
     private HashMap<L,L> childrenHashmap; //<children label, edge label>
     private HashMap<L,L> parentsHashmap; //<parents label, edge label>
     private L label;
-    private BipartiteGraph.VertexColor vertexColor; //TODO: move enum to here
+    private VertexColor vertexColor;
 
     private Collection<String> childrenSortedNames;
     private String childrenSortedString;
@@ -16,7 +20,7 @@ public class Vertex<L> {
     private String parentsSortedString;
 
 
-    public Vertex(Object object, L label, BipartiteGraph.VertexColor vertexColor) {
+    public Vertex(Object object, L label, VertexColor vertexColor) {
         this.object = object;
         this.label = label;
         this.childrenHashmap = new HashMap<>();
@@ -38,7 +42,7 @@ public class Vertex<L> {
     }
 
 
-    public BipartiteGraph.VertexColor getVertexColor() {
+    public VertexColor getVertexColor() {
         checkRep();
         return this.vertexColor;
     }
@@ -166,7 +170,7 @@ public class Vertex<L> {
                 "vertex parents hashmap is null";
         assert (this.label != null):
                 "vertex label is null";
-        assert ((this.vertexColor == BipartiteGraph.VertexColor.BLACK) || this.vertexColor == BipartiteGraph.VertexColor.WHITE):
+        assert ((this.vertexColor == VertexColor.BLACK) || this.vertexColor == VertexColor.WHITE):
                 "vertex contains invalid color";
 
         for (L vertexLabelA : this.parentsHashmap.keySet()) {
