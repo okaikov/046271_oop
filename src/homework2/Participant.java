@@ -49,7 +49,7 @@ public class Participant implements Simulatable<String>{
 
     @Override
     public void simulate(BipartiteGraph<String> graph) {
-        final Vertex<String> node = graph.getVertexByLabel(this.nodeLabel);
+        final Node<String> node = graph.getVertexByLabel(this.nodeLabel);
         ArrayList<String> childrenLabels = new ArrayList<>(node.getChildrenLabelList());
         Channel channel = (Channel)graph.getVertexByLabel(childrenLabels.get(0)).getObject();
 

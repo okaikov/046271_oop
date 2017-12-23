@@ -3,8 +3,8 @@ package homework2;
 import java.text.Collator;
 import java.util.*;
 
-public class Vertex<L> {
-    protected enum VertexColor {
+public class Node<L> {
+    protected enum NodeColor {
         BLACK, WHITE
     }
 
@@ -12,7 +12,7 @@ public class Vertex<L> {
     private HashMap<L,L> childrenHashmap; //<children label, edge label>
     private HashMap<L,L> parentsHashmap; //<parents label, edge label>
     private L label;
-    private VertexColor vertexColor;
+    private NodeColor nodeColor;
 
     private Collection<String> childrenSortedNames;
     private String childrenSortedString;
@@ -20,12 +20,12 @@ public class Vertex<L> {
     private String parentsSortedString;
 
 
-    public Vertex(Object object, L label, VertexColor vertexColor) {
+    public Node(Object object, L label, NodeColor nodeColor) {
         this.object = object;
         this.label = label;
         this.childrenHashmap = new HashMap<>();
         this.parentsHashmap = new HashMap<>();
-        this.vertexColor = vertexColor;
+        this.nodeColor = nodeColor;
         this.childrenSortedNames = new TreeSet<>(Collator.getInstance());
         this.childrenSortedString = "";
         this.parentsSortedNames = new TreeSet<>(Collator.getInstance());
@@ -42,9 +42,9 @@ public class Vertex<L> {
     }
 
 
-    public VertexColor getVertexColor() {
+    public NodeColor getNodeColor() {
         checkRep();
-        return this.vertexColor;
+        return this.nodeColor;
     }
 
     public boolean childrenContainsLabel(L childLabel){
@@ -170,7 +170,7 @@ public class Vertex<L> {
                 "vertex parents hashmap is null";
         assert (this.label != null):
                 "vertex label is null";
-        assert ((this.vertexColor == VertexColor.BLACK) || this.vertexColor == VertexColor.WHITE):
+        assert ((this.nodeColor == NodeColor.BLACK) || this.nodeColor == NodeColor.WHITE):
                 "vertex contains invalid color";
 
         for (L vertexLabelA : this.parentsHashmap.keySet()) {
