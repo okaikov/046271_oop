@@ -48,7 +48,7 @@ public class SimulatorTestDriver {
 			return;
 		}
 		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
-		graph.addBlackNode(channelName, new Channel(limit));
+		graph.addBlackNode(channelName, new Channel(limit, channelName));
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class SimulatorTestDriver {
         // TODO
 
 		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
-		graph.addWhiteNode(participantName, new Participant(fee));
+		graph.addWhiteNode(participantName, new Participant(fee, participantName));
 
 	}
 
@@ -111,7 +111,7 @@ public class SimulatorTestDriver {
 		Channel channel  = (Channel)graph.getNodeByLabel(channelName).getNodeObject();
         ArrayList<String> strings = new ArrayList<>();
         for (Transaction tx : channel.getTransactionBuffer()){
-            strings.add(tx.toString());
+            strings.add(Double.toString(tx.getValue()));
         }
         return String.join(" ", strings);
 
@@ -150,10 +150,10 @@ public class SimulatorTestDriver {
         // TODO
         final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
         for (String nodeName : graph.getBlackNodes()){
-            graph.getNodeByLabel(nodeName).getChildrenList();
+            System.out.println(graph.getNodeByLabel(nodeName).getChildrenList());
         }
         for (String nodeName : graph.getWhiteNodes()){
-            graph.getNodeByLabel(nodeName).getChildrenList();
+			System.out.println(graph.getNodeByLabel(nodeName).getChildrenList());
         }
 	}
 
