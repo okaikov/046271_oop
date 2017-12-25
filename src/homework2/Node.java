@@ -15,7 +15,16 @@ public class Node<L> {
     private ArrayList<L> childrenList;
     private ArrayList<L> parentsList;
 
+
+
+    /**
+     * @modifies this
+     * @effects Creates a new node named label with color nodeColor and nodeObject . The node is initially empty. if label == null || nodeColor == null, do not create the node.
+     */
     public Node(Object nodeObject, L label, NodeColor nodeColor) {
+        if (label == null || nodeColor == null){
+            return;
+        }
         this.nodeObject = nodeObject;
         this.label = label;
         this.childrenHashmap = new HashMap<>();
@@ -26,46 +35,85 @@ public class Node<L> {
         checkRep();
     }
 
+    /**
+     * @effects return the node object
+     */
     public Object getNodeObject() {
+        checkRep();
         return this.nodeObject;
     }
 
+    /**
+     * @modifies this
+     * @effects set the node's object to nodeObject. if nodeObject == null, do nothing.
+     */
     public void setNodeObject(Object nodeObject) {
+        checkRep();
+        if (nodeObject == null){
+            return;
+        }
         this.nodeObject = nodeObject;
     }
 
-
+    /**
+     * @effects return the node's color
+     */
     public NodeColor getNodeColor() {
         checkRep();
         return this.nodeColor;
     }
 
+    /**
+     * @effects return true if one of node's children contain childLabel, else return false
+     */
     public boolean childrenContainsLabel(L childLabel){
-        //TODO
+        if (childLabel == null){
+            return false;
+        }
         checkRep();
         return this.childrenHashmap.containsKey(childLabel);
     }
 
+    /**
+     * @effects return true if one of node's children edges contain edgeLabel , else return false.
+     */
     public boolean childrenContainsEdgeLabel(L edgeLabel){
-        //TODO
+        if (edgeLabel == null){
+            return false;
+        }
         checkRep();
         return this.childrenHashmap.containsValue(edgeLabel);
     }
 
+    /**
+     * @effects return true if one of node's parents contains label ParentLabel. else return false.
+     */
     public boolean ParentsContainsLabel(L parentLabel){
-        //TODO
+        if (parentLabel == null){
+            return  false;
+        }
         checkRep();
         return this.parentsHashmap.containsKey(parentLabel);
     }
 
+    /**
+     * @effects return true if one of node's parent edges contains label edgeLabel, else return false.
+     */
     public boolean parentsContainsEdgeLabel(L edgeLabel){
-        //TODO
+        if (edgeLabel == null){
+            return false;
+        }
         checkRep();
         return this.parentsHashmap.containsValue(edgeLabel);
     }
-
+    /**
+     * @modifies this
+     * @effects return true and add a new child to the node. return false if  childLabel == null || edgeLabel == null.
+     */
     public boolean addChild (L childLabel, L edgeLabel){
-        //TODO
+        if (childLabel == null || edgeLabel == null){
+            return false;
+        }
         checkRep();
         this.childrenHashmap.put(childLabel, edgeLabel);
         this.childrenList.add(childLabel);
@@ -73,8 +121,15 @@ public class Node<L> {
         return true;
     }
 
+    /**
+     * @modifies this
+     * @effects return true and remove a child from the node. return false if  childLabel == null || edgeLabel == null.
+     */
+
     public boolean removeChild (L childLabel, L edgeLabel){
-        //TODO
+        if (childLabel == null || edgeLabel == null){
+            return false;
+        }
         checkRep();
         this.childrenHashmap.remove(childLabel, edgeLabel);
         this.childrenList.remove(childLabel);
@@ -82,8 +137,14 @@ public class Node<L> {
         return true;
     }
 
+    /**
+     * @modifies this
+     * @effects return true and add a parent to the node. return false if  parentLabel == null || edgeLabel == null.
+     */
     public boolean addParent (L parentLabel, L edgeLabel){
-        //TODO
+        if (parentLabel == null || edgeLabel == null){
+            return false;
+        }
         checkRep();
         this.parentsHashmap.put(parentLabel, edgeLabel);
         this.parentsList.add(parentLabel);
@@ -91,43 +152,72 @@ public class Node<L> {
         return true;
     }
 
+    /**
+     * @modifies this
+     * @effects return true and remove a parent from the node. return false if  parentLabel == null || edgeLabel == null.
+     */
     public boolean removeParent (L parentLabel, L edgeLabel){
-        //TODO
+        if (parentLabel == null || edgeLabel == null){
+            return false;
+        }
         checkRep();
         this.parentsHashmap.remove(parentLabel, edgeLabel);
         this.parentsList.remove(parentLabel);
         return true;
     }
 
+    /**
+     * @effects return node's children list
+     */
     public ArrayList<L> getChildrenList() {
         checkRep();
         return this.childrenList;
     }
 
+    /**
+     * @effects return node's parents list
+     */
     public ArrayList<L> getParentsList() {
         checkRep();
         return this.parentsList;
     }
 
+    /**
+     * @effects return node's label
+     */
     public L getLabel(){
         checkRep();
         return this.label;
     }
 
+    /**
+     * @modifies this
+     * @effects if one of node's children contain an edge with label: edgeLabel, return the child label. if edgeLabel == null, return null.
+     */
     public L getChildByEdgeLabel(L edgeLabel) {
-        //TODO
+        if (edgeLabel == null){
+            return null;
+        }
         checkRep();
         return getNodeByEdgeLabel(edgeLabel, this.childrenHashmap.entrySet());
     }
 
+    /**
+     * @modifies this
+     * @effects if one of node's parents contain an edge with label: edgeLabel, return the parent label. if edgeLabel == null, return null.
+     */
     public L getParentByEdgeLabel(L edgeLabel) {
-        //TODO
+        if (edgeLabel == null){
+            return null;
+        }
         checkRep();
         return getNodeByEdgeLabel(edgeLabel, this.parentsHashmap.entrySet());
     }
 
     private L getNodeByEdgeLabel(L edgeLabel, Set<Map.Entry<L,L>> entrySet) {
-        //TODO
+        if (edgeLabel == null || entrySet == null){
+            return null;
+        }
         checkRep();
         for (HashMap.Entry<L, L> entry : entrySet) {
             L iterChildLabel = entry.getKey();
