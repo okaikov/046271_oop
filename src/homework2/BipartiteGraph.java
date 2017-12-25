@@ -32,6 +32,10 @@ public class BipartiteGraph<L> {
      */
     public boolean addBlackNode(L nodeLabel, Object blackNode) {
         checkRep();
+        if(nodeLabel == null || blackNode == null){
+            return false;
+        }
+
         return addNode(nodeLabel, blackNode, Node.NodeColor.BLACK);
     }
 
@@ -54,6 +58,9 @@ public class BipartiteGraph<L> {
      */
     private boolean addNode(L nodeLabel, Object node, Node.NodeColor nodeColor) {
         checkRep();
+        if(nodeLabel == null || node == null || nodeColor == null){
+            return false;
+        }
         if (nodeLabel == null){
             System.out.println("node label is null");
             return false;

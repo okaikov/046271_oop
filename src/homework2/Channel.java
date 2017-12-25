@@ -31,6 +31,7 @@ public class Channel implements Simulatable<String>{
 
     public void addTransaction(Transaction transaction){
         this.transactionBuffer.add(transaction);
+        this.count += transaction.getValue();
     }
 
     public ArrayList<Transaction> getTransactionBuffer() {
