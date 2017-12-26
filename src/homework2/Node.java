@@ -40,7 +40,9 @@ public class Node<L> {
      */
     public Object getNodeObject() {
         checkRep();
-        return this.nodeObject;
+        final Object result = this.nodeObject;
+        checkRep();
+        return result;
     }
 
     /**
@@ -53,6 +55,7 @@ public class Node<L> {
             return;
         }
         this.nodeObject = nodeObject;
+        checkRep();
     }
 
     /**
@@ -60,7 +63,9 @@ public class Node<L> {
      */
     public NodeColor getNodeColor() {
         checkRep();
-        return this.nodeColor;
+        final NodeColor result = this.nodeColor;
+        checkRep();
+        return result;
     }
 
     /**
@@ -71,7 +76,9 @@ public class Node<L> {
             return false;
         }
         checkRep();
-        return this.childrenHashmap.containsKey(childLabel);
+        final boolean result = this.childrenHashmap.containsKey(childLabel);
+        checkRep();
+        return result;
     }
 
     /**
@@ -82,7 +89,9 @@ public class Node<L> {
             return false;
         }
         checkRep();
-        return this.childrenHashmap.containsValue(edgeLabel);
+        final boolean result = this.childrenHashmap.containsValue(edgeLabel);
+        checkRep();
+        return result;
     }
 
     /**
@@ -93,7 +102,9 @@ public class Node<L> {
             return  false;
         }
         checkRep();
-        return this.parentsHashmap.containsKey(parentLabel);
+        final boolean result = this.parentsHashmap.containsKey(parentLabel);
+        checkRep();
+        return result;
     }
 
     /**
@@ -104,7 +115,9 @@ public class Node<L> {
             return false;
         }
         checkRep();
-        return this.parentsHashmap.containsValue(edgeLabel);
+        final boolean result = this.parentsHashmap.containsValue(edgeLabel);
+        checkRep();
+        return result;
     }
     /**
      * @modifies this
@@ -163,6 +176,7 @@ public class Node<L> {
         checkRep();
         this.parentsHashmap.remove(parentLabel, edgeLabel);
         this.parentsList.remove(parentLabel);
+        checkRep();
         return true;
     }
 
@@ -171,7 +185,9 @@ public class Node<L> {
      */
     public ArrayList<L> getChildrenList() {
         checkRep();
-        return this.childrenList;
+        final ArrayList<L> result = this.childrenList;
+        checkRep();
+        return result;
     }
 
     /**
@@ -179,7 +195,9 @@ public class Node<L> {
      */
     public ArrayList<L> getParentsList() {
         checkRep();
-        return this.parentsList;
+        final ArrayList<L> result = this.parentsList;
+        checkRep();
+        return result;
     }
 
     /**
@@ -187,7 +205,9 @@ public class Node<L> {
      */
     public L getLabel(){
         checkRep();
-        return this.label;
+        final L result = this.label;
+        checkRep();
+        return result;
     }
 
     /**
@@ -199,7 +219,9 @@ public class Node<L> {
             return null;
         }
         checkRep();
-        return getNodeByEdgeLabel(edgeLabel, this.childrenHashmap.entrySet());
+        final L result = getNodeByEdgeLabel(edgeLabel, this.childrenHashmap.entrySet());
+        checkRep();
+        return result;
     }
 
     /**
@@ -211,7 +233,9 @@ public class Node<L> {
             return null;
         }
         checkRep();
-        return getNodeByEdgeLabel(edgeLabel, this.parentsHashmap.entrySet());
+        final L result = getNodeByEdgeLabel(edgeLabel, this.parentsHashmap.entrySet());
+        checkRep();
+        return result;
     }
 
     private L getNodeByEdgeLabel(L edgeLabel, Set<Map.Entry<L,L>> entrySet) {
@@ -266,11 +290,8 @@ public class Node<L> {
                 assert (this.childrenHashmap.get(nodeLabelA) != this.childrenHashmap.get(nodeLabelB)):
                         "Node children contains 2 children with the same edge label";
             }
-
         }
     }
-
-
 }
 
 

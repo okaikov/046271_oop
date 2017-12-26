@@ -14,36 +14,47 @@ public class Participant extends Filter<String,Transaction> implements Simulatab
         this.fee = fee;
         this.currentTransactions = super.currentWorkingObjects;
         this.storageBuffer = super.storageBuffer;
+        checkRep();
     }
 
     double getFee(){
+        checkRep();
         return fee;
     }
 
 
     public ArrayList<Transaction> getCurrentTransactions() {
+        checkRep();
         return new ArrayList<>(this.currentTransactions);
 
     }
 
     public void addToCurrentTransactions(Transaction transaction) {
+        checkRep();
         this.currentTransactions.add(transaction);
+        checkRep();
     }
 
     public void removeFromCurrentTransactions(Transaction transaction) {
+        checkRep();
         this.currentTransactions.remove(transaction);
+        checkRep();
     }
 
     public ArrayList<Transaction> getStorageBuffer() {
+        checkRep();
         return new ArrayList<>(this.storageBuffer);
     }
 
     public void addToStorageBuffer(Transaction transaction) {
+        checkRep();
         this.storageBuffer.add(transaction);
+        checkRep();
     }
 
     @Override
     public void simulate(BipartiteGraph<String> graph) {
+        checkRep();
         final Node<String> node = graph.getNodeByLabel(this.nodeLabel);
         ArrayList<String> childrenLabels = new ArrayList<>(node.getChildrenList());
         System.out.println("Simulating Participant " + nodeLabel);
@@ -73,5 +84,18 @@ public class Participant extends Filter<String,Transaction> implements Simulatab
                 }
             }
         }
+        checkRep();
     }
+
+    private void checkRep(){
+        assert (this.nodeLabel != null):
+                "Node label is null";
+        assert (this.currentTransactions != null):
+                "current transactions is null";
+        assert (this.storageBuffer != null):
+                "storage buffer is null";
+        assert (this.fee >= 0):
+                "fee < 0";
+    }
+
 }

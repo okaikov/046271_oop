@@ -35,8 +35,9 @@ public class BipartiteGraph<L> {
         if(nodeLabel == null){
             return false;
         }
-
-        return addNode(nodeLabel, blackNode, Node.NodeColor.BLACK);
+        final boolean result = addNode(nodeLabel, blackNode, Node.NodeColor.BLACK);
+        checkRep();
+        return result;
     }
 
 
@@ -50,7 +51,9 @@ public class BipartiteGraph<L> {
         if(nodeLabel == null){
             return false;
         }
-        return addNode(nodeLabel, whiteNode, Node.NodeColor.WHITE);
+        final boolean result = addNode(nodeLabel, whiteNode, Node.NodeColor.WHITE);
+        checkRep();
+        return result;
     }
 
 
@@ -148,11 +151,17 @@ public class BipartiteGraph<L> {
     }
 
     public ArrayList<L> getBlackNodes(){
-        return getNodesByColor(Node.NodeColor.BLACK);
+        checkRep();
+        final ArrayList<L> result = getNodesByColor(Node.NodeColor.BLACK);
+        checkRep();
+        return result;
     }
 
     public ArrayList<L> getWhiteNodes(){
-        return getNodesByColor(Node.NodeColor.WHITE);
+        checkRep();
+        final ArrayList<L> result = getNodesByColor(Node.NodeColor.WHITE);
+        checkRep();
+        return result;
     }
 
     private ArrayList<L> getNodesByColor(Node.NodeColor nodeColor){
@@ -230,7 +239,9 @@ public class BipartiteGraph<L> {
     public boolean graphContains(L nodeLabel){
         //TODO: check input
         checkRep();
-        return this.nodeHashMap.containsKey(nodeLabel);
+        final boolean result = this.nodeHashMap.containsKey(nodeLabel);
+        checkRep();
+        return result;
     }
 
 
@@ -242,7 +253,9 @@ public class BipartiteGraph<L> {
 //        assert (graphContains(nodeLabel)):
 //                "node is not in the graph";
         checkRep();
-        return this.nodeHashMap.get(nodeLabel).getNodeColor();
+        final Node.NodeColor result = this.nodeHashMap.get(nodeLabel).getNodeColor();
+        checkRep();
+        return result;
     }
 
 
@@ -256,15 +269,18 @@ public class BipartiteGraph<L> {
         assert (graphContains(sourceLabel) && graphContains(destLabel)):
                 "source/destination node is not in graph";
 
-        checkRep();
-        return (getNodeColor(sourceLabel) == Node.NodeColor.BLACK && getNodeColor(destLabel) == Node.NodeColor.WHITE) ||
+        final boolean result = (getNodeColor(sourceLabel) == Node.NodeColor.BLACK && getNodeColor(destLabel) == Node.NodeColor.WHITE) ||
                 (getNodeColor(sourceLabel) == Node.NodeColor.WHITE && getNodeColor(destLabel) == Node.NodeColor.BLACK);
+        checkRep();
+        return result;
     }
 
     public Node<L> getNodeByLabel(L label){
         //TODO
         checkRep();
-        return this.nodeHashMap.get(label);
+        final Node<L> result = this.nodeHashMap.get(label);
+        checkRep();
+        return result;
     }
 
 
