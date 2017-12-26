@@ -85,7 +85,9 @@ public class BipartiteGraphTestDriver {
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listBlackNodes(String graphName) {
-        return this.graphs.get(graphName).listBlackNodes();
+        ArrayList<String> blackNodes = this.graphs.get(graphName).getBlackNodes();
+        java.util.Collections.sort(blackNodes);
+        return String.join(" ", blackNodes);
     }
 
     
@@ -95,7 +97,9 @@ public class BipartiteGraphTestDriver {
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listWhiteNodes(String graphName) {
-    	return this.graphs.get(graphName).listWhiteNodes();
+        ArrayList<String> whiteNodes = this.graphs.get(graphName).getWhiteNodes();
+        java.util.Collections.sort(whiteNodes);
+        return String.join(" ", whiteNodes);
     }
 
     

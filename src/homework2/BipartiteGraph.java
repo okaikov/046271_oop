@@ -147,49 +147,12 @@ public class BipartiteGraph<L> {
         return removeChildSuccess && removeParentSuccess;
     }
 
-    /**
-     * @requires createGraph(graphName)
-     * @return a space-separated list of the names of all the black nodes
-     * 		   in the graph graphName, in alphabetical order.
-     */
-    public String listBlackNodes() {
-        //TODO
-        checkRep();
-        return listNodesByColor(Node.NodeColor.BLACK);
-    }
-
-    /**
-     * @requires createGraph(graphName)
-     * @return a space-separated list of the names of all the white nodes
-     * 		   in the graph graphName, in alphabetical order.
-     */
-    public String listWhiteNodes() {
-        //TODO
-        checkRep();
-        return listNodesByColor(Node.NodeColor.WHITE);
-    }
-
     public ArrayList<L> getBlackNodes(){
         return getNodesByColor(Node.NodeColor.BLACK);
     }
 
     public ArrayList<L> getWhiteNodes(){
         return getNodesByColor(Node.NodeColor.WHITE);
-    }
-
-
-    private String listNodesByColor(Node.NodeColor nodeColor){
-        //TODO
-        checkRep();
-        ArrayList<String> nameList = new ArrayList<>();
-        ArrayList<L> labels = getNodesByColor(nodeColor);
-        for (L label : labels){
-            nameList.add(label.toString());
-        }
-        java.util.Collections.sort(nameList);
-        String result = String.join(" ", nameList);
-        checkRep();
-        return result;
     }
 
     private ArrayList<L> getNodesByColor(Node.NodeColor nodeColor){
