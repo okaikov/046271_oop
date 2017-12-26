@@ -32,7 +32,7 @@ public class BipartiteGraph<L> {
      */
     public boolean addBlackNode(L nodeLabel, Object blackNode) {
         checkRep();
-        if(nodeLabel == null || blackNode == null){
+        if(nodeLabel == null){
             return false;
         }
 
@@ -47,6 +47,9 @@ public class BipartiteGraph<L> {
      */
     public boolean addWhiteNode(L nodeLabel, Object whiteNode) {
         checkRep();
+        if(nodeLabel == null){
+            return false;
+        }
         return addNode(nodeLabel, whiteNode, Node.NodeColor.WHITE);
     }
 
@@ -58,10 +61,12 @@ public class BipartiteGraph<L> {
      */
     private boolean addNode(L nodeLabel, Object node, Node.NodeColor nodeColor) {
         checkRep();
-        if(nodeLabel == null || node == null || nodeColor == null){
+        if(nodeLabel == null || nodeColor == null){
             return false;
         }
-
+        if (graphContains(nodeLabel)){
+            return false;
+        }
         Node<L> newNode = new Node<>(node, nodeLabel, nodeColor);
         this.nodeHashMap.put(nodeLabel, newNode);
         checkRep();

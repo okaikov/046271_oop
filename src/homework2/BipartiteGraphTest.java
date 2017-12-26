@@ -95,4 +95,19 @@ public class BipartiteGraphTest {
         assertEquals("eror add edge to missing node", "", driver.listChildren("graph1", "b1"));
         assertEquals("eror add edge to missing node", "", driver.listParents("graph1", "w1"));
     }
+
+    @Test
+    public void checkGetByEdgeLabel() {
+        BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        driver.createGraph("graph1");
+
+        driver.addBlackNode("graph1", "b1");
+        driver.addWhiteNode("graph1", "w1");
+        driver.addEdge("graph1", "b1", "w1", "e1");
+        assertEquals("error getChildByEdgeLabel", "w1", driver.getChildByEdgeLabel("graph1", "b1", "e1"));
+        assertEquals("error getChildByEdgeLabel", null, driver.getChildByEdgeLabel("graph1", "w1", "e1"));
+        assertEquals("error getChildByEdgeLabel", null, driver.getParentByEdgeLabel("graph1", "b1", "e1"));
+        assertEquals("error getChildByEdgeLabel", "b1", driver.getParentByEdgeLabel("graph1", "w1", "e1"));
+    }
+
 }
