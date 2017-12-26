@@ -61,14 +61,6 @@ public class BipartiteGraph<L> {
         if(nodeLabel == null || node == null || nodeColor == null){
             return false;
         }
-        if (nodeLabel == null){
-            System.out.println("node label is null");
-            return false;
-        }
-        if (graphContains(nodeLabel)){
-            System.out.println("graph allready contains Node");
-            return false;
-        }
 
         Node<L> newNode = new Node<>(node, nodeLabel, nodeColor);
         this.nodeHashMap.put(nodeLabel, newNode);
@@ -93,43 +85,35 @@ public class BipartiteGraph<L> {
      */
     public boolean addEdge(L parentLabel, L childLabel, L edgeLabel) {
         checkRep();
-        if (parentLabel == null){
-            System.out.println("parent label is null");
+        if (parentLabel == null || childLabel == null || edgeLabel == null){
             return false;
         }
-        if (childLabel == null){
-            System.out.println("child label is null");
-            return false;
-        }
-        if (edgeLabel == null){
-            System.out.println("edge label is null");
-            return false;
-        }
+
         if (!graphContains(parentLabel) || !graphContains(childLabel)){
-            System.out.println("parent/child node is not in graph");
+            System.err.println("parent/child node is not in graph");
             return false;
         }
         if (getNodeColor(parentLabel) == getNodeColor(childLabel)){
-            System.out.println("trying to add edge to a wrong color, must be different color");
+            System.err.println("trying to add edge to a wrong color, must be different color");
             return false;
         }
         // check if we have some edge from parent -> child
         Node<L> parentNode = this.nodeHashMap.get(parentLabel);
         if (parentNode.childrenContainsLabel(childLabel)){
-            System.out.println("there is already an edge from parent->child");
+            System.err.println("there is already an edge from parent->child");
             return false;
         }
 
         // check if we have edge with label X from parent
         if (parentNode.childrenContainsEdgeLabel(edgeLabel)){
-            System.out.println("there is already an edge from parent with edge label");
+            System.err.println("there is already an edge from parent with edge label");
             return false;
         }
 
         // check if we have edge from some parent to child with label X
         Node<L> childNode = this.nodeHashMap.get(childLabel);
         if (childNode.parentsContainsEdgeLabel(edgeLabel)){
-            System.out.println("there is already an edge to child with edge label");
+            System.err.println("there is already an edge to child with edge label");
             return false;
         }
 
@@ -139,16 +123,23 @@ public class BipartiteGraph<L> {
         return true;
     }
 
+    // TODO
     public boolean removeEdge(L parentLabel, L childLabel, L edgeLabel) {
-        //TODO
         checkRep();
+
+        if(parentLabel == null || childLabel == null || edgeLabel == null){
+            return false;
+        }
         Node<L> parentNode = this.nodeHashMap.get(parentLabel);
         Node<L> childNode = this.nodeHashMap.get(childLabel);
-
-        parentNode.removeChild(childLabel, edgeLabel);
-        childNode.removeParent(parentLabel,edgeLabel);
+        if(parentNode == null || childNode == null){
+            System.err.println("Parent or child not found.");
+            return false;
+        }
+        boolean removeChildSuccess = parentNode.removeChild(childLabel, edgeLabel);
+        boolean removeParentSuccess = childNode.removeParent(parentLabel,edgeLabel);
         checkRep();
-        return true;
+        return removeChildSuccess && removeParentSuccess;
     }
 
     /**
