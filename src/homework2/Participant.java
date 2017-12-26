@@ -3,18 +3,17 @@ package homework2;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Participant implements Simulatable<String>{
+public class Participant extends Filter<String,Transaction> implements Simulatable<String>{
 
-    private String nodeLabel;
     final private double fee;
     private ArrayList<Transaction> currentTransactions;
     private ArrayList<Transaction> storageBuffer;
 
-    Participant(double fee, String label){
+    Participant(double fee, String nodeLabel){
+        super(nodeLabel);
         this.fee = fee;
-        this.currentTransactions = new ArrayList<>();
-        this.storageBuffer = new ArrayList<>();
-        this.nodeLabel = label;
+        this.currentTransactions = super.currentWorkingObjects;
+        this.storageBuffer = super.storageBuffer;
     }
 
     double getFee(){

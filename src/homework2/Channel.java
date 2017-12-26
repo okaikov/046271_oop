@@ -2,18 +2,17 @@ package homework2;
 
 import java.util.ArrayList;
 
-public class Channel implements Simulatable<String>{
+public class Channel extends Pipe<String, Transaction> implements Simulatable<String>{
 
-    private String nodeLabel;
     private final double limit;
     private double count;
     private ArrayList<Transaction> transactionBuffer;
 
-    public Channel(double limit, String label) {
+    public Channel(double limit, String nodeLabel) {
+        super(nodeLabel);
         this.limit = limit;
         this.count = 0;
-        this.transactionBuffer = new ArrayList<>();
-        this.nodeLabel = label;
+        this.transactionBuffer = super.workingObjectBuffer;
     }
 
 
