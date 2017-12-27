@@ -165,7 +165,11 @@ public class BipartiteGraph<L> {
     }
 
     private ArrayList<L> getNodesByColor(Node.NodeColor nodeColor){
-        //TODO
+        if (nodeColor == null){
+            System.err.println("nodeColor is null");
+            return null;
+        }
+
         checkRep();
         ArrayList<L> labels = new ArrayList<>();
         for (Node<L> node : this.nodeHashMap.values()){
@@ -185,7 +189,15 @@ public class BipartiteGraph<L> {
      * 		   parentName in the graph graphName.
      */
     public ArrayList<L> listChildren(L parentLabel) {
-        //TODO
+        if (parentLabel == null){
+            System.err.println("parentLabel is null");
+            return null;
+        }
+        if (!graphContains(parentLabel)){
+            System.err.println("Parent not found");
+            return null;
+        }
+
         checkRep();
         ArrayList<L> result = this.nodeHashMap.get(parentLabel).getChildrenList();
         checkRep();
@@ -198,7 +210,15 @@ public class BipartiteGraph<L> {
      * 		   childName in the graph graphName, in alphabetical order.
      */
     public ArrayList<L> listParents(L childLabel) {
-        //TODO: Implement this method
+        if (childLabel == null){
+            System.err.println("childLabel is null");
+            return null;
+        }
+        if (!graphContains(childLabel)){
+            System.err.println("Child not found");
+            return null;
+        }
+
         checkRep();
         ArrayList<L> result = this.nodeHashMap.get(childLabel).getParentsList();
         checkRep();
@@ -212,7 +232,14 @@ public class BipartiteGraph<L> {
      * 		   edge labeled edgeLabel, in the graph graphName.
      */
     public L getChildByEdgeLabel(L parentLabel, L edgeLabel) {
-        //TODO
+        if (parentLabel == null || edgeLabel == null){
+            System.err.println("null input");
+            return null;
+        }
+        if (!graphContains(parentLabel)){
+            System.err.println("Parent not found");
+            return null;
+        }
         checkRep();
         Node<L> parentNode = this.nodeHashMap.get(parentLabel);
         checkRep();
@@ -226,7 +253,14 @@ public class BipartiteGraph<L> {
      * 		   edge labeled edgeLabel, in the graph graphName.
      */
     public L getParentByEdgeLabel(L childLabel, L edgeLabel) {
-        //TODO
+        if (childLabel== null || edgeLabel == null){
+            System.err.println("null input");
+            return null;
+        }
+        if (!graphContains(childLabel)){
+            System.err.println("Child not found");
+            return null;
+        }
         checkRep();
         Node<L> childNode = this.nodeHashMap.get(childLabel);
         checkRep();
@@ -237,7 +271,10 @@ public class BipartiteGraph<L> {
 
 
     public boolean graphContains(L nodeLabel){
-        //TODO: check input
+        if (nodeLabel == null){
+            System.err.println("null input");
+            return false;
+        }
         checkRep();
         final boolean result = this.nodeHashMap.containsKey(nodeLabel);
         checkRep();
@@ -247,11 +284,14 @@ public class BipartiteGraph<L> {
 
 
     public Node.NodeColor getNodeColor(L nodeLabel){
-        //TODO: check input, check if null, contains
-//        assert (nodeLabel != null):
-//                "node label is null";
-//        assert (graphContains(nodeLabel)):
-//                "node is not in the graph";
+        if (nodeLabel == null){
+            System.err.println("null input");
+            return null;
+        }
+        if (!graphContains(nodeLabel)){
+            System.err.println("node not found");
+            return null;
+        }
         checkRep();
         final Node.NodeColor result = this.nodeHashMap.get(nodeLabel).getNodeColor();
         checkRep();
@@ -261,14 +301,15 @@ public class BipartiteGraph<L> {
 
 
     public boolean nodesDifferent(L sourceLabel, L destLabel){
+        if (sourceLabel == null || destLabel == null){
+            System.err.println("null input");
+            return false;
+        }
+        if (!graphContains(sourceLabel)  || !graphContains(destLabel)){
+            System.err.println("source/destination node not found");
+            return false;
+        }
         checkRep();
-        assert (sourceLabel != null):
-                "source label is null";
-        assert (destLabel != null):
-                "destination label is null";
-        assert (graphContains(sourceLabel) && graphContains(destLabel)):
-                "source/destination node is not in graph";
-
         final boolean result = (getNodeColor(sourceLabel) == Node.NodeColor.BLACK && getNodeColor(destLabel) == Node.NodeColor.WHITE) ||
                 (getNodeColor(sourceLabel) == Node.NodeColor.WHITE && getNodeColor(destLabel) == Node.NodeColor.BLACK);
         checkRep();
@@ -276,7 +317,14 @@ public class BipartiteGraph<L> {
     }
 
     public Node<L> getNodeByLabel(L label){
-        //TODO
+        if (label == null){
+            System.err.println("null input");
+            return null;
+        }
+        if ((!graphContains(label))){
+            System.err.println("node not found");
+            return null;
+        }
         checkRep();
         final Node<L> result = this.nodeHashMap.get(label);
         checkRep();
