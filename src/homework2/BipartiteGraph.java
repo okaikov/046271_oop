@@ -1,12 +1,20 @@
 package homework2;
 import java.util.*;
 
+/**
+ * BipartiteGraph is a directed labeled edged graph with nodes of two colors: black and white, in which only nodes of different colors
+ * can be connected by edge. The graph has property Name.
+ */
 
 public class BipartiteGraph<L> {
 
+    // Abstraction Function: Represents a bipartite graph, with name this.graphName and nodes, represented by nodeHashMap that maps from node's label to the node reference.
+
+    // Representation Invariant: graphName != null, nodeHashMap != null, the labels of the edges are unique
+
 
     private final String graphName;
-    private HashMap<L, Node<L>> nodeHashMap; // <label, node>
+    private HashMap<L, Node<L>> nodeHashMap; // key: node label, value: node
 
 
 

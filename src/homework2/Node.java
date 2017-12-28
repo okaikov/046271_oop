@@ -2,14 +2,28 @@ package homework2;
 
 import java.util.*;
 
+/**
+ * {@code Node} is an object that be part of a graph. Node has "children" nodes and "parent" nodes.
+ * The properties of {@code Node} are Color that can be black or white and label, that can be of any type {@code L}.
+ * In addition {@code Node} can contain an object of any class.
+ *
+ */
 public class Node<L> {
+
+    // Abstraction Function: Represents a node of color this.NodeColor that has children edges and nodes and parent edges and nodes.
+    //                       The children edges and nodes are represented by childrenHashmap with labels of children nodes as keys and labels of children edges as values.
+    //                       The parent edges and nodes are represented by parentHashmap with labels of parent nodes as keys and labels of parent edges as values.
+    //                       The represented node is labeled by this.label. The represented node can contain an object of any actual type, represented by this.object of declared type Object.
+
+    // Representation Invariant: childrenHashmap != null, parentsHashmap != null, label != null, nodeColor != null, childrenList != null, parentsList != null, the labels of children nodes
+    //                           are unique, the labels of children edges are unique, the labels of parent nodes are unique, the labels of parent edges are unique.
     protected enum NodeColor {
         BLACK, WHITE
     }
 
     private Object nodeObject;
-    private HashMap<L,L> childrenHashmap; //<children label, edge label>
-    private HashMap<L,L> parentsHashmap; //<parents label, edge label>
+    private HashMap<L,L> childrenHashmap; // key: children label, value: edge label>
+    private HashMap<L,L> parentsHashmap; // key: parent label, value: edge label>
     private L label;
     private NodeColor nodeColor;
     private ArrayList<L> childrenList;
@@ -47,13 +61,10 @@ public class Node<L> {
 
     /**
      * @modifies this
-     * @effects set the node's object to nodeObject. if nodeObject == null, do nothing.
+     * @effects set the node's object to nodeObject.
      */
     public void setNodeObject(Object nodeObject) {
         checkRep();
-        if (nodeObject == null){
-            return;
-        }
         this.nodeObject = nodeObject;
         checkRep();
     }
@@ -63,9 +74,7 @@ public class Node<L> {
      */
     public NodeColor getNodeColor() {
         checkRep();
-        final NodeColor result = this.nodeColor;
-        checkRep();
-        return result;
+        return this.nodeColor;
     }
 
     /**
@@ -266,6 +275,7 @@ public class Node<L> {
         assert ((this.nodeColor == NodeColor.BLACK) || this.nodeColor == NodeColor.WHITE):
                 "Node contains invalid color";
 
+        // Check if the labels of the parent nodes and edges are unique.
         for (L nodeLabelA : this.parentsHashmap.keySet()) {
 
             final List<L> reducedList = new ArrayList<>(this.parentsHashmap.keySet());
@@ -279,6 +289,7 @@ public class Node<L> {
             }
         }
 
+        // Check if the labels of the children nodes and edges are unique.
         for (L nodeLabelA : this.childrenHashmap.keySet()) {
 
             final List<L> reducedList = new ArrayList<>(this.childrenHashmap.keySet());
