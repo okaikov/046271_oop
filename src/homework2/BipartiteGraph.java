@@ -9,8 +9,9 @@ import java.util.*;
 public class BipartiteGraph<L> {
 
     // Abstraction Function: Represents a bipartite graph, with name this.graphName and nodes, represented by nodeHashMap that maps from node's label to the node reference.
+    //                       The edges of the graph are represented by Node class. Refer to Node.java.
 
-    // Representation Invariant: graphName != null, nodeHashMap != null, the labels of the edges are unique
+    // Representation Invariant: graphName != null, nodeHashMap != null, the labels of the nodes are unique, there are no edges between nodes of the same color.
 
 
     private final String graphName;
@@ -34,9 +35,10 @@ public class BipartiteGraph<L> {
     }
 
     /**
-     * @modifies graph named graphName
-     * @effects Adds a black node represented by the L nodeName to the graph named graphName.
-     * if nodeName == null || node == null || node is in the graph: return false
+     * @modifies this
+     * @effects Adds a black node represented by the L nodeLabel to the graph named graphName.
+     * if nodeLabel == null || node == null || node is in the graph: return false.
+     * if node was successfully added, return true.
      */
     public boolean addBlackNode(L nodeLabel, Object blackNode) {
         checkRep();
@@ -50,9 +52,10 @@ public class BipartiteGraph<L> {
 
 
     /**
-     * @modifies graph named graphName
-     * @effects Adds a white node represented by the L nodeName to the graph named graphName.
-     * if nodeName == null || node == null || node is in the graph: return false
+     * @modifies this
+     * @effects Adds a white node represented by the L nodeLabel to the graph named graphName.
+     * if nodeLabel == null || node == null || node is in the graph: return false.
+     * if node was successfully added, return true.
      */
     public boolean addWhiteNode(L nodeLabel, Object whiteNode) {
         checkRep();
@@ -66,9 +69,10 @@ public class BipartiteGraph<L> {
 
 
     /**
-     * @modifies graph named graphName
+     * @modifies this
      * @effects Adds a node represented by the L nodeLabel to the graph named graphName.
-     * if nodeName == null || node == null || node is in the graph: return false
+     * if nodeLabel == null || node == null || node is in the graph: return false.
+     * if node was successfully added, return true.
      */
     private boolean addNode(L nodeLabel, Object node, Node.NodeColor nodeColor) {
         checkRep();
@@ -86,18 +90,19 @@ public class BipartiteGraph<L> {
 
 
     /**
-     * @requires createGraph(graphName)
-     *           && ((addBlackNode(parentName) && addWhiteNode(childName))
+     * @modifies this
+     * @effects Adds an edge from the node parentLabel to the node childLabel
+     * 			in the graph graphLabel. The new edge's label is the L
+     * 			edgeLabel.
+     * 		    Returns true if ((addBlackNode(parentLabel) && addWhiteNode(childLabel))
      *              || (addWhiteNode(parentName) && addBlackNode(childName)))
      *           && edgeLabel != null
      *           && node named parentName has no other outgoing edge labeled
      * 				edgeLabel
      *           && node named childName has no other incoming edge labeled
-     * 				edgeLabel
-     * @modifies graph named graphName
-     * @effects Adds an edge from the node parentName to the node childName
-     * 			in the graph graphName. The new edge's label is the String
-     * 			edgeLabel.
+     * 				edgeLabel.
+     * 			Otherwise returns false.
+     *
      */
     public boolean addEdge(L parentLabel, L childLabel, L edgeLabel) {
         checkRep();
@@ -139,7 +144,17 @@ public class BipartiteGraph<L> {
         return true;
     }
 
-    // TODO
+    /**
+     * @modifies this
+     * @effects Removes an edge from the node parentLabel to the node childLabel
+     * 			in the graph graphLabel.
+     * 		    Returns true if ((addBlackNode(parentLabel) && addWhiteNode(childLabel))
+     *              || (addWhiteNode(parentName) && addBlackNode(childName)))
+     *           && edgeLabel != null
+     *           && addEdge(parentLabel, childLabel, edgeLabel )
+     * 			Otherwise returns false.
+     *
+     */
     public boolean removeEdge(L parentLabel, L childLabel, L edgeLabel) {
         checkRep();
 
@@ -158,6 +173,9 @@ public class BipartiteGraph<L> {
         return removeChildSuccess && removeParentSuccess;
     }
 
+    /**
+     * @effects Returns list of all the black nodes in the graph.
+     */
     public ArrayList<L> getBlackNodes(){
         checkRep();
         final ArrayList<L> result = getNodesByColor(Node.NodeColor.BLACK);
@@ -165,6 +183,9 @@ public class BipartiteGraph<L> {
         return result;
     }
 
+    /**
+     * @effects Returns list of all the white nodes in the graph.
+     */
     public ArrayList<L> getWhiteNodes(){
         checkRep();
         final ArrayList<L> result = getNodesByColor(Node.NodeColor.WHITE);
@@ -173,12 +194,12 @@ public class BipartiteGraph<L> {
     }
 
     private ArrayList<L> getNodesByColor(Node.NodeColor nodeColor){
+        checkRep();
         if (nodeColor == null){
             System.err.println("nodeColor is null");
             return null;
         }
 
-        checkRep();
         ArrayList<L> labels = new ArrayList<>();
         for (Node<L> node : this.nodeHashMap.values()){
             if (node.getNodeColor() == nodeColor){
@@ -192,11 +213,12 @@ public class BipartiteGraph<L> {
 
 
     /**
-     * @requires createGraph(graphName) && createNode(parentName)
-     * @return a list of the labels of the children of
-     * 		   parentName in the graph graphName.
+     * @effects Return a list of the labels of the children of
+     * 		   parentLabel in this.
+     * 		   Return null if parentLabel == null or if there is no node labeled by parentLabel.
      */
     public ArrayList<L> listChildren(L parentLabel) {
+        checkRep();
         if (parentLabel == null){
             System.err.println("parentLabel is null");
             return null;
@@ -206,18 +228,18 @@ public class BipartiteGraph<L> {
             return null;
         }
 
-        checkRep();
         ArrayList<L> result = this.nodeHashMap.get(parentLabel).getChildrenList();
         checkRep();
         return result;
     }
 
     /**
-     * @requires createGraph(graphName) && createNode(childName)
-     * @return a space-separated list of the names of the parents of
-     * 		   childName in the graph graphName, in alphabetical order.
+     * @effects Return a list of the labels of the parents of
+     * 		   childLabel in this.
+     * 		   Return null if childLabel == null or if there is no node labeled by childLabel.
      */
     public ArrayList<L> listParents(L childLabel) {
+        checkRep();
         if (childLabel == null){
             System.err.println("childLabel is null");
             return null;
@@ -227,19 +249,18 @@ public class BipartiteGraph<L> {
             return null;
         }
 
-        checkRep();
         ArrayList<L> result = this.nodeHashMap.get(childLabel).getParentsList();
         checkRep();
         return result;
     }
 
     /**
-     * @requires addEdge(graphName, parentName, str, edgeLabel) for some
-     * 			 string str
-     * @return the name of the child of parentName that is connected by the
-     * 		   edge labeled edgeLabel, in the graph graphName.
+     * @effects return the label of the child of parentLabel that is connected by the
+     * 		    edge labeled edgeLabel, in this.
+     * 		    return null if one of the inputs is null or node with parent label is not in this.
      */
     public L getChildByEdgeLabel(L parentLabel, L edgeLabel) {
+        checkRep();
         if (parentLabel == null || edgeLabel == null){
             System.err.println("null input");
             return null;
@@ -248,19 +269,18 @@ public class BipartiteGraph<L> {
             System.err.println("Parent not found");
             return null;
         }
-        checkRep();
         Node<L> parentNode = this.nodeHashMap.get(parentLabel);
         checkRep();
         return parentNode.getChildByEdgeLabel(edgeLabel);
     }
 
     /**
-     * @requires addEdge(graphName, str, childName, edgeLabel) for some
-     * 			 string str
-     * @return the name of the parent of childName that is connected by the
-     * 		   edge labeled edgeLabel, in the graph graphName.
+     * @effects return the label of the parents of childLabel that are connected by the
+     * 		    edge labeled edgeLabel, in this.
+     * 		    return null if one of the inputs is null or node with child label is not in this.
      */
     public L getParentByEdgeLabel(L childLabel, L edgeLabel) {
+        checkRep();
         if (childLabel== null || edgeLabel == null){
             System.err.println("null input");
             return null;
@@ -269,29 +289,33 @@ public class BipartiteGraph<L> {
             System.err.println("Child not found");
             return null;
         }
-        checkRep();
         Node<L> childNode = this.nodeHashMap.get(childLabel);
         checkRep();
         return childNode.getParentByEdgeLabel(edgeLabel);
     }
 
 
-
+    /**
+     * @effects Return true if node labeled nodeLabel is in this. Else or if null input - false.
+     */
 
     public boolean graphContains(L nodeLabel){
+        checkRep();
         if (nodeLabel == null){
             System.err.println("null input");
             return false;
         }
-        checkRep();
         final boolean result = this.nodeHashMap.containsKey(nodeLabel);
         checkRep();
         return result;
     }
 
 
-
+    /**
+     * @effects Return the color of node labeled nodeLabel in this. Else or if null input - null.
+     */
     public Node.NodeColor getNodeColor(L nodeLabel){
+        checkRep();
         if (nodeLabel == null){
             System.err.println("null input");
             return null;
@@ -300,31 +324,17 @@ public class BipartiteGraph<L> {
             System.err.println("node not found");
             return null;
         }
-        checkRep();
+
         final Node.NodeColor result = this.nodeHashMap.get(nodeLabel).getNodeColor();
         checkRep();
         return result;
     }
 
-
-
-    public boolean nodesDifferent(L sourceLabel, L destLabel){
-        if (sourceLabel == null || destLabel == null){
-            System.err.println("null input");
-            return false;
-        }
-        if (!graphContains(sourceLabel)  || !graphContains(destLabel)){
-            System.err.println("source/destination node not found");
-            return false;
-        }
-        checkRep();
-        final boolean result = (getNodeColor(sourceLabel) == Node.NodeColor.BLACK && getNodeColor(destLabel) == Node.NodeColor.WHITE) ||
-                (getNodeColor(sourceLabel) == Node.NodeColor.WHITE && getNodeColor(destLabel) == Node.NodeColor.BLACK);
-        checkRep();
-        return result;
-    }
-
+    /**
+     * @effects Return the node labeled label in this. If not in this or if null input - null.
+     */
     public Node<L> getNodeByLabel(L label){
+        checkRep();
         if (label == null){
             System.err.println("null input");
             return null;
@@ -333,7 +343,7 @@ public class BipartiteGraph<L> {
             System.err.println("node not found");
             return null;
         }
-        checkRep();
+
         final Node<L> result = this.nodeHashMap.get(label);
         checkRep();
         return result;
@@ -351,7 +361,7 @@ public class BipartiteGraph<L> {
             final List<Node<L>> reduecedNodeList = new ArrayList<>(this.nodeHashMap.values());
             reduecedNodeList.remove(nodeA);
             for (Node<L> nodeB : reduecedNodeList){
-                assert (nodeA != nodeB):
+                assert (nodeA.getLabel() != nodeB.getLabel()):
                         "graph contains 2 nodes with the same label";
             }
             for (L parentLabel : nodeA.getParentsList()){

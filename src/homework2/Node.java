@@ -61,7 +61,7 @@ public class Node<L> {
 
     /**
      * @modifies this
-     * @effects set the node's object to nodeObject.
+     * @effects set the node's object to nodeObject. The object can be null.
      */
     public void setNodeObject(Object nodeObject) {
         checkRep();
