@@ -31,11 +31,11 @@ public class BipartiteGraphTestDriver {
 
     
     /**
-     * @requires createGraph(graphName)
+     * @requires {@code createGraph(graphName)
      *           && nodeName != null
      *           && neither addBlackNode(graphName,nodeName) 
      *                  nor addWhiteNode(graphName,nodeName)
-     *                      has already been called on this
+     *                      has already been called on this}
      * @modifies graph named graphName
      * @effects Adds a black node represented by the String nodeName to the
      * 			graph named graphName.
@@ -46,11 +46,11 @@ public class BipartiteGraphTestDriver {
 
     
     /**
-     * @requires createGraph(graphName)
+     * @requires {@code createGraph(graphName)
      *           && nodeName != null
      *           && neither addBlackNode(graphName,nodeName) 
      *                  nor addWhiteNode(graphName,nodeName)
-     *                      has already been called on this
+     *                      has already been called on this }
      * @modifies graph named graphName
      * @effects Adds a white node represented by the String nodeName to the
      * 			graph named graphName.
@@ -61,14 +61,14 @@ public class BipartiteGraphTestDriver {
 
     
     /**
-     * @requires createGraph(graphName)
+     * @requires {@code createGraph(graphName)
      *           && ((addBlackNode(parentName) && addWhiteNode(childName))
      *              || (addWhiteNode(parentName) && addBlackNode(childName)))
      *           && edgeLabel != null
      *           && node named parentName has no other outgoing edge labeled
      * 				edgeLabel
      *           && node named childName has no other incoming edge labeled
-     * 				edgeLabel
+     * 				edgeLabel}
      * @modifies graph named graphName
      * @effects Adds an edge from the node parentName to the node childName
      * 			in the graph graphName. The new edge's label is the String
@@ -104,7 +104,7 @@ public class BipartiteGraphTestDriver {
 
     
     /**
-     * @requires createGraph(graphName) && createNode(parentName)
+     * @requires {@code createGraph(graphName) && createNode(parentName)}
      * @return a space-separated list of the names of the children of
      * 		   parentName in the graph graphName, in alphabetical order.
      */
@@ -116,7 +116,7 @@ public class BipartiteGraphTestDriver {
 
     
     /**
-     * @requires createGraph(graphName) && createNode(childName)
+     * @requires {@code createGraph(graphName) && createNode(childName) }
      * @return a space-separated list of the names of the parents of
      * 		   childName in the graph graphName, in alphabetical order.
      */

@@ -94,13 +94,13 @@ public class BipartiteGraph<L> {
      * @effects Adds an edge from the node parentLabel to the node childLabel
      * 			in the graph graphLabel. The new edge's label is the L
      * 			edgeLabel.
-     * 		    Returns true if ((addBlackNode(parentLabel) && addWhiteNode(childLabel))
+     * 		    Returns true if {@code ((addBlackNode(parentLabel) && addWhiteNode(childLabel))
      *              || (addWhiteNode(parentName) && addBlackNode(childName)))
      *           && edgeLabel != null
      *           && node named parentName has no other outgoing edge labeled
      * 				edgeLabel
      *           && node named childName has no other incoming edge labeled
-     * 				edgeLabel.
+     * 				edgeLabel.}
      * 			Otherwise returns false.
      *
      */
@@ -148,10 +148,10 @@ public class BipartiteGraph<L> {
      * @modifies this
      * @effects Removes an edge from the node parentLabel to the node childLabel
      * 			in the graph graphLabel.
-     * 		    Returns true if ((addBlackNode(parentLabel) && addWhiteNode(childLabel))
+     * 		    Returns true if {@code ((addBlackNode(parentLabel) && addWhiteNode(childLabel))
      *              || (addWhiteNode(parentName) && addBlackNode(childName)))
      *           && edgeLabel != null
-     *           && addEdge(parentLabel, childLabel, edgeLabel )
+     *           && addEdge(parentLabel, childLabel, edgeLabel ) }
      * 			Otherwise returns false.
      *
      */

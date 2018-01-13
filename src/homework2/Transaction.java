@@ -12,7 +12,7 @@ public class Transaction {
    
     
 	/**
-	 * @requires value > 0, the destination must exist in the graph
+	 * @requires {@code value > 0}, the destination must exist in the graph
 	 * @modifies this
 	 * @effects Constructs a new transaction
 	 */

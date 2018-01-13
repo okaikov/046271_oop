@@ -29,11 +29,11 @@ public class SimulatorTestDriver {
 	}
 
 	/**
-	 * @requires createSimulator(simName) 
+	 * @requires {@code createSimulator(simName)
      *           && channelName != null && channelName has
 	 *           not been used in a previous addChannel()  or
 	 *           addParticipant() call on this object
-	 *           limit > 0
+	 *           limit > 0}
 	 * @modifies simulator named simName
 	 * @effects Creates a new Channel named by the String channelName, with a limit, and add it to
 	 *          the simulator named simName.
@@ -52,16 +52,15 @@ public class SimulatorTestDriver {
 	}
 
 	/**
-	 * @requires createSimulator(simName) && participantName != null 
+	 * @requires {@code createSimulator(simName) && participantName != null
 	 *           && participantName has not been used in a previous addParticipant(), addChannel()
 	 *           call on this object
-	 *           fee > 0
+	 *           fee > 0 }
 	 * @modifies simulator named simName
 	 * @effects Creates a new Participant named by the String participantName and add
 	 *          it to the simulator named simName.
 	 */
 	public void addParticipant(String simName, String participantName, double fee) {
-        // TODO
 
 		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
 		graph.addWhiteNode(participantName, new Participant(fee, participantName));
@@ -69,31 +68,29 @@ public class SimulatorTestDriver {
 	}
 
 	/**
-	 * @requires createSimulator(simName) && ((addPipe(parentName) &&
+	 * @requires {@code createSimulator(simName) && ((addPipe(parentName) &&
 	 *           addFilter(childName)) || (addFilter(parentName) &&
 	 *           addPipe(childName))) && edgeLabel != null && node named
 	 *           parentName has no other outgoing edge labeled edgeLabel 
-	 *           && node named childName has no other incoming edge labeled edgeLabel
+	 *           && node named childName has no other incoming edge labeled edgeLabel }
 	 * @modifies simulator named simName
 	 * @effects Adds an edge from the node named parentName to the node named
 	 *          childName in the simulator named simName. The new edge's label
 	 *          is the String edgeLabel.
 	 */
 	public void addEdge(String simName, String parentName, String childName, String edgeLabel) {
-        //TODO
 		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
 		graph.addEdge(parentName, childName, edgeLabel);
 	}
 
 	/**
-	 * @requires createSimulator(simName) && addChannel(channelName)
+	 * @requires {@code createSimulator(simName) && addChannel(channelName) }
 	 *           A transaction Transaction != null
 	 * @modifies channel named channelName
 	 * @effects pushes the Transaction into the channel named channelName in the
 	 *          simulator named simName.
 	 */
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
-        // TODO
 		final BipartiteGraph<String> graph = simulators.get(simName).getGraph();
 		Channel channel  = (Channel) graph.getNodeByLabel(channelName).getNodeObject();
         channel.addTransaction(tx);

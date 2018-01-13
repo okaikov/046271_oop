@@ -1,0 +1,1 @@
+Navigate to https://www.draw.io/ in order to edit the diagrams.
