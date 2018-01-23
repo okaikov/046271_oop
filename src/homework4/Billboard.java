@@ -107,6 +107,7 @@ public class Billboard extends JFrame implements ActionListener {
 
         fileMenu = new JMenu("File");
         activeCheckItem = new JCheckBoxMenuItem("Activate");
+        activeCheckItem.setState(true);
         fileMenu.add(activeCheckItem);
         exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(this);

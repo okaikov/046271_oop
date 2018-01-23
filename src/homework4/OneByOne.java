@@ -8,9 +8,10 @@ public class OneByOne extends Scheduler {
 
     // Abstraction Function: Represents a scheduler that allows to access members of two-dimensional matrix of size
     // (rows X columns) in incremental order. The next member to access is represented by nextIndex, the number of
-    // elements in the matrix is represented by numOfElements.
+    // elements in the matrix is represented by numOfElements. nextIndex can be equal to numOfElements - it will mean
+    // that all the indexes have been accessed.
 
-    // Representation Invariant: 0 =< nextIndex < numOfElements,  numOfElements >= 1
+    // Representation Invariant: 0 =< nextIndex <= numOfElements,  numOfElements >= 1
 
     private int nextIndex = 0;
     private int numOfElements;
@@ -63,6 +64,6 @@ public class OneByOne extends Scheduler {
      */
     private void checkRep(){
         assert numOfElements >= 1 : "Invalid number of elements.";
-        assert (nextIndex >= 0 && nextIndex < numOfElements) : "Invalid nex index.";
+        assert (nextIndex >= 0 && nextIndex <= numOfElements) : "Invalid next index.";
     }
 }
