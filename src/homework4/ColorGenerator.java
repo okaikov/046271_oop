@@ -28,7 +28,7 @@ public class ColorGenerator {
     private ArrayList<Panel> panels = new ArrayList<>();
 
     /**
-     * @effects: Returns the unique instance of this. (Singleton)
+     * @effects Returns the unique instance of this. (Singleton)
      */
     public static ColorGenerator getInstance() {
         return instance;
@@ -67,7 +67,8 @@ public class ColorGenerator {
 
     /**
      * @effects Change the schedule of the notifications to the panels about the new color. Reset the scheduler.
-     * @modofies this.
+     * @modifies this.
+     * @modifies this.
      */
     public void setScheduler(Scheduler s) {
         if (s == null) {
@@ -82,7 +83,7 @@ public class ColorGenerator {
 
     /**
      * @effects Add an additional panel (listener) to be notified when the color changes.
-     * @modofies this.
+     * @modifies this.
      */
     public void addListener(Panel panel){
         panels.add(panel);
