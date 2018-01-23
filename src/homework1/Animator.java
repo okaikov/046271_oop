@@ -237,10 +237,11 @@ public class Animator extends JFrame implements ActionListener {
      */
     public static void main(String[] args) {
         Animator application = new Animator();
-
+JButton
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         application.setResizable(false);
         application.pack();
         application.setVisible(true);
+        Border border = BorderFactory.createLineBorder(java.awt.Color.black);
     }
 }
